@@ -2,4 +2,4 @@
 
 /package-lock.json
 
-/docs/.vuepress
+/docs/.vuepress/dist
