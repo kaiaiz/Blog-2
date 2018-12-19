@@ -1,6 +1,6 @@
 ---
 home: true
 heroImage: /avatar.jpg
-actionText: 起步 →
+actionText: come on →
 actionLink: /blog/JavaScript
 ---

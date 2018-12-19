@@ -32,10 +32,15 @@ module.exports = {
       {
         collapsable: false, // 可折叠
         children: ['/blog/CSS']
+      },
+      {
+        collapsable: false, // 可折叠
+        children: ['/blog/VSCode扩展及配置汇总']
       }
     ],
     plugins: ['@vuepress/active-header-links', '@vuepress/back-to-top'],
     editLinkText: '编辑此页',
-    lastUpdated: '上次更新'
+    lastUpdated: '上次更新',
+    sidebarDepth: 2
   }
 }
