@@ -1,0 +1,22 @@
+{
+  "name": "Blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vuepress dev docs",
+    "build": "vuepress build docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@vuepress/plugin-active-header-links": "^1.0.0-alpha.0"
+  },
+  "dependencies": {
+    "moment": "^2.23.0"
+  }
+}
