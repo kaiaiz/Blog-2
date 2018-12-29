@@ -35,6 +35,10 @@ module.exports = {
       },
       {
         collapsable: false, // 可折叠
+        children: ['/blog/小程序及公众号']
+      },
+      {
+        collapsable: false, // 可折叠
         children: ['/blog/VSCode扩展及配置汇总']
       }
     ],
