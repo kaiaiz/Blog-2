@@ -6,7 +6,12 @@ module.exports = {
   // 要部署的仓库名字
   base: '/',
   dest: './docs/.vuepress/dist',
-  head: [['link', { rel: 'icon', href: '/avatar.jpg' }]],
+  head: [
+    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js' }],
+    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.js' }],
+    ['link', { rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.css' }],
+    ['link', { rel: 'icon', href: '/avatar.jpg' }]
+  ],
   // 主题配置
   themeConfig: {
     // 导航配置
@@ -35,7 +40,7 @@ module.exports = {
       },
       {
         collapsable: false, // 可折叠
-        children: ['/blog/小程序及公众号']
+        children: ['/blog/小程序']
       },
       {
         collapsable: false, // 可折叠
