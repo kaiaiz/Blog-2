@@ -58,7 +58,7 @@ console.log(brr) // [ 1, 2, 3, 4 ]
 
 1、通过 `Object.assign()` 来解决
 
-```js{5}
+```js {5}
 let a = {
   age: 1
 }
@@ -72,7 +72,7 @@ console.log('b.age', b.age) // 1
 
 2、通过 ES6 的展开运算符 `{...}`
 
-```js{5}
+```js {5}
 let a = {
   age: 1
 }
@@ -90,7 +90,7 @@ console.log('b.age', b.age) // 1
 
 **concat** 方法不会改变 **this** 或任何作为参数提供的数组，而是返回一个**浅拷贝**，它包含与原始数组相结合的相同元素的副本，原始数组的元素将复制到**新数组**中。[MDN 上对 concat 的描述](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/concat)
 
-```js{3}
+```js {3}
 let arr = [1, 2, 3]
 
 let brr = arr.concat()
@@ -104,7 +104,7 @@ console.log(brr) // [ 1, 2, 3 ]
 
 `slice()` 方法返回一个新的数组对象，这一对象是一个由 **begin** 和 **end**（不包括 end）决定的原数组的**浅拷贝**,原始数组不会被改变。[MDN 上对 slice 的描述](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/slice)
 
-```js{3}
+```js {3}
 let arr = [1, 2, 3]
 
 let brr = arr.slice()
@@ -118,7 +118,7 @@ console.log(brr) // [ 1, 2, 3 ]
 
 浅拷贝只能解决一层引用的问题，如果是多层则会失败
 
-```js{8,10}
+```js {8,10}
 let a = {
   age: 1,
   city: {
@@ -140,7 +140,7 @@ console.log('b.city.name', b.city.name) // sz
 
 通常可以使用 JSON.parse(JSON.stringify(object)) 来解决
 
-```js{8,13}
+```js {8,13}
 let a = {
   age: 1,
   city: {
