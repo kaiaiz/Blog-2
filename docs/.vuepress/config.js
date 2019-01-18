@@ -7,9 +7,29 @@ module.exports = {
   base: '/',
   dest: './docs/.vuepress/dist',
   head: [
-    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js' }],
-    ['script', { src: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.js' }],
-    ['link', { rel: 'stylesheet', type: 'text/css', href: 'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.css' }],
+    [
+      'script',
+      {
+        src:
+          'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js'
+      }
+    ],
+    [
+      'script',
+      {
+        src:
+          'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.js'
+      }
+    ],
+    [
+      'link',
+      {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href:
+          'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.css'
+      }
+    ],
     ['link', { rel: 'icon', href: '/avatar.jpg' }]
   ],
   // 主题配置
@@ -20,31 +40,34 @@ module.exports = {
         text: '博客',
         // link: '/blog/',
         items: [
-          { text: 'JavaScript', link: '/blog/' },
-          { text: 'CSS', link: '/language/japanese' },
-          { text: '框架', link: '/sdf' }
+          { text: 'JavaScript', link: '/blog/' }
+          // { text: 'CSS', link: '/language/japanese' },
+          // { text: '框架', link: '/sdf' }
         ]
       }
     ],
     sidebar: [
       {
-        // title: 'JavaScript', // 侧边栏名称
-        collapsable: false, // 可折叠
+        title: 'JavaScript', // 侧边栏名称
+        collapsable: true, // 可折叠
         children: [
           '/blog/JavaScript' // md 文件地址
         ]
       },
       {
-        collapsable: false, // 可折叠
-        children: ['/blog/CSS']
-      },
-      {
-        collapsable: false, // 可折叠
+        title: '小程序及公众号', // 侧边栏名称
+        collapsable: true, // 可折叠
         children: ['/blog/小程序']
       },
       {
-        collapsable: false, // 可折叠
-        children: ['/blog/VSCode扩展及配置汇总']
+        title: 'Vue 全家桶', // 侧边栏名称
+        collapsable: true, // 可折叠
+        children: ['/blog/Vue/Vue-Cli3', '/blog/Vue/Vue源码']
+      },
+      {
+        title: 'VSCode扩展', // 侧边栏名称
+        collapsable: true, // 可折叠
+        children: ['/blog/vscode/VSCode扩展', '/blog/vscode/使用技巧']
       }
     ],
     plugins: ['@vuepress/active-header-links', '@vuepress/back-to-top'],

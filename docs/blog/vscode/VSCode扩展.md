@@ -1,26 +1,24 @@
-# VSCode 扩展及配置汇总
+# 通用插件
 
-## 通用插件
-
-### Auto Close Tag
+## Auto Close Tag
 
 自动添加 HTML / XML 关闭标签（必备）
 
 ![](./image/vscode/AutoCloseTag.gif)
 
-### Auto Rename Tag
+## Auto Rename Tag
 
 自动重命名配对的 HTML / XML 标签(必备)
 
 ![](./image/vscode/AutoRenameTag.gif)
 
-### Bracket Pair Colorizer
+## Bracket Pair Colorizer
 
 颜色识别匹配括号,彩虹色
 
 ![](./image/vscode/brackets.png)
 
-### Code Runner
+## Code Runner
 
 非常强大的一款插件，能够运行多种语言的代码片段或代码文件：C，C ++，Java，JavaScript，PHP，Python，Perl，Ruby，Go 等等，安装完成后，右上角出现:
 
@@ -30,13 +28,13 @@
 
 ![](./image/vscode/codeRun.gif)
 
-### CSS Peek
+## CSS Peek
 
 能够查看 CSS ID 和类的字符串作为 HTML 文件中相应的 CSS 定义（必备）
 
 ![](./image/vscode/CSSPeek.gif)
 
-### ESLint
+## ESLint
 
 语法规范插件
 
@@ -55,23 +53,23 @@
 }
 ```
 
-### JavaScript(ES6) code snippets
+## JavaScript(ES6) code snippets
 
 ES6 代码片段(必备)
 
-### open-in-browser
+## open-in-browser
 
 在浏览器中预览 HTML 文件, Firefox 和 谷歌浏览器和 IE 浏览器
 
 打开 HTML 文件，快捷键为 Ctrl+ Alt+ O
 
-### Path Intellisense1
+## Path Intellisense1
 
 自动路径补全
 
 ![](./image/vscode/PathIntellisense.gif)
 
-### TODO Highlight
+## TODO Highlight
 
 用法: TODO、FIXME 后面加上冒号
 
@@ -87,7 +85,7 @@ Ctrl + P , 输入 >TODO-Highlight:List hilighted annotations , 选择 ALL
 
 ![](./image/vscode/TODOAll.png)
 
-### vscode-fileheader
+## vscode-fileheader
 
 顶部注释模板，可定义作者、时间等信息，并会自动更新最后修改时间
 
@@ -104,9 +102,9 @@ Ctrl + P , 输入 >TODO-Highlight:List hilighted annotations , 选择 ALL
 
 ![](./image/vscode/comment.gif)
 
-## Vue 插件
+# Vue 插件
 
-### Vetur
+## Vetur
 
 语法高亮、智能感知、Emmet 等，以下是我的配置
 
@@ -124,7 +122,7 @@ Ctrl + P , 输入 >TODO-Highlight:List hilighted annotations , 选择 ALL
 },
 ```
 
-### Vue VSCode Snippets
+## Vue VSCode Snippets
 
 Vue 代码段
 
@@ -132,9 +130,9 @@ Vue 代码段
 
 具体语法看官网：https://marketplace.visualstudio.com/items?itemName=sdras.vue-vscode-snippets
 
-## 主题插件
+# 主题插件
 
-### One Dark Pro
+## One Dark Pro
 
 暗色系主题
 
@@ -142,7 +140,7 @@ Vue 代码段
 
 ![](./image/vscode/theme.png)
 
-### Material Icon Theme
+## Material Icon Theme
 
 好看的图标
 
@@ -150,7 +148,7 @@ Vue 代码段
 
 ![](./image/vscode/selectIcon.png)
 
-## 使用技巧
+# 使用技巧
 
 js 的注释模板 在 function 上输入 /\*\* 按 Tab 键即可生成
 
@@ -164,7 +162,7 @@ js 的注释模板 在 function 上输入 /\*\* 按 Tab 键即可生成
 
 ![](./image/vscode/outline.png)
 
-## 系统设置
+# 系统设置
 
 ```js
 "files.insertFinalNewline": true, // 文件末尾空行
@@ -178,7 +176,7 @@ js 的注释模板 在 function 上输入 /\*\* 按 Tab 键即可生成
 "editor.formatOnSave": true, //每次保存自动格式化
 ```
 
-## 我的设置
+# 我的设置
 
 ```js
 {
