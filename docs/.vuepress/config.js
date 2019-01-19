@@ -68,6 +68,11 @@ module.exports = {
         title: 'VSCode扩展', // 侧边栏名称
         collapsable: true, // 可折叠
         children: ['/blog/vscode/VSCode扩展', '/blog/vscode/使用技巧']
+      },
+      {
+        title: '服务器部署',
+        collapsable: true, // 可折叠
+        children: ['/blog/服务器部署/Jenkins', '/blog/服务器部署/nginx']
       }
     ],
     plugins: ['@vuepress/active-header-links', '@vuepress/back-to-top'],
