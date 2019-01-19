@@ -26,41 +26,41 @@ vue create vue-cli3-learn
 
 选择配置
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191142.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191142.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191142.png)</a>
 
 **是否使用 history 路由模式（No）**：这里看具体情况，因为 history 路由模式是要**和后端配合**
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191228.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191228.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191228.png)</a>
 
 **选择 css 预处理器（Sass/SCSS）**：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191246.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191246.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191246.png)</a>
 
 **选择 eslint 配置（ESLint + Prettier config）**：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191301.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191301.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191301.png)</a>
 
 **选择什么时候执行 eslint 校验（Lint on save）**：保存时就校验
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191313.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191313.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191313.png)</a>
 
 **是否将之前的设置保存为一个预设模板（n）**：这里先不设置为预设，有需要的可以设置
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191336.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191336.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191336.png)</a>
 
 如果选择 y 会让输入名称，以便下次**直接使用**，否则直接开始初始化项目。
 
 出现以下内容表示初始化脚手架成功
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191353.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191353.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191353.png)</a>
 
 文件结构如下：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191410.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191410.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191410.png)</a>
 
 配置在 `.eslintrc.js` 配置文件中设置 `Prettier` 格式化风格
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191431.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191431.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191431.png)</a>
 
 ```js
 'prettier/prettier': [
@@ -75,13 +75,13 @@ vue create vue-cli3-learn
 
 配置完以后**肯定**和现有的代码冲突，因为规则不同
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191457.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191457.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191457.png)</a>
 
 如果文件有很多，一个个手动去更改很累，这时就要使用官方为我们提供好的功能了
 
 在 README.md 文件中有这么一句话：**整理和修复文件**
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191521.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191521.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191521.png)</a>
 
 怎么看这个 `npm run lint` 是执行了什么命令呢，为什么就能整理和修复文件
 
@@ -91,15 +91,15 @@ vue create vue-cli3-learn
  "lint": "vue-cli-service lint"
 ```
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191538.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191538.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191538.png)</a>
 
 我们试着运行 `npm run lint` 看看会发生什么
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191555.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191555.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191555.png)</a>
 
 它就去执行了 `vue-cli-service lint`
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192156.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192156.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192156.png)</a>
 
 可以看到所有的错误都被自动修复了
 
@@ -107,7 +107,7 @@ vue create vue-cli3-learn
 
 首先在 **/src/components** 创建 **SvgIcon.vue** 文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192226.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192226.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192226.png)</a>
 
 ```vue
 <template>
@@ -153,7 +153,7 @@ export default {
 
 在 **src/** 下创建 **icons/svg** 文件夹，放入 **svg** 文件，并创建 **index.js** 作为入口文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192417.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192417.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192417.png)</a>
 
 **index.js** 代码为
 
@@ -209,7 +209,7 @@ module.exports = {
 
 使用示例：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192732.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192732.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192732.png)</a>
 
 ### axios 封装 api
 
@@ -391,11 +391,11 @@ module.exports = {
 
 运行 `npm run build:dev` 就会打包 **dev** 环境下的 **BASE_API**
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200735.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200735.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200735.png)</a>
 
 运行 `npm run build:test` 就会打包 **test** 环境下的 **BASE_API**
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200752.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200752.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200752.png)</a>
 
 同理 `npm run dev` 也只会运行 **dev** 模式下的 **BASE_API** ，这样就能结合 **axios** ，来配置不同环境下的后端地址
 
@@ -405,11 +405,11 @@ module.exports = {
 
 引入前的大小
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201119.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201119.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201119.png)</a>
 
 引入后
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201138.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201138.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201138.png)</a>
 
 由于代码没有拆分，可以看到 **chunk-vendors** 这个 js 文件相当的大
 
@@ -515,7 +515,7 @@ module.exports = {
 
 现在再看看打包后的体积大小
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118202740.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118202740.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118202740.png)</a>
 
 可以看到 **element** 的 **js** 和 **css** 被拆分了出来，还拆分了**公共库**，如 **vue/vuex/axios** 这类第三方依赖包
 
@@ -536,7 +536,7 @@ export default new Vuex.Store({
 
 先划分出 **app** 和 **user** 两个模块，在 **src** 下新建 **store** 文件夹，把 **src** 下的 **store.js** 的代码复制到 **store** 文件夹下的 **index.js** 中，并把 **store.js** 删除，按照下图来创建
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118203143.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118203143.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118203143.png)</a>
 
 在 index.js 中将模块引入，并导出，这样做就是将模块拆分，每个模块负责各自的功能，再统一引入、导出
 
@@ -685,7 +685,7 @@ router.afterEach(() => {
 
 解压完如下：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222259.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222259.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222259.png)</a>
 
 新建一个文件夹 **vue-cli3**，名字随便取，但是要**记住，后面要用到**
 
@@ -697,23 +697,23 @@ npm run build
 
 将工程里的 **dist** 目录下的所有文件复制到 **nginx** 里的 **vue-cli3** 中
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222340.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222340.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222340.png)</a>
 
 接着就是去配置 **config** 文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222635.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222635.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222635.png)</a>
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222617.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222617.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222617.png)</a>
 
 这里监听的是 **80** 端口，把 **server** 这一大段拷贝出来，**listen** 设置 **8080** 端口，项目路径设置成 **vue-cli3** ，就是之前存放 **vue** 打包项目的地方，删除多余无用的信息
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222507.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222507.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222507.png)</a>
 
 之后运行 **nginx.exe** 文件，访问 **http://localhost:8080**
 
 如果出现了以下界面，则表示部署成功
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222840.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222840.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222840.png)</a>
 
 ## CDN、Gzip 优化
 
@@ -942,15 +942,15 @@ module.exports = {
 
 再打包一次
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224309.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224309.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224309.png)</a>
 
 使用 cdn 之前的体积是 967kb
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224328.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224328.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224328.png)</a>
 
 使用 cdn 以后
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224341.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224341.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224341.png)</a>
 
 体积减小了 **3.5** 倍
 
@@ -1172,13 +1172,13 @@ module.exports = {
 
 在 **dist** 中可以看到，**.gz** 就是我们需要的 **gzip** 压缩文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224803.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224803.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224803.png)</a>
 
 本地压缩好了 Gzip 还**不够**，要将 **nginx** 中的**配置开启**才行
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224822.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224822.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224822.png)</a>
 
-```
+```xml
 gzip on; // 开启 gzip
 gzip_static on;
 gzip_min_length 1024; // 超过这个值的都压缩，按字节计算，这里就是 1k
@@ -1192,11 +1192,11 @@ gzip_vary off; gzip_disable "MSIE [1-6]\.";
 
 **windows** 下通过命令行，进入到 nginx 目录下，使用 `nginx.exe -s reload` 就重启完成了
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224853.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224853.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224853.png)</a>
 
 开启成功
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224901.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224901.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224901.png)</a>
 
 :::tip
 其实不使用 **CompressionWebpackPlugin** 插件，直接在 **nginx** 中开启 **gzip** 也是可以的，但是会消耗服务器的 CPU 资源
@@ -1410,6 +1410,6 @@ module.exports = {
 
 打包后可以看到 gzip 体积的变化
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118225344.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118225344.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118225344.png)</a>
 
-## To Be Continued...
+## To Be Continued
