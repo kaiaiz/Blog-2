@@ -254,6 +254,8 @@ nginx 只改变静态资源是不用重启的，只有改变了 config 文件才
 4. 构建完后执行你配置在项目里的 **shell** 命令，打包项目，并将打包后的文件复制到 nginx 中进行替换
 5. nginx 里的静态资源变更了，项目也就部署完了
 
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/server/%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B%E5%9B%BE.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/server/%E8%87%AA%E5%8A%A8%E5%8C%96%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B%E5%9B%BE.png)</a>
+
 如果没有这种自动化部署的方式，平时写完代码，在本地打包，打包完后连接远程服务器，将打包完的文件替换到 nginx 对应的文件中
 
 一两次还好，如果版本更新迭代快，每次都要去远程服务器比较麻烦，而且如果其他人也在用服务器还需要等待，使用 Jenkins 自动化的好处显而易见

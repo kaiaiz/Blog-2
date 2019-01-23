@@ -40,7 +40,7 @@ module.exports = {
         text: '博客',
         // link: '/blog/',
         items: [
-          { text: 'JavaScript', link: '/blog/' }
+          { text: '笔记', link: '/blog/' }
           // { text: 'CSS', link: '/language/japanese' },
           // { text: '框架', link: '/sdf' }
         ]
@@ -51,9 +51,17 @@ module.exports = {
         title: 'JavaScript', // 侧边栏名称
         collapsable: true, // 可折叠
         children: [
-          '/blog/JavaScript' // md 文件地址
+          '/blog/JavaScript', // md 文件地址
+          '/blog/ES6'
         ]
       },
+      // {
+      //   title: '设计模式', // 侧边栏名称
+      //   collapsable: true, // 可折叠
+      //   children: [
+      //     '/blog/设计模式' // md 文件地址
+      //   ]
+      // },
       {
         title: '小程序及公众号', // 侧边栏名称
         collapsable: true, // 可折叠
