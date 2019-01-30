@@ -1412,4 +1412,257 @@ module.exports = {
 
 <a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118225344.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118225344.png)</a>
 
+## 代码提交规范
+
+### husky 钩子插件
+
+使用 `husky` 来管理 `git commit` 之前的操作，为什么要这么做，因为我们可以在 `git commit` 之前再校验一次代码，防止提交「脏」代码，保证代码库中的代码是「干净」的，`husky` 不仅仅能管理 `commit`，`git` 的钩子几乎都能管理，不过用的最多的还是 `commit` 和 `push`
+
+- 安装
+
+```bash
+npm install husky --save-dev
+```
+
+- 在 package 中配置
+
+```json
+"husky": {
+  "hooks": {
+    "pre-commit": "npm run lint && git add ."
+  }
+}
+```
+
+这里在 `commit` 之前，我们先执行了 `npm run lint` 这是 `vue-cli3` 给我们提供的命令，会根据我们的 `eslint` 来校验代码
+
+:::tip
+
+如果是并行执行，可是使用一个 `&` 符号
+
+如果是继发执行，前一个任务执行成功后，才执行下一个任务，可以使用 `&&` 这里和 `npm script` 中使用的命令一样
+
+更多关于  `npm script` 的细节请看 👉 [npm scripts 使用指南](https://www.ruanyifeng.com/blog/2016/10/npm_scripts.html)
+:::
+
+- 使用
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130184001.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130184001.png)</a>
+
+
+### commit 提交规范检查
+
+在多人协作项目中，如果代码风格统一、代码提交信息的说明准确，在后期维护以及 `Bug` 处理时会更加方便。
+
+Git 每次提交代码，都要写 `Commit message`（提交说明），否则就不允许提交。
+
+Commit message 的作用
+
+- 提供更多的历史信息，方便快速浏览
+- 过滤某些 commit（比如文档改动），便于快速查找信息
+- 直接从 commit 生成 Change log
+- 可读性好，清晰，不必深入看代码即可了解当前 commit 的作用。
+- 为 Code Reviewing（代码审查）做准备
+- 方便跟踪工程历史
+
+- 在项目中安装
+
+```bash
+npm i commitizen cz-conventional-changelog conventional-changelog-cli --save-dev
+```
+
+- 在 package 中配置
+
+```json
+"config": {
+  "commitizen": {
+    "path": "cz-conventional-changelog"
+  }
+}
+```
+- 在 package 的 scripts 中配置
+
+```json
+"commit": "git-cz",
+"changelog": "conventional-changelog -p angular -i CHANGELOG.md -w -s -r 0"
+```
+
+上面命令不会覆盖以前的 `Change log`，只会在 **CHANGELOG.md** 的头部加上自从上次发布以来的变动。
+
+完整代码
+
+```json
+{
+  "name": "vue-cli3-learn",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vue-cli-service serve --project-mode dev",
+    "test": "vue-cli-service serve --project-mode test",
+    "build": "vue-cli-service build",
+    "build:dev": "vue-cli-service build --project-mode dev",
+    "build:test": "vue-cli-service build --project-mode test",
+    "lint": "vue-cli-service lint",
+    "commit": "git-cz",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -w -s -r 0"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "element-ui": "^2.4.11",
+    "js-cookie": "^2.2.0",
+    "nprogress": "^0.2.0",
+    "vue": "^2.5.21",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.3.0",
+    "@vue/cli-plugin-eslint": "^3.3.0",
+    "@vue/cli-service": "^3.3.0",
+    "@vue/eslint-config-prettier": "^4.0.1",
+    "babel-eslint": "^10.0.1",
+    "commitizen": "^3.0.5",
+    "compression-webpack-plugin": "^2.0.0",
+    "conventional-changelog-cli": "^2.0.11",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "husky": "^1.3.1",
+    "node-sass": "^4.9.0",
+    "sass-loader": "^7.0.1",
+    "size-plugin": "^1.1.1",
+    "svg-sprite-loader": "^4.1.3",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && git add ."
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}
+
+```
+
+- 使用
+
+要先 `git add .` 加入本地暂存区后，才能 `commit`
+
+```bash
+npm run commit
+```
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194119.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194119.png)</a>
+
+这里有几种类型可以选择
+
+```md
+feat：新增功能（feature）
+fix：修补bug
+docs：仅仅修改了文档，比如 README, CHANGELOG, CONTRIBUTE等等
+style： 仅仅修改了空格、格式缩进、逗号等等，不改变代码逻辑
+refactor：重构（即不是新增功能，也不是修改bug的代码变动）
+test：增加测试，包括单元测试、集成测试等
+chore：构建过程或辅助工具的变动
+type：代表某次提交的类型，比如是修复一个bug还是增加一个新的feature。
+perf: 优化相关，比如提升性能、体验
+revert: 回滚到上一个版本
+ci：自动化流程配置修改
+```
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194723.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194723.png)</a>
+
+```md
+? Select the type of change that you're committing: 选择提交更改的类型
+? What is the scope of this change (e.g. component or file name)? (press enter to skip)
+此次更改的范围是什么（组件或者文件名）
+? Write a short, imperative tense description of the change:
+写一个简短的，命令式的变化描述
+? Provide a longer description of the change: (press enter to skip)
+提供更改的更长描述
+? Are there any breaking changes?  有没有突破性的变化
+? Does this change affect any open issues? (y/N) 这种变化是否影响了任何未解决的问题
+```
+
+全部填完后没问题就提交成功了
+
+### 自动生成 changelog
+
+```bash
+npm run changelog
+```
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130210836.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130210836.png)</a>
+
+生成 changelog 文件
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130195243.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130195243.png)</a>
+
+在 **CHANGELOG.md** 的头部加上自从上次**发布版本**以来的变动。显示 feat、bug、doc 等类型
+
+:::tip
+如果你想生成全部的 **commit** 信息
+
+将命令 **`conventional-changelog -p angular -i CHANGELOG.md -w -s -r 0`**
+
+改变为 **`conventional-changelog -i CHANGELOG.md -s -r 0`**
+:::
+
+### 版本发布
+
+- 新建一个标签，默认会打在最新提交的 commit 上
+
+```bash
+git tag <tag name>
+```
+
+- 查看本地 tag
+
+```bash
+git tag -l
+```
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212216.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212216.png)</a>
+
+- 删除本地 tag
+
+```bash
+git tag -d <tag name>
+```
+
+- 实战
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130211907.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130211907.png)</a>
+
+推送完后可以去 **github** 上看看效果
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212451.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212451.png)</a>
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212520.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212520.png)</a>
+
+- 点击对应的 **tag** 进行更详细的编辑
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212646.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212646.png)</a>
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213009.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213009.png)</a>
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213137.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213137.png)</a>
+
+- 查看远程 tag
+
+```bash
+git ls-remote --tags origin
+```
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212005.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212005.png)</a>
+
+- 删除远程 tag
+
+```bash
+git push origin :<tag name>
+```
+
 ## To Be Continued
