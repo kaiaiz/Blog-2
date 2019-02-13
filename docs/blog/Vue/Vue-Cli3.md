@@ -1449,6 +1449,10 @@ npm install husky --save-dev
 
 <a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130184001.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130184001.png)</a>
 
+- 演示
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/husky.gif">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/husky.gif)</a>
+
 
 ### commit 提交规范检查
 
@@ -1547,6 +1551,11 @@ npm i commitizen cz-conventional-changelog conventional-changelog-cli --save-de
 }
 
 ```
+
+- 演示
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/commit%20%E6%BC%94%E7%A4%BA%E7%BB%88%E6%9E%81%E7%89%88.gif">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/commit%20%E6%BC%94%E7%A4%BA%E7%BB%88%E6%9E%81%E7%89%88.gif)</a>
+
 
 - 使用
 
