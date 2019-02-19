@@ -471,6 +471,171 @@ console.log('1', a) // -> '1' 1
 上述解释中提到了 `await` 内部实现了 `generator`，其实 `await` 就是 `generator` 加上 `Promise` 的语法糖，且内部实现了自动执行 `generator`
 :::
 
+## 定时器函数
+
+异步编程肯定少不了定时器，常用的定时器分别是：`setTimeout`，`setInterval`，`requestAnimationFrame`。
+
+setTimeout ：很多人认为 setTimeout 是延时多久，那就应该是多久后执行。
+
+其实这个观点是错误的，因为 `JS` 是单线程执行的，如果前面的代码影响了性能，就会导致 `setTimeout` 不会按期执行
+
+`setInterval` :这个函数作用和 setTimeout 基本一直，只是该函数是每隔一段时间执行一次回调函数
+
+通常来说不建议使用 setInterval ，第一，它和 setTimeout 一样，不能保证在预期的时间执行任务。第二，它存在执行累积的问题，请看以下代码：
+
+```js
+function demo() {
+  setInterval(function() {
+    console.log(2)
+  }, 1000)
+  sleep(2000)
+}
+demo()
+```
+
+以上代码在浏览器环境中，如果定时器执行过程中出现了**耗时操作**，**多个回调函数**会在耗时操作结束以后**同时执行**，这样可能就会带来性能上的问题。
+
+如果你有循环定时器的需求，其实完全可以通过 `requestAnimationFrame` 来实现
+
+大多数电脑显示器的刷新频率是 60Hz，大概相当于每秒钟重绘 60 次。大多数浏览器都会对重绘操作加以限制，不超过显示器的重绘频率，因为即使超过那个频率用户体验也不会有提升。因此，最平滑动画的最佳循环间隔是 **1000ms/60**，约等于 **16.6ms**
+
+requestAnimationFrame 自带函数节流功能，基本可以保证在 16.6 毫秒内只执行一次（不掉帧的情况下），并且该函数的延时效果是精确的
+
+而 `setTimeout` 和 `setInterval` 的问题是，它们都不精确。它们的内在运行机制决定了时间间隔参数实际上只是指定了把动画代码添加到浏览器 UI 线程队列中以等待执行的时间。如果队列前面已经加入了其他任务，那动画代码就要等前面的任务完成后再执行
+
+`requestAnimationFrame` 采用系统时间间隔，保持最佳绘制效率，不会因为间隔时间过短，造成过度绘制，增加开销；也不会因为间隔时间太长，使用动画卡顿不流畅，让各种网页动画效果能够有一个统一的刷新机制，从而节省系统资源，提高系统性能，改善视觉效果
+
+requestAnimationFrame 使用：
+
+requestAnimationFrame 使用一个回调函数作为参数，这个回调函数会在浏览器重绘之前调用。**它返回一个整数，表示定时器的编号**，这个值可以传递给 `cancelAnimationFrame` 用于**取消**这个函数的执行
+
+`requestID = requestAnimationFrame(callback)`
+
+具体在浏览器中运行的实例：
+
+```js
+//控制台输出 1 和 'a'
+var timer = window.requestAnimationFrame(function() {
+  console.log('a')
+})
+console.log(timer) //1
+```
+
+`cancelAnimationFrame` 方法用于取消定时器:
+
+```js
+//控制台什么都不输出
+var timer = requestAnimationFrame(function() {
+  console.log('a')
+})
+cancelAnimationFrame(timer)
+```
+
+也可以直接使用返回值进行取消
+
+```js
+// 默认从 1 开始
+var timer = requestAnimationFrame(function() {
+  console.log(0)
+})
+cancelAnimationFrame(1)
+```
+
+兼容性问题：IE9 - 浏览器不支持该方法，可以使用 setTimeout 来兼容
+
+「严格兼容」
+
+```js
+if (!window.requestAnimationFrame) {
+  var lastTime = 0
+  window.requestAnimationFrame = function(callback) {
+    var currTime = new Date().getTime()
+    var timeToCall = Math.max(0, 16.7 - (currTime - lastTime))
+    var id = window.setTimeout(function() {
+      callback(currTime + timeToCall)
+    }, timeToCall)
+    lastTime = currTime + timeToCall
+    return id
+  }
+}
+
+if (!window.cancelAnimationFrame) {
+  window.cancelAnimationFrame = function(id) {
+    clearTimeout(id)
+  }
+}
+```
+
+应用：现在分别使用 setInterval、setTimeout 和 requestAnimationFrame 这三个方法制作一个简单的进制度效果
+
+1. setInterval
+
+```js
+<div id="myDiv" style="background-color: lightblue;width: 0;height: 20px;line-height: 20px;">0%</div>
+<button id="btn">run</button>
+<script>
+var timer;
+btn.onclick = function(){
+    clearInterval(timer);
+    myDiv.style.width = '0';
+    timer = setInterval(function(){
+        if(parseInt(myDiv.style.width) < 500){
+            myDiv.style.width = parseInt(myDiv.style.width) + 5 + 'px';
+            myDiv.innerHTML = parseInt(myDiv.style.width)/5 + '%';
+        }else{
+            clearInterval(timer);
+        }
+    },16);
+}
+</script>
+```
+
+2. setTimeout
+
+```js
+<div id="myDiv" style="background-color: lightblue;width: 0;height: 20px;line-height: 20px;">0%</div>
+<button id="btn">run</button>
+<script>
+var timer;
+btn.onclick = function(){
+    clearTimeout(timer);
+    myDiv.style.width = '0';
+    timer = setTimeout(function fn(){
+        if(parseInt(myDiv.style.width) < 500){
+            myDiv.style.width = parseInt(myDiv.style.width) + 5 + 'px';
+            myDiv.innerHTML = parseInt(myDiv.style.width)/5 + '%';
+            timer = setTimeout(fn,16);
+        }else{
+            clearTimeout(timer);
+        }
+    },16);
+}
+</script>
+```
+
+3. requestAnimationFrame
+
+```js
+<div id="myDiv" style="background-color: lightblue;width: 0;height: 20px;line-height: 20px;">0%</div>
+<button id="btn">run</button>
+<script>
+var timer;
+btn.onclick = function(){
+    myDiv.style.width = '0';
+    cancelAnimationFrame(timer);
+    timer = requestAnimationFrame(function fn(){
+        if(parseInt(myDiv.style.width) < 500){
+            myDiv.style.width = parseInt(myDiv.style.width) + 5 + 'px';
+            myDiv.innerHTML = parseInt(myDiv.style.width)/5 + '%';
+            timer = requestAnimationFrame(fn);
+        }else{
+            cancelAnimationFrame(timer);
+        }
+    });
+}
+</script>
+```
+
 ## Proxy
 
 Proxy 是 ES6 中新增的功能，可以理解成，在目标对象之前架设一层 **「拦截」**，外界对该对象的访问，都必须先通过这层**拦截**，因此提供了一种机制，可以对外界的访问进行**过滤**和**改写**。
