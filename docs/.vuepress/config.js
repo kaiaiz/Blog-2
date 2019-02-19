@@ -40,7 +40,7 @@ module.exports = {
         text: '博客',
         // link: '/blog/',
         items: [
-          { text: '笔记', link: '/blog/' }
+          { text: '笔记', link: '/blog/JavaScript' }
           // { text: 'CSS', link: '/language/japanese' },
           // { text: '框架', link: '/sdf' }
         ]
