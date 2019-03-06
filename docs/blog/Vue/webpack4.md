@@ -4,6 +4,8 @@
 
 **该项目使用的 node 版本为 10.5.0，npm 版本为 6.1.0**
 
+每一个章节对应一个 demo 👉[源码地址](https://github.com/ITxiaohao/webpack4-learn)
+
 ## 一、搭建项目并打包 JS 文件
 
 创建空文件夹，通过运行以下命令初始化  package.json
@@ -229,7 +231,7 @@ module.exports = {
 
 ## 四、用 Babel 7 转译 ES6
 
-### （一）了解 Babel 及生态
+### (一) 了解 Babel 及生态
 
 现代 Javascript 主要是用 ES6 编写的。但并非每个浏览器都知道如何处理 ES6。 我们需要某种转换，这个转换步骤称为 transpiling(转译)。transpiling(转译) 是指采用 ES6 语法，转译为旧浏览器可以理解的行为。
 
@@ -261,7 +263,7 @@ Babel 默认只转换新的 JavaScript 句法（syntax），而不转换新的 *
 所谓垫片也就是垫平不同浏览器或者不同环境下的差异
 :::
 
-### （二）安装依赖并配置
+### (二) 安装依赖并配置
 
 ① 安装依赖
 
@@ -322,7 +324,7 @@ isES6()
 
 ⑤ 打包完之后打开 index.html 文件，看控制台是否有输出
 
-### （三）了解 .browserslistrc 配置文件
+### (三) 了解 .browserslistrc 配置文件
 
 [browserslistrc](https://github.com/browserslist/browserslist) 用于在不同前端工具之间共享目标浏览器和 Node.js 版本的配置
 
@@ -362,4 +364,354 @@ not ie <= 8 # 排除小于 ie8 以下的浏览器
 
 [browserslist](https://github.com/browserslist/browserslist)
 
-## 五、多页面解决方案 —— 提取公共代码
+## 五、多页面打包 —— 提取公共代码段
+
+在 webpack4 之前是使用 commonsChunkPlugin 来拆分公共代码，v4 之后被废弃，并使用 **splitChunksPlugins**
+
+在使用 splitChunksPlugins 之前，首先要知道 splitChunksPlugins 是 webpack 主模块中的一个细分模块，无需 npm 引入
+
+### (一) 准备工作
+
+我们在 src/ 文件夹下创建 `pageA.js` 和 `pageB.js` 分别作为两个入口文件。
+
+同时，这两个入口文件同时引用 `subPageA.js` 和 `subPageB.js`，而 `subPageA.js` 和 `subPageB.js` 又同时引用 `common.js` 文件。
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000808.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000808.png)</a>
+
+`common.js`:
+
+```js
+console.log('公共模块')
+export default 'common'
+```
+
+`subPageA.js`:
+
+```js
+import './common'
+console.log('subPageA')
+export default 'subPageA'
+```
+
+`subPageB.js`:
+
+```js
+import './common'
+console.log('subPageB')
+export default 'subPageB'
+```
+
+`subPageA.js` 和 `subPageB.js` 同时引用 `common.js`
+
+最后，我们封装入口文件。而为了让情况更真实，这两个入口文件又同时引用了 `lodash` 这个第三方库。
+
+```bash
+npm i lodash
+```
+
+`package.json` 文件中：
+
+```json
+{
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^2.0.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}
+```
+
+`pageA.js`:
+
+```js
+import './subPageA'
+import './subPageB'
+
+import * as _ from 'lodash'
+console.log('在 A 页面 :', _)
+
+export default 'pageA'
+```
+
+`pageB.js`:
+
+```js
+import './subPageA'
+import './subPageB'
+
+import * as _ from 'lodash'
+console.log('在 B 页面 :', _)
+
+export default 'pageB'
+```
+
+以上，需要编写的代码已经完成
+
+### (二) 配置 webpack.config.js 文件
+
+```js
+const path = require('path')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+
+module.exports = {
+  // 多入口打包
+  entry: {
+    pageA: './src/pageA.js',
+    pageB: './src/pageB.js'
+  },
+  output: {
+    publicPath: __dirname + '/dist/', // js 引用的路径或者 CDN 地址
+    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
+    filename: '[name].bundle.js', // 代码打包后的文件名
+    chunkFilename: '[name].js' // 代码拆分后的文件名
+  },
+  plugins: [
+    new CleanWebpackPlugin() // 默认情况下，此插件将删除 webpack output.path 目录中的所有文件，以及每次成功重建后所有未使用的 webpack 资产。
+  ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        lodash: {
+          name: 'chunk-lodash', // 单独将 lodash 拆包
+          priority: 10, // 优先级要大于 commons 不然会被打包进 commons
+          test: /[\\/]node_modules[\\/]lodash[\\/]/
+        },
+        commons: {
+          name: 'chunk-commons',
+          minSize: 1, //表示在压缩前的最小模块大小,默认值是 30kb
+          minChunks: 2, // 最小公用次数
+          priority: 5, // 优先级
+          reuseExistingChunk: true // 公共模块必开启
+        }
+      }
+    }
+  }
+}
+```
+
+着重来看 **optimization.splitChunks** 配置。我们将需要打包的代码放在 **cacheGroups** 属性中。
+
+叫做 cacheGroup 的原因是 webpack 会将规则放置在 cache 流中，为对应的块文件匹配对应的流，从而生成分离后的块
+
+
+| 配置项             | 说明                                                     | 示例                                                        |
+| ------------------ | -------------------------------------------------------- | ----------------------------------------------------------- |
+| chunks             | 匹配的块的类型                                           | initial（初始块），async（按需加载的异步块），all（所有块） |
+| name               | 用以控制分离后代码块的命名                               | chunk-libs                                                  |
+| test               | 用于规定缓存组匹配的文件位置                             | /[\\/]node_modules[\\/]/                                    |
+| priority           | 分离规则的优先级，优先级越高，则优先匹配                 | priority: 20                                                |
+| minSize            | 超过多少大小就进行压缩                                   | minSize: 30000 默认值是 30kb                                |
+| minChunks          | 分割前必须共享模块的最小块数                             | minChunks: 3                                                |
+| reuseExistingChunk | 如果当前块已从主模块拆分出来，则将重用它而不是生成新的块 | true                                                        |
+
+其他配置具体详情见[官网](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunks-cachegroups-cachegroup-reuseexistingchunk)
+
+:::warning
+值得注意的是，针对第三方库（例如 lodash）通过设置 **priority** 来让其**先被打包提取**，最后再提取剩余代码。
+:::
+
+### (三) 打包和引用
+
+运行 `npm run build` 打包，可以看到已经把代码拆分出来
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000849.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000849.png)</a>
+
+最后，打包的结果在 dist/ 文件夹下面，我们要在 index.html 中引用打包好的 js 文件，index.html 代码如下：
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script src="./dist/chunk-lodash.js"></script>
+    <script src="./dist/chunk-commons.js"></script>
+    <script src="./dist/pageA.bundle.js"></script>
+    <script src="./dist/pageB.bundle.js"></script>
+  </body>
+</html>
+```
+
+使用浏览器打开 `index.html` 文件，进入控制台，可以看到如下信息：
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000916.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000916.png)</a>
+
+可以看到，`公共模块，subPageA，subPageB` 输出的 js 文件为 `chunk-common.js` 符合预期
+
+`在 A 页面 :` 输出的 js 文件为 `pageA.bundle.js`
+
+`在 B 页面 :` 输出的 js 文件为 `pageB.bundle.js`
+
+#### 参考文章
+
+[webpack4 系列教程 (三): 多页面解决方案 -- 提取公共代码](https://godbmw.com/passages/2018-08-06-webpack-mutiple-pages/)
+
+[webpack 官网](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunks-cachegroups-cachegroup-reuseexistingchunk)
+
+## 六、单页面应用 —— 代码懒加载
+
+### (一) 准备工作
+
+其中，page.js 是入口文件，subPageA.js 和 subPageB.js 共同引用 common.js。下面，我们按照代码引用的逻辑，从底向上展示代码：
+
+`common.js`:
+
+```js
+console.log('公共模块')
+export default 'common'
+```
+
+`subPageA.js`:
+
+```js
+import './common'
+console.log('subPageA')
+export default 'subPageA'
+```
+
+`subPageB.js`:
+
+```js
+import './common'
+console.log('subPageB')
+export default 'subPageB'
+```
+
+:::warning
+请注意：subPageA.js 和 subPageB.js 两个文件中都执行了 console.log() 语句。之后将会看到 import() 和 require() 不同的表现形式：是否会自动执行 js 的代码？
+:::
+
+### (二) 编写配置文件
+
+```js
+const path = require('path')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+
+module.exports = {
+  entry: {
+    page: './src/page.js'
+  },
+  output: {
+    publicPath: __dirname + '/dist/', // js 引用的路径或者 CDN 地址
+    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
+    filename: '[name].bundle.js', // 代码打包后的文件名
+    chunkFilename: '[name].js' // 代码拆分后的文件名
+  },
+  plugins: [
+    new CleanWebpackPlugin() // 默认情况下，此插件将删除 webpack output.path 目录中的所有文件，以及每次成功重建后所有未使用的 webpack 资产。
+  ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        lodash: {
+          name: 'chunk-lodash', // 单独将 lodash 拆包
+          priority: 10, // 优先级要大于 commons 不然会被打包进 commons
+          test: /[\\/]node_modules[\\/]lodash[\\/]/
+        },
+        commons: {
+          name: 'chunk-commons',
+          minSize: 1, //表示在压缩前的最小模块大小,默认值是 30kb
+          minChunks: 2, // 最小公用次数
+          priority: 5, // 优先级
+          reuseExistingChunk: true // 公共模块必开启
+        }
+      }
+    }
+  }
+}
+```
+
+`package.json` 配置如下：
+
+```json
+{
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^2.0.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
+  }
+}
+```
+
+### (三) 使用 import() 编写 page.js
+
+非常推荐 import() 写法，因为和 es6 语法看起来很像。除此之外，import() 可以通过注释的方法来指定打包后的 chunk 的名字。
+
+除此之外，相信对 vue-router 熟悉的朋友应该知道，其官方文档的路由懒加载的配置也是通过 import() 来书写的。
+
+`page.js`:
+
+```js
+import(/* webpackChunkName: 'subPageA'*/ "./subPageA").then(function(subPageA) {
+  console.log(subPageA);
+});
+
+import(/* webpackChunkName: 'subPageB'*/ "./subPageB").then(function(subPageB) {
+  console.log(subPageB);
+});
+
+import(/* webpackChunkName: 'lodash'*/ "lodash").then(function(_) {
+  console.log(_.join(["1", "2"]));
+});
+export default "page";
+```
+
+运行 `npm run build` ，由于我们还使用了提取公共代码段，打包结果如下：
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000941.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000941.png)</a>
+
+我们创建 index.html 文件，通过`<script>` 标签引入我们打包结果
+
+:::tip 注意
+因为是单页应用，所以**只要引用入口文件**即可（即是上图中的 **page.bundle.js**）。
+:::
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script src="./dist/page.bundle.js"></script>
+  </body>
+</html>
+```
+
+打开浏览器控制台，刷新界面，结果如下图所示：
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307003040.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307003040.png)</a>
+
+图中圈出的部分，就是说明 import() 会自动运行 subPageA.js 和 subPageB.js 的代码。
+
+在 NetWork 选项中，我们可以看到，懒加载也成功了：
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307002940.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307002940.png)</a>
