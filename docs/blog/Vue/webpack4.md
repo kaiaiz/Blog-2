@@ -877,7 +877,7 @@ module.exports = {
 
 打开浏览器测试，也是没问题的
 
-## 八、处理 CSS 文件
+## 八、处理 CSS/SCSS 文件
 
 #### (一) 准备工作
 
@@ -940,9 +940,27 @@ module.exports = {
 
 配置 module 中的 rules 属性，和配置 babel 一样，首先在 test 中使用正则来过滤 `.css` 文件，对 `.css` 文件使用 loader，`'style-loader', 'css-loader'`
 
-**在 app.js 中引入 base.css**
+在 base.css 中写入样式
 
-完整代码:
+```css
+*,
+body {
+  margin: 0;
+  padding: 0;
+}
+html {
+  background: red;
+}
+
+```
+
+**并在 app.js 中引入 base.css**
+
+```js
+import style from './css/base.css'
+```
+
+配置文件完整代码:
 
 ```js (20)
 const path = require('path')
@@ -1171,3 +1189,104 @@ module.exports = {
 ```
 
 再打开 css 文件可以发现已经被压缩了，并且打开 index.html 也是有样式的
+
+#### (三) 处理 SCSS 文件
+
+安装依赖：
+
+```bash
+npm i node-sass sass-loader --save-dev
+```
+
+在 src 文件夹下新增 scss 文件夹及 main.scss 文件
+
+main.scss 引入样式
+
+```scss
+$bgColor: black !default;
+*,
+body {
+  margin: 0;
+  padding: 0;
+}
+html {
+  background-color: $bgColor;
+}
+```
+
+在 app.js 中引入 main.scss 文件
+
+```js
+import './css/base.css'
+import './scss/main.scss'
+```
+
+修改配置文件
+
+```js
+const path = require('path')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 压缩 css
+
+module.exports = {
+  entry: {
+    app: './src/app.js'
+  },
+  output: {
+    publicPath: './', // js 引用的路径或者 CDN 地址
+    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
+    filename: '[name].bundle.js', // 代码打包后的文件名
+    chunkFilename: '[name].js' // 代码拆分后的文件名
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(scss|css)$/, // 针对 .scss 或者 .css 后缀的文件设置 loader
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader',
+          'sass-loader' // 使用 sass-loader 将 scss 转为 css
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      // 打包输出HTML
+      title: '自动生成 HTML',
+      minify: {
+        // 压缩 HTML 文件
+        removeComments: true, // 移除 HTML 中的注释
+        collapseWhitespace: true, // 删除空白符与换行符
+        minifyCSS: true // 压缩内联 css
+      },
+      filename: 'index.html', // 生成后的文件名
+      template: 'index.html', // 根据此模版生成 HTML 文件
+      chunks: ['app'] // entry中的 app 入口才会被打包
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    }),
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g, //一个正则表达式，指示应优化/最小化的资产的名称。提供的正则表达式针对配置中ExtractTextPlugin实例导出的文件的文件名运行，而不是源CSS文件的文件名。默认为/\.css$/g
+      cssProcessor: require('cssnano'), //用于优化\最小化 CSS 的 CSS处理器，默认为 cssnano
+      cssProcessorOptions: { safe: true, discardComments: { removeAll: true } }, //传递给 cssProcessor 的选项，默认为{}
+      canPrint: true //一个布尔值，指示插件是否可以将消息打印到控制台，默认为 true
+    })
+  ]
+}
+```
+
+:::warning
+需要注意的是，module.rules.use 数组中，loader 的位置。根据 webpack 规则：**放在最后的 loader 首先被执行**。所以，**首先应该利用 sass-loader 将 scss 编译为 css**，剩下的配置和处理 css 文件相同。
+:::
+
+打包后再打开 index.html 文件会发现样式已经被 main.scss 中写的覆盖了，处理 scss 成功
