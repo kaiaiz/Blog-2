@@ -781,7 +781,7 @@ HtmlWebpackPlugin 是在 plugin 这个选项中配置的。常用参数含义如
 
 由于使用了 `title` 选项，则需要在 `template` 选项对应的 html 的 title 中加入 `<%= htmlWebpackPlugin.options.title %>`
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102044.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102044.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102044.png)</a>
 
 ```js {4}
 const path = require('path')
@@ -840,25 +840,25 @@ module.exports = {
 
 运行 `npm run build`
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102242.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102242.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102242.png)</a>
 
 打开 dist 文件夹里自动生成的 index.html
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102402.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102402.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102402.png)</a>
 
 在浏览器中打开 index.html 文件，打开控制台也发现有输出，OK，自动生成 HTML 文件成功
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102521.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102521.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102521.png)</a>
 
 细心的朋友可能会发现一个问题，生成后的 HTML 文件引入的 JS 为绝对路径，但是真实的项目打完包之后都是部署在服务器上，用绝对路径肯定不行
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102901.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102901.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307102901.png)</a>
 
 我们要将引入的 js 文件从绝对路径改为相对路径
 
 修改 webpack.config.js 文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307103015.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307103015.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307103015.png)</a>
 
 找到 output 输出配置，更改 publicPath 公共路径，修改为 `./` 绝对路径
 
@@ -873,7 +873,7 @@ module.exports = {
 
 再次打包，看打包后的 index.html 文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307103244.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307103244.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307103244.png)</a>
 
 打开浏览器测试，也是没问题的
 
@@ -888,7 +888,7 @@ CSS 在 HTML 中的常用引入方法有 `<link>` 标签和 `<style>` 标签两�
 
 下图展示了这次的目录代码结构：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307160530.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307160530.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307160530.png)</a>
 
 这次我们需要用到 `css-loader`，`style-loader` 等 loader，跟 babel 一样，webpack 不知道将 CSS 提取到文件中。需要使用 loader 来加载对应的文件
 
@@ -989,13 +989,13 @@ module.exports = {
 
 项目打包，查看 dist 文件夹
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307112924.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307112924.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307112924.png)</a>
 
 发现并**没有生成 CSS 文件**，但是打开 index.html 是有样式的
 
 原因是：`style-loader`, `css-loader` 两个 loader 的处理后，CSS 代码会转变为 JS，和 index.js 一起打包
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307144121.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307144121.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307144121.png)</a>
 
 可以发现是通过 `<style>` 标签注入的 css
 
