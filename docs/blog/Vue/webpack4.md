@@ -74,7 +74,7 @@ npm run build
 
 至此，打包 JS 结束
 
-## 二、production(生产) 和 development(开发) 模式
+## 二、生产和开发模式
 
 拥有 2 个配置文件在 webpack 中是的常见模式。
 
@@ -125,7 +125,7 @@ production mode(生产模式)  可以开箱即用地进行各种优化。 包�
 
 在 vue 中也可以使用 -mode 来做相应处理，具体的后续会讲
 
-## 三、覆盖默认 entry(入口)/output(输出)
+## 三、覆盖默认 entry/output
 
 1. 检验 webpack 规范支持
 
@@ -1293,12 +1293,13 @@ module.exports = {
 
 ## 九、JS Tree Shaking
 
- 什么是 Tree Shaking？
-字面意思是摇树，一句话：项目中没有使用的代码会在打包时候丢掉。JS 的 Tree Shaking 依赖的是 ES2015 的模块系统（比如：import 和 export）
+什么是 Tree Shaking？
 
-本文介绍 Js Tree Shaking 在 webpack v4 中的激活方法。
+字面意思是摇树，一句话：项目中没有使用的代码会在打包时候丢掉。**JS 的 Tree Shaking 依赖的是 ES6 的模块系统（比如：import 和 export）**
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307185838.png)
+项目目录如下：
+
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307185838.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307185838.png)</a>
 
 
 在 util.js 文件中写入测试代码
@@ -1318,7 +1319,7 @@ export function c() {
 }
 ```
 
-然后在 app.js 中引用 util.js 的 function a() 函数：
+然后在 app.js 中引用 util.js 的 function a() 函数，**按需引入**：
 
 ```js
 // app.js
@@ -1326,16 +1327,15 @@ import { a } from './vendor/util'
 console.log(a())
 ```
 
-命令行运行 webpack 打包后，打开打包后生成的 /dist/app.bundle.js 文件。然后，查找我们 a() 函数输出的字符串，如下图所示：
+命令行运行 webpack 打包后，打开打包后生成的 **/dist/app.bundle.js** 文件。然后，查找我们 `a()` 函数输出的字符串，如下图所示：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307191853.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307191853.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307191853.png)</a>
 
-如果将查找内容换成 this is function "c" 或者 this is function "b", 并没有相关查找结果。说明 Js Tree Shaking 成功。
+如果将查找内容换成 `this is function "c"` 或者 `this is function "b"`, 并没有相关查找结果。说明 Js Tree Shaking 成功。
 
-3. 如何处理第三方 JS 库？
+1. 如何处理第三方 JS 库？
 对于经常使用的第三方库（例如 jQuery、lodash 等等），如何实现 Tree Shaking？下面以 lodash.js 为例，进行介绍。
 
-3.1 尝试 Tree Shaking
 安装 lodash.js : `npm install lodash --save`
 
 在 app.js 中引用 lodash.js 的一个函数：
@@ -1348,10 +1348,10 @@ console.log(chunk([1, 2, 3], 2))
 
 命令行打包。如下图所示，打包后大小是 70kb。显然，只引用了一个函数，不应该这么大。并没有进行 Tree Shaking。
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307193414.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307193414.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307193414.png)</a>
 
-3.2 第三方库的模块系统 版本
-本文开头讲过，js tree shaking 利用的是 es 的模块系统。而 lodash.js 没有使用 CommonJS 或者 ES6 的写法。所以，安装库对应的模块系统即可。
+
+开头讲过，js tree shaking 利用的是 es 的模块系统。而 lodash.js 没有使用 **CommonJS** 或者 **ES6** 的写法。所以，安装库对应的模块系统即可。
 
 安装 lodash.js 的 es 写法的版本：`npm install lodash-es --save`
 
@@ -1365,6 +1365,164 @@ console.log(chunk([1, 2, 3], 2))
 
 再次打包，打包结果只有 3.5KB（如下图所示）。显然，tree shaking 成功。
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307194006.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307194006.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307194006.png)</a>
 
-友情提示：在一些对加载速度敏感的项目中使用第三方库，请注意库的写法是否符合 es 模板系统规范，以方便 webpack 进行 tree shaking。
+
+:::tip 友情提示：
+在一些对加载速度敏感的项目中使用第三方库，请注意库的写法是否符合 es 模板系统规范，以方便 webpack 进行 tree shaking。
+:::
+
+## 十、CSS Tree Shaking
+
+CSS Tree Shaking 并不像 JS Tree Shaking 那样方便理解，所以首先要先模拟一个真实的项目环境，来体现 CSS 的 Tree Shaking 的配置和效果。
+
+**此章节基于第八节处理 CSS 项目**
+
+我们首先编写 /src/css/base.css 样式文件，在文件中，我们编写了 3 个样式类。但在代码中，我们只会使用 .box 和 .box--big 这两个类。代码如下所示：
+
+```css
+/* base.css */
+html {
+  background: red;
+}
+
+.box {
+  height: 200px;
+  width: 200px;
+  border-radius: 3px;
+  background: green;
+}
+
+.box--big {
+  height: 300px;
+  width: 300px;
+  border-radius: 5px;
+  background: red;
+}
+
+.box-small {
+  height: 100px;
+  width: 100px;
+  border-radius: 2px;
+  background: yellow;
+}
+```
+
+按照正常使用习惯，DOM 操作来实现样式的添加和卸载，是一贯技术手段。所以，入口文件 `/src/app.js` 中创建了一个 `<div>` 标签，并且将它的类设为 `.box`
+
+```js
+// app.js
+
+import base from './css/base.css'
+
+// 给 app 标签再加一个 div 并且类名为 box
+var app = document.getElementById('app')
+var div = document.createElement('div')
+div.className = 'box'
+app.appendChild(div)
+```
+
+最后，为了让环境更接近实际环境，我们在 `index.html` 的一个标签，也引用了定义好的 box-big 样式类。
+
+[PurifyCSS](https://github.com/purifycss/purifycss)，它将帮助我们进行 **CSS Tree Shaking** 操作。为了能准确指明要进行 Tree Shaking 的 CSS 文件，还有 **glob-all** （另一个第三方库）。
+
+glob-all 的作用就是帮助 PurifyCSS 进行路径处理，定位要做 Tree Shaking 的路径文件。
+
+安装依赖：
+
+```bash
+npm i glob-all purify-css purifycss-webpack --save-dev
+```
+
+更改配置文件：
+
+```js
+const path = require('path')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
+
+const PurifyCSS = require('purifycss-webpack')
+const glob = require('glob-all')
+
+module.exports = {
+  entry: {
+    app: './src/app.js'
+  },
+  output: {
+    publicPath: './', // js 引用的路径或者 CDN 地址
+    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
+    filename: '[name].bundle.js', // 代码打包后的文件名
+    chunkFilename: '[name].js' // 代码拆分后的文件名
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/, // 针对 .scss 或者 .css 后缀的文件设置 loader
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader'
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      // 打包输出HTML
+      title: '自动生成 HTML',
+      minify: {
+        // 压缩 HTML 文件
+        removeComments: true, // 移除 HTML 中的注释
+        collapseWhitespace: true, // 删除空白符与换行符
+        minifyCSS: true // 压缩内联 css
+      },
+      filename: 'index.html', // 生成后的文件名
+      template: 'index.html', // 根据此模版生成 HTML 文件
+      chunks: ['app'] // entry中的 app 入口才会被打包
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    }),
+    // 清除无用 css
+    new PurifyCSS({
+      paths: glob.sync([
+        // 要做 CSS Tree Shaking 的路径文件
+        path.resolve(__dirname, './*.html'), // 请注意，我们同样需要对 html 文件进行 tree shaking
+        path.resolve(__dirname, './src/*.js')
+      ])
+    })
+  ]
+}
+```
+
+打包完查看 dist/app.css 文件
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308111209.png)
+
+在 index.html 和 src/app.js 中引用的样式都被打包了，而没有被使用的样式类–box-small，没有被打包进去
+
+:::warning 注意！
+
+平时用 vue 开发，比较常用的是 elementUI，如果这时你用 purifyCss 来过滤无用的 css，当你使用的 element 不多的情况如下
+
+:::
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135219.png)
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135241.png)
+
+清除前 194kb，清除后，6.68kb，震惊!!!
+
+将打包后的文件放到 nginx 部署后，打开网页也相当震惊!!!
+
+样式全无，泪目。。。
+
+:::danger
+如果项目中有引入第三方 css 库的话，谨慎使用!!!
+:::
