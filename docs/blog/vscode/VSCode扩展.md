@@ -130,8 +130,6 @@ Vue 代码段
 
 具体语法看官网：https://marketplace.visualstudio.com/items?itemName=sdras.vue-vscode-snippets
 
-# 主题插件
-
 ## One Dark Pro
 
 暗色系主题
@@ -148,21 +146,9 @@ Vue 代码段
 
 ![](./image/vscode/selectIcon.png)
 
-# 使用技巧
+## 未完待续
 
-js 的注释模板 在 function 上输入 /\*\* 按 Tab 键即可生成
-
-![](./image/vscode/jsComment.gif)
-
-开启**大纲**功能
-
-![](./image/vscode/openOutline.png)
-
-可以看到选中的文件里有哪些方法和函数，单击即可跳转
-
-![](./image/vscode/outline.png)
-
-# 系统设置
+<!-- # 系统设置
 
 ```js
 "files.insertFinalNewline": true, // 文件末尾空行
@@ -293,4 +279,4 @@ js 的注释模板 在 function 上输入 /\*\* 按 Tab 键即可生成
   "gitlens.views.fileHistory.enabled": true,
   "gitlens.views.lineHistory.enabled": true
 }
-```
+``` -->

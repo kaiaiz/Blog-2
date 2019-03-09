@@ -1612,6 +1612,10 @@ npm run changelog
 
 在 **CHANGELOG.md** 的头部加上自从上次**发布版本**以来的变动。显示 feat、bug、doc 等类型
 
+:::warning
+生成的 changelog 不会按 commit 上传的时间顺序排序，等待解决中。。。👉[传送门](https://github.com/conventional-changelog/conventional-changelog/issues/373)
+:::
+
 :::tip
 如果你想生成全部的 **commit** 信息
 

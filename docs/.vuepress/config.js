@@ -55,11 +55,11 @@ module.exports = {
           '/blog/ES6'
         ]
       },
-      {
-        title: '浏览器', // 侧边栏名称
-        collapsable: true, // 可折叠
-        children: ['/blog/浏览器']
-      },
+      // {
+      //   title: '浏览器', // 侧边栏名称
+      //   collapsable: true, // 可折叠
+      //   children: ['/blog/浏览器']
+      // },
       // {
       //   title: '设计模式', // 侧边栏名称
       //   collapsable: true, // 可折叠
@@ -75,7 +75,7 @@ module.exports = {
       {
         title: 'Vue 全家桶', // 侧边栏名称
         collapsable: true, // 可折叠
-        children: ['/blog/Vue/Vue-Cli3', '/blog/Vue/Vue源码', '/blog/Vue/webpack4']
+        children: ['/blog/Vue/Vue-Cli3', '/blog/Vue/webpack4']
       },
       {
         title: 'VSCode扩展', // 侧边栏名称
@@ -85,7 +85,10 @@ module.exports = {
       {
         title: '服务器部署',
         collapsable: true, // 可折叠
-        children: ['/blog/服务器部署/Jenkins', '/blog/服务器部署/nginx']
+        children: [
+          '/blog/服务器部署/Jenkins'
+          // '/blog/服务器部署/nginx'
+        ]
       }
     ],
     plugins: ['@vuepress/active-header-links', '@vuepress/back-to-top'],
