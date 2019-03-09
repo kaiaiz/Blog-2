@@ -1338,7 +1338,7 @@ module: {
 
 打包完之后，查看 dist/app.css 文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309212322.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309212322.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309212322.png)</a>
 
 第二种方式，在 webpack.config.js 同级目录下，新建 postcss.config.js 配置文件
 
@@ -1588,7 +1588,7 @@ module.exports = {
 
 打包完查看 dist/app.css 文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308111209.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308111209.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308111209.png)</a>
 
 在 index.html 和 src/app.js 中引用的样式都被打包了，而没有被使用的样式类–box-small，没有被打包进去
 
@@ -1598,9 +1598,9 @@ module.exports = {
 
 :::
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135219.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135219.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135219.png)</a>
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135241.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135241.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135241.png)</a>
 
 清除前 194kb，清除后，6.68kb，震惊!!!
 
@@ -1616,7 +1616,7 @@ module.exports = {
 
 目录结构:
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309152820.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309152820.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309152820.png)</a>
 
 webpack4 中的图片常用的基础操作：
 
@@ -1768,9 +1768,9 @@ module.exports = {
 
 打包项目，查看打包结果，并在浏览器中打开 `index.html` 文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309153942.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309153942.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309153942.png)</a>
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309154327.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309154327.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309154327.png)</a>
 
 可以看到除了 **1.jpg**，另外两张图片已经被打包成 `base64` 格式，在 `app.css` 文件中
 
@@ -1778,7 +1778,7 @@ module.exports = {
 
 这就是利用了 **file-loader** 的能力，如果在 **url-loader** 中设置了 **limit** 的值，却**没有安装 file-loader 依赖**，会怎么样？来试试看，首先**卸载 file-loader 依赖**，`npm uninstall file-loader`，再运行打包命令，`npm run build`
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309154722.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309154722.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309154722.png)</a>
 
 :::tip 总结：
 **如果图片较多，会发很多 http 请求，会降低页面性能。**
@@ -1856,9 +1856,9 @@ npm i img-loader imagemin imagemin-pngquant imagemin-mozjpeg --save-dev
 
 打包结果：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309191851.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309191851.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309191851.png)</a>
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309200159.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309200159.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309200159.png)</a>
 
 原因在 png 图片上，jpg 图片可以压缩，但是去 [imagemin-pngquant](https://github.com/imagemin/imagemin-pngquant) **github** 上也没发现有人提出 issue ，百度、google 找了半天，还是没发现怎么解决😭，于是使用另一种压缩图片的插件 **[image-webpack-loader](https://github.com/tcoopman/image-webpack-loader)**
 
@@ -1926,15 +1926,15 @@ npm i img-loader imagemin imagemin-pngquant imagemin-mozjpeg --save-dev
 
 打包结果：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309190112.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309190112.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309190112.png)</a>
 
 图片压缩成功，这里我仔细看了下[官网介绍](https://github.com/tcoopman/image-webpack-loader)，其实这个 `image-webpack-loader` 插件内置了好几种图片压缩的插件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309192621.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309192621.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309192621.png)</a>
 
 这里让我很疑惑，为什么我直接安装 `imagemin-pngquant` 不行，反而使用 `image-webpack-loader` 却可以，于是我去查看 `package-lock.json` 文件，搜索 `image-webpack-loader`
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309193137.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309193137.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309193137.png)</a>
 
 我看了下我之前安装的是最新的版本， **^7.0.0** !!!
 
@@ -1955,7 +1955,7 @@ npm i img-loader imagemin imagemin-pngquant imagemin-mozjpeg --save-dev
 
 如果使用 `image-webpack-loader` ，版本为 `4.6.0` ，引入的依赖版本也在白框内
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309193858.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309193858.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309193858.png)</a>
 
 这次我还是使用 `image-webpack-loader`，朋友们可以自行选择使用哪个插件，只是 `image-webpack-loader` 引入了其他图片格式压缩的依赖，如 svg/webp/gif 等，只安装 `image-webpack-loader` 就够了，而另一种则是要一个个插件装过去，其实原理都一样
 
@@ -2079,9 +2079,9 @@ module.exports = {
 
 打包后查看结果：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309205542.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309205542.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309205542.png)</a>
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309205630.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309205630.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309205630.png)</a>
 
 雪碧图是为了减少网络请求，所以被处理雪碧图的图片多为各式各样的 **logo** 或者**大小相等的小图片**。
 
