@@ -1,6 +1,6 @@
-# webpack4 学习
+# webpack4 系列
 
-此项目基于 👉 [Webpack4 渐进式教程](https://godbmw.com/passages/2019-03-04-please-mark/) ，以此为基础加上自己的理解和实践得出，感谢 `董沅鑫` 😊 博客地址为：[godbmw](https://godbmw.com/)
+此项目基于 👉 [Webpack4 渐进式教程](https://godbmw.com/passages/2019-03-04-please-mark/) ，以此为基础加上自己的理解和实践得出，感谢原作者😊，博客地址为：[godbmw](https://godbmw.com/)
 
 **该项目使用的 node 版本为 10.5.0，npm 版本为 6.1.0**
 
@@ -1291,6 +1291,91 @@ module.exports = {
 
 打包后再打开 index.html 文件会发现样式已经被 main.scss 中写的覆盖了，处理 scss 成功
 
+#### 为 CSS 加上浏览器前缀
+
+安装 [postcss-loader](https://github.com/postcss/postcss-loader) 和 [autoprefixer](https://github.com/postcss/autoprefixer) 依赖
+
+```bash
+npm install postcss-loader autoprefixer --save-dev
+```
+
+给 `src/scss/main.css` 中添加这段代码
+
+```css
+.example {
+  display: grid;
+  transition: all 0.5s;
+  user-select: none;
+  background: linear-gradient(to bottom, white, black);
+}
+```
+
+有两种方式来配置 **postcss**，第一种是直接写在 webpack.config.js 中
+
+```js
+module: {
+  rules: [
+    {
+      test: /\.(sa|sc|c)ss$/, // 针对 .sass .scss 或者 .css 后缀的文件设置 loader
+      use: [
+        {
+          loader: MiniCssExtractPlugin.loader
+        },
+        'css-loader',
+        'sass-loader', // 使用 sass-loader 将 scss 转为 css
+        // 使用 postcss 为 css 加上浏览器前缀
+        {
+          loader: 'postcss-loader',
+          options: {
+            plugins: [require('autoprefixer')]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+打包完之后，查看 dist/app.css 文件
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309212322.png)
+
+第二种方式，在 webpack.config.js 同级目录下，新建 postcss.config.js 配置文件
+
+```js
+module.exports = {
+  plugins: [require('autoprefixer')]
+}
+```
+
+同时在 webpack.config.js 中
+
+```js
+module: {
+  rules: [
+    {
+      test: /\.(sa|sc|c)ss$/, // 针对 .sass .scss 或者 .css 后缀的文件设置 loader
+      use: [
+        {
+          loader: MiniCssExtractPlugin.loader
+        },
+        'css-loader',
+        'sass-loader', // 使用 sass-loader 将 scss 转为 css
+        'postcss-loader' // 使用 postcss 为 css 加上浏览器前缀
+      ]
+    }
+  ]
+},
+```
+
+:::tip 提示
+由于 module 中的 rules 是倒着执行的，以上的执行顺序是 `postcss-loader` -> `sass-loader` -> `css-loader` -> `MiniCssExtractPlugin.loader`
+
+`postcss-loader` 要放在最下面，也就是第一个执行的 loader
+:::
+
+
+
 ## 九、JS Tree Shaking
 
 什么是 Tree Shaking？
@@ -1526,3 +1611,480 @@ module.exports = {
 :::danger
 如果项目中有引入第三方 css 库的话，谨慎使用!!!
 :::
+
+## 十一、图片处理汇总
+
+目录结构:
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309152820.png)
+
+webpack4 中的图片常用的基础操作：
+
+- 图片处理和 Base64 编码
+- 图片压缩
+- 合成雪碧图
+
+#### (一)、准备工作
+
+如项目代码目录展示的那样，除了常见的 `app.js` 作为入口文件，我们将用到的 **3** 张图片放在 `/src/assets/imgs/` 目录下，并在样式文件 `base.css` 中引用这些图片。
+
+剩下的内容交给 `webpack` 打包处理即可。样式文件和入口 `app.js` 文件的代码分别如下所示：
+
+```css
+/* base.css */
+*,
+body {
+  margin: 0;
+  padding: 0;
+}
+.box {
+  height: 400px;
+  width: 400px;
+  border: 5px solid #000;
+  color: #000;
+}
+.box div {
+  width: 100px;
+  height: 100px;
+  float: left;
+}
+.box .ani1 {
+  background: url('./../assets/imgs/1.jpg') no-repeat;
+}
+.box .ani2 {
+  background: url('./../assets/imgs/2.png') no-repeat;
+}
+.box .ani3 {
+  background: url('./../assets/imgs/3.png') no-repeat;
+}
+```
+
+在 `app.js` 中
+
+```js
+import './css/base.css'
+```
+
+安装依赖：
+
+```bash
+npm install url-loader file-loader --save-dev
+```
+
+#### (一)、图片处理和 base64 编码
+
+在 `webpack.config.js` 中的 **module.rules** 选项中进行配置，以实现让 **loader** 识别图片后缀名，并且进行指定的处理操作。
+
+```js
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '[name]-[hash:5].min.[ext]',
+              outputPath: 'images/', //输出到 images 文件夹
+              limit: 20000 //把小于 20kb 的文件转成 Base64 的格式
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+完整的配置文件
+
+```js
+const path = require('path')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
+
+module.exports = {
+  entry: {
+    app: './src/app.js'
+  },
+  output: {
+    publicPath: './', // js 引用的路径或者 CDN 地址
+    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
+    filename: '[name].bundle.js', // 代码打包后的文件名
+    chunkFilename: '[name].js' // 代码拆分后的文件名
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '[name]-[hash:5].min.[ext]',
+              outputPath: 'images/', //输出到 images 文件夹
+              limit: 20000 //把小于 20kb 的文件转成 Base64 的格式
+            }
+          }
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      // 打包输出HTML
+      title: '自动生成 HTML',
+      minify: {
+        // 压缩 HTML 文件
+        removeComments: true, // 移除 HTML 中的注释
+        collapseWhitespace: true, // 删除空白符与换行符
+        minifyCSS: true // 压缩内联 css
+      },
+      filename: 'index.html', // 生成后的文件名
+      template: 'index.html', // 根据此模版生成 HTML 文件
+      chunks: ['app'] // entry中的 app 入口才会被打包
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    })
+  ]
+}
+```
+
+打包项目，查看打包结果，并在浏览器中打开 `index.html` 文件
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309153942.png)
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309154327.png)
+
+可以看到除了 **1.jpg**，另外两张图片已经被打包成 `base64` 格式，在 `app.css` 文件中
+
+**1.jpg** 这个文件超过我们在 **url-loader** 选项中设置的 **limit** 值，所以被单独打包
+
+这就是利用了 **file-loader** 的能力，如果在 **url-loader** 中设置了 **limit** 的值，却**没有安装 file-loader 依赖**，会怎么样？来试试看，首先**卸载 file-loader 依赖**，`npm uninstall file-loader`，再运行打包命令，`npm run build`
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309154722.png)
+
+:::tip 总结：
+**如果图片较多，会发很多 http 请求，会降低页面性能。**
+
+**url-loader** 会将引入的图片编码，转为 `base64` 字符串。再把这串字符打包到文件中，最终只需要引入这个文件就能访问图片了，节省了图片请求。
+
+但是，如果图片较大，**编码会消耗性能**。因此 **url-loader** 提供了一个 **limit** 参数，小于 **limit** 字节的文件会被转为 `base64`，大于 **limit** 的使用 **file-loader** 进行处理，单独打包。
+
+**url-loader 依赖 file-loader，url-loader 可以看作是增强版的 file-loader**
+:::
+
+#### (三)、图片压缩
+
+图片压缩需要使用 **img-loader** 插件，除此之外，**针对不同的图片类型，还要引用不同的插件**。比如，我们项目中使用的是 **png** 图片，因此，需要引入 `imagemin-pngquant`，并且指定压缩率。压缩 **jpg/jpeg** 图片为 `imagemin-mozjpeg` 插件
+
+:::danger 注意！！！
+这里有个 **bug**，可以先不急着操作，先把这一小节看完，再决定！！
+:::
+
+安装依赖
+
+```bash
+npm i img-loader imagemin imagemin-pngquant imagemin-mozjpeg --save-dev
+```
+
+在之前的配置上更改：
+
+```js
+{
+  test: /\.(png|jpg|jpeg|gif)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        name: '[name]-[hash:5].min.[ext]',
+        outputPath: 'images/', // 输出到 images 文件夹
+        limit: 20000 //把小于 20kb 的文件转成 Base64 的格式
+      }
+    }
+  ]
+}
+```
+
+更改为：
+
+```js
+{
+  test: /\.(png|jpg|jpeg|gif)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        name: '[name]-[hash:5].min.[ext]',
+        limit: 1000, // size <= 1KB
+        outputPath: 'images/'
+      }
+    },
+    // img-loader for zip img
+    {
+      loader: 'img-loader',
+      options: {
+        plugins: [
+          require('imagemin-pngquant')({
+            quality: '80' // the quality of zip
+          }),
+          require('imagemin-mozjpeg')({
+            quality: '80'
+          })
+        ]
+      }
+    }
+  ]
+}
+```
+
+打包结果：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309191851.png)
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309200159.png)
+
+原因在 png 图片上，jpg 图片可以压缩，但是去 [imagemin-pngquant](https://github.com/imagemin/imagemin-pngquant) **github** 上也没发现有人提出 issue ，百度、google 找了半天，还是没发现怎么解决😭，于是使用另一种压缩图片的插件 **[image-webpack-loader](https://github.com/tcoopman/image-webpack-loader)**
+
+首先卸载了之前的依赖：
+
+`npm uni img-loader imagemin imagemin-pngquant imagemin-mozjpeg`
+
+安装依赖：
+
+`npm i image-webpack-loader --save-dev`
+
+这个依赖安装的时间会比较久。。。可以先去做别的。。。
+
+在之前的配置上更改：
+```js
+{
+  test: /\.(png|jpg|jpeg|gif)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        name: '[name]-[hash:5].min.[ext]',
+        outputPath: 'images/', // 输出到 images 文件夹
+        limit: 20000 //把小于 20kb 的文件转成 Base64 的格式
+      }
+    }
+  ]
+}
+```
+
+更改为：
+
+```js
+{
+  test: /\.(png|jpg|jpeg|gif)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: {
+        name: '[name]-[hash:5].min.[ext]',
+        limit: 1000, // size <= 1KB
+        outputPath: 'images/'
+      }
+    },
+    // img-loader for zip img
+    {
+      loader: 'image-webpack-loader',
+      options: {
+        // 压缩 jpg/jpeg 图片
+        mozjpeg: {
+          progressive: true,
+          quality: 65 // 压缩率
+        },
+        // 压缩 png 图片
+        pngquant: {
+          quality: '65-90',
+          speed: 4
+        }
+      }
+    }
+  ]
+}
+```
+这里**故意**把 **url-loader** 的 **limit** 属性值设的很小，不让它转化 **png** 图片为 `base64`，因为我们要测试压缩 **png** 图片
+
+打包结果：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309190112.png)
+
+图片压缩成功，这里我仔细看了下[官网介绍](https://github.com/tcoopman/image-webpack-loader)，其实这个 `image-webpack-loader` 插件内置了好几种图片压缩的插件
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309192621.png)
+
+这里让我很疑惑，为什么我直接安装 `imagemin-pngquant` 不行，反而使用 `image-webpack-loader` 却可以，于是我去查看 `package-lock.json` 文件，搜索 `image-webpack-loader`
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309193137.png)
+
+我看了下我之前安装的是最新的版本， **^7.0.0** !!!
+
+阿西吧... 终于找到问题所在，**新版本**有些问题没处理好，导致压缩 png 图片失败，知道问题就好办了，在 package.json 中，将 `imagemin-pngquant` 版本改为 ^6.0.0，重新 `npm install`
+
+再按照之前的操作，就可以压缩成了，对应版本如下：
+
+```json {5}
+{
+  "devDependencies": {
+    "imagemin": "^6.1.0",
+    "imagemin-mozjpeg": "^8.0.0",
+    "imagemin-pngquant": "^6.0.0",
+    "img-loader": "^3.0.1",
+  }
+}
+```
+
+如果使用 `image-webpack-loader` ，版本为 `4.6.0` ，引入的依赖版本也在白框内
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309193858.png)
+
+这次我还是使用 `image-webpack-loader`，朋友们可以自行选择使用哪个插件，只是 `image-webpack-loader` 引入了其他图片格式压缩的依赖，如 svg/webp/gif 等，只安装 `image-webpack-loader` 就够了，而另一种则是要一个个插件装过去，其实原理都一样
+
+:::tip 总结！
+
+经过这次调试，明白**并不是最新的版本就是最好的**，新版本也许有哪些地方没处理好，或者是不能兼容其他插件，导致报错
+
+所以安装第三方依赖的时候，还是要**谨慎一点**，**npm install 默认是安装最新版**，如果出了问题，**回滚到之前的稳定版**，不仅仅适用于 `webpack` 插件，对于其他软件或者工具也是这样
+
+写这一小节的时间为：`2019-3-9`，之后的版本变动出现报错的话，可以不用安装最新版，回滚到之前的版本试试看
+
+:::
+
+#### (四)、生成雪碧图
+
+安装依赖：
+
+```bash
+npm i postcss-loader postcss-sprites --save-dev
+```
+
+完整配置：
+
+```js
+const path = require('path')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
+
+/*********** sprites config ***************/
+let spritesConfig = {
+  spritePath: './dist/images'
+}
+/******************************************/
+
+module.exports = {
+  entry: {
+    app: './src/app.js'
+  },
+  output: {
+    publicPath: './', // js 引用的路径或者 CDN 地址
+    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
+    filename: '[name].bundle.js', // 代码打包后的文件名
+    chunkFilename: '[name].js' // 代码拆分后的文件名
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader',
+          /*********** loader for sprites ***************/
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              plugins: [require('postcss-sprites')(spritesConfig)]
+            }
+          }
+          /*********************************************/
+        ]
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '[name]-[hash:5].min.[ext]',
+              limit: 1000, // size <= 1KB
+              outputPath: 'images/'
+            }
+          },
+          // img-loader for zip img
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              // 压缩 jpg/jpeg 图片
+              mozjpeg: {
+                progressive: true,
+                quality: 65 // 压缩率
+              },
+              // 压缩 png 图片
+              pngquant: {
+                quality: '65-90',
+                speed: 4
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      // 打包输出HTML
+      title: '自动生成 HTML',
+      minify: {
+        // 压缩 HTML 文件
+        removeComments: true, // 移除 HTML 中的注释
+        collapseWhitespace: true, // 删除空白符与换行符
+        minifyCSS: true // 压缩内联 css
+      },
+      filename: 'index.html', // 生成后的文件名
+      template: 'index.html', // 根据此模版生成 HTML 文件
+      chunks: ['app'] // entry中的 app 入口才会被打包
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    })
+  ]
+}
+```
+
+打包后查看结果：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309205542.png)
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190309205630.png)
+
+雪碧图是为了减少网络请求，所以被处理雪碧图的图片多为各式各样的 **logo** 或者**大小相等的小图片**。
+
+**而对于大图片，还是不推荐使用雪碧图。这样会使得图片体积很大**
+
+除此之外，雪碧图要配合 **css** 代码进行定制化使用。要通过 **css** 代码在雪碧图上精准定位需要的图片
