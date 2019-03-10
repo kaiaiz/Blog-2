@@ -2088,3 +2088,257 @@ module.exports = {
 **而对于大图片，还是不推荐使用雪碧图。这样会使得图片体积很大**
 
 除此之外，雪碧图要配合 **css** 代码进行定制化使用。要通过 **css** 代码在雪碧图上精准定位需要的图片
+
+## 十二、字体文件处理
+
+项目目录为：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310135802.png)
+
+package.json 中使用的依赖如下：
+
+```json
+{
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^2.0.0",
+    "css-loader": "^2.1.0",
+    "file-loader": "^3.0.1",
+    "url-loader": "^1.1.2",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  }
+}
+```
+
+app.js 中引入字体文件
+
+```js
+import './assets/fonts/iconfont.css'
+```
+
+配置 webpack.config.js 文件来处理字体
+
+借助 url-loader，可以识别并且处理 eot、woff 等结尾的字体文件。同时，根据字体文件大小，可以灵活配置是否进行 base64 编码。
+
+下面的 demo 就是当文件大小小于 5000B 的时候，进行 base64 编码。
+
+```js
+const path = require('path')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
+
+module.exports = {
+  entry: {
+    app: './src/app.js'
+  },
+  output: {
+    publicPath: './', // js 引用的路径或者 CDN 地址
+    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
+    filename: '[name].bundle.js', // 代码打包后的文件名
+    chunkFilename: '[name].js' // 代码拆分后的文件名
+  },
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.(eot|woff2?|ttf|svg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '[name]-[hash:5].min.[ext]',
+              limit: 5000, // fonts file size <= 5KB, use 'base64'; else, output svg file
+              publicPath: 'fonts/',
+              outputPath: 'fonts/'
+            }
+          }
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      // 打包输出HTML
+      title: '自动生成 HTML',
+      minify: {
+        // 压缩 HTML 文件
+        removeComments: true, // 移除 HTML 中的注释
+        collapseWhitespace: true, // 删除空白符与换行符
+        minifyCSS: true // 压缩内联 css
+      },
+      filename: 'index.html', // 生成后的文件名
+      template: 'index.html', // 根据此模版生成 HTML 文件
+      chunks: ['app'] // entry中的 app 入口才会被打包
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    })
+  ]
+}
+```
+
+在 index.html 中使用字体
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>处理字体文件</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="box">
+        <i class="iconfont icon-xiazai"></i>
+        <i class="iconfont icon-shoucang"></i>
+        <i class="iconfont icon-erweima"></i>
+        <i class="iconfont icon-xiangshang"></i>
+        <i class="iconfont icon-qiehuanzuhu"></i>
+        <i class="iconfont icon-sort"></i>
+        <i class="iconfont icon-yonghu"></i>
+      </div>
+    </div>
+  </body>
+</html>
+```
+
+打包后查看 index.html 文件
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310140801.png)
+
+打包成功
+
+## 十三、处理第三方 js 库
+
+项目目录：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310142027.png)
+
+1. 如何使用和管理第三方 JS 库？
+
+项目做大之后，开发者会更多专注在业务逻辑上，其他方面则尽力使用第三方 JS 库来实现。
+
+由于 js 变化实在太快，所以出现了多种引入和管理第三方库的方法，常用的有 3 中：
+
+- CDN：`<script></script>` 标签引入即可
+- npm 包管理：**目前最常用和最推荐的方法**
+- 本地 js 文件：一些库由于历史原因，没有提供 es6 版本，需要手动下载，放入项目目录中，再手动引入。
+
+针对第三种方法，如果没有 webpack，则需要手动引入 import 或者 require 来加载文件；但是，webpack 提供了 alias 的配置，配合 webpack.ProvidePlugin 这款插件，可以跳过手动入，直接使用！
+
+2. 编写入口文件
+
+如项目目录图片所展示的，我们下载了 **jquery.min.js**，放到了项目中。同时，我们**也通过 npm 安装了 jquery**。
+
+为了尽可能模仿生产环境，app.js 中使用了 $ 来调用 jq，还使用了 jQuery 来调用 jq。
+
+因为正式项目中，由于需要的依赖过多，挂载到 window 对象的库，很容易发生命名冲突问题。此时，就需要重命名库。例如：$ 就被换成了 jQuery。
+
+在 app.js 中进行修改
+
+```js
+// app.js
+$('div').addClass('new')
+
+jQuery('div').addClass('old')
+
+// 运行webpack后
+// 浏览器打开 index.html, 查看 div 标签的 class
+```
+
+3. 编写配置文件
+
+**webpack.ProvidePlugin** 参数是键值对形式，键就是我们项目中使用的变量名，值就是键所指向的库。
+
+**webpack.ProvidePlugin 会先从 npm 安装的包中查找是否有符合的库**
+
+如果 **webpack** 配置了 **resolve.alias** 选项（理解成 “别名”），那么 webpack.ProvidePlugin 就会顺着这条链一直找下去。
+
+```js {2,37,38,39,40}
+const path = require('path')
+const webpack = require('webpack')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  entry: {
+    app: './src/app.js'
+  },
+  output: {
+    publicPath: './', // js 引用的路径或者 CDN 地址
+    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
+    filename: '[name].bundle.js', // 代码打包后的文件名
+    chunkFilename: '[name].js' // 代码拆分后的文件名
+  },
+  resolve: {
+    alias: {
+      jQuery$: path.resolve(__dirname, 'src/vendor/jquery.min.js')
+    }
+  },
+  plugins: [
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      // 打包输出HTML
+      title: '自动生成 HTML',
+      minify: {
+        // 压缩 HTML 文件
+        removeComments: true, // 移除 HTML 中的注释
+        collapseWhitespace: true, // 删除空白符与换行符
+        minifyCSS: true // 压缩内联 css
+      },
+      filename: 'index.html', // 生成后的文件名
+      template: 'index.html', // 根据此模版生成 HTML 文件
+      chunks: ['app'] // entry中的 app 入口才会被打包
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery', // npm
+      jQuery: 'jQuery' // 本地Js文件
+    })
+  ]
+}
+```
+
+修改 index.html 文件
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>处理第三方 js 库</title>
+  </head>
+  <body>
+    <div></div>
+  </body>
+</html>
+```
+
+打包并在 Chrome 中打开 index.html。如下图所示，`<div>` 标签已经被添加上了 **old** 和 **new** 两个样式类。证明在 app.js 中使用的 $ 和 jQuery 都成功指向了 jquery 库。
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310142606.png)
