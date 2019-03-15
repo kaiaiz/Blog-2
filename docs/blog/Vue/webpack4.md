@@ -1509,6 +1509,24 @@ app.appendChild(div)
 
 最后，为了让环境更接近实际环境，我们在 `index.html` 的一个标签，也引用了定义好的 box-big 样式类。
 
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>CSS Tree Shaking</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="box-big"></div>
+    </div>
+  </body>
+</html>
+```
+
 [PurifyCSS](https://github.com/purifycss/purifycss)，它将帮助我们进行 **CSS Tree Shaking** 操作。为了能准确指明要进行 Tree Shaking 的 CSS 文件，还有 **glob-all** （另一个第三方库）。
 
 glob-all 的作用就是帮助 PurifyCSS 进行路径处理，定位要做 Tree Shaking 的路径文件。
@@ -2351,12 +2369,13 @@ module.exports = {
 
 而开发模式就是指定 mode 为 development。对应我们在 `package.json` 中配置的，就是 `npm run dev`，在第二小节也涉及到了这一点
 
-在开发模式下，我们需要对代码进行调试。对应的配置就是：devtool 设置为 source-map。在非开发模式下，需要关闭此选项，以减小打包体积。
+在开发模式下，我们需要对代码进行调试。对应的配置就是：**devtool** 设置为 **source-map**。在非开发模式下，需要关闭此选项，以减小打包体积。详情见: [devtool](https://webpack.docschina.org/configuration/devtool/#src/components/Sidebar/Sidebar.jsx)
 
 在开发模式下，还需要**热重载**、**路由重定向**、**设置代理**等功能，webpack4 已经提供了 devServer 选项，启动一个本地服务器，让开发者使用这些功能。
 
 目录结构：
 
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171439.png)
 
 安装依赖
 
@@ -2385,6 +2404,8 @@ npm i webpack-dev-server --save-dev
 ```
 
 因为我们在 package.json 中配置了 script，所以开启开发模式直接 `npm run dev` 即可
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171510.png)
 
 虽然控制台输出了打包信息（假设我们已经配置了热重载），但是磁盘上并没有创建 **/dist/** 文件夹和打包文件。控制台的打包文件的相关内容是存储在内存之中的。
 
@@ -2514,7 +2535,7 @@ module.exports = {
 
 - 模块热更新
 
-模块热更新需要 **HotModuleReplacementPlugin** 和 **NamedModulesPlugin** 这两个插件，**并且顺序不能错，并且指定 devServer.hot 为 true**
+模块热更新需要 **[HotModuleReplacementPlugin](https://webpack.js.org/plugins/hot-module-replacement-plugin/#root)** 和 **[NamedModulesPlugin](https://www.webpackjs.com/plugins/named-modules-plugin/)** 这两个插件，**并且顺序不能错，并且指定 devServer.hot 为 true**，
 
 ```js {1,5,6}
 const webpack = require('webpack') // 引入 webpack
@@ -2548,6 +2569,8 @@ if (module.hot) {
 
 浏览器控制台输出信息如下：
 
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171605.png)
+
 - 跨域代理
 
 随着前后端分离开发的普及，跨域请求变得越来越常见。为了快速开发，可以利用 devServer.proxy 做一个代理转发，来绕过浏览器的跨域限制。
@@ -2571,6 +2594,8 @@ $.get(
 上面代码是使用 jQuery 发送 get 请求，如果是在 vue 项目中，一般是使用 axios 来发送请求
 
 修改完 app.js 后保存，打开之前的 localhost:8000 网页，可以看到 Network 发送的请求
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171756.png)
 
 - HTML5–History
 
@@ -2621,6 +2646,468 @@ if (module.hot) {
 }
 ```
 
-打开控制台，可以看到代码都正常运行没有出错。除此之外，由于开启了 source-map，所以可以定位代码位置（下图绿框内）：
+打开控制台，可以看到代码都正常运行没有出错。除此之外，由于开启了 **source-map**，所以可以定位代码位置（下图红框内）：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171919.png)
 
 参考文章： [webpack4 系列教程 (十五)：开发模式与 webpack-dev-server](https://godbmw.com/passages/2018-10-19-webpack-dev-server/)
+
+## 十五、开发模式和生产模式・实战
+
+首先，新建一个文件夹：demo15，执行 `npm init -y` 初始化 `package.json`，生成后的文件如下：
+
+```json
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
+```
+
+我们先将无用的代码清除掉，只留下关键代码:
+
+```json
+{
+  "scripts": {}
+}
+```
+
+首先安装 **webpack** 所需依赖
+
+```bash
+npm i webpack webpack-cli webpack-dev-server --save-dev
+```
+
+安装 **babel7**，因为目前主要是用 ES6 来编写代码，所以需要转译
+
+```bash
+npm i @babel/core babel-loader @babel/preset-env @babel/plugin-transform-runtime --save-dev
+```
+
+```bash
+npm i @babel/polyfill @babel/runtime
+```
+
+现在 **package.json** 中的依赖为：
+
+```json
+{
+  "scripts": {},
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "babel-loader": "^8.0.5",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "@babel/runtime": "^7.3.4"
+  }
+}
+```
+
+新建 **.babelrc** 来配置 babel 插件，代码如下：
+
+```json
+{
+  "presets": ["@babel/preset-env"],
+  "plugins": ["@babel/plugin-transform-runtime"]
+}
+```
+
+新建 **.browserslistrc** 文件配置该项目所支持的浏览器版本
+
+```md
+# 所支持的浏览器版本
+
+> 1% # 全球使用情况统计选择的浏览器版本
+last 2 version # 每个浏览器的最后两个版本
+not ie <= 8 # 排除小于 ie8 及以下的浏览器
+```
+:::tip
+在开始配置 webpack.config.js 文件之前，需要注意一下，因为现在我们是有两种模式，**production(生产)** 和 **development(开发)** 模式。
+:::
+
+安装自动生成 html 依赖
+
+```bash
+npm i html-webpack-plugin html-loader clean-webpack-plugin --save-dev
+```
+
+安装 css/字体图标处理依赖
+
+```bash
+npm i css-loader style-loader mini-css-extract-plugin optimize-css-assets-webpack-plugin --save-dev
+```
+
+安装 scss 处理依赖
+
+```bash
+npm i node-sass sass-loader --save-dev
+```
+
+为不同内核的浏览器加上 CSS 前缀
+
+```bash
+npm install postcss-loader autoprefixer --save-dev
+```
+
+图片及字体处理：
+
+```bash
+npm i url-loader file-loader image-webpack-loader --save-dev
+```
+
+第三方 js 库
+
+```bahs
+npm i jquery
+```
+
+现在 package.json 为：
+
+```json
+{
+  "scripts": {},
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-transform-runtime": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "autoprefixer": "^9.4.10",
+    "babel-loader": "^8.0.5",
+    "clean-webpack-plugin": "^2.0.0",
+    "css-loader": "^2.1.1",
+    "file-loader": "^3.0.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^4.6.0",
+    "mini-css-extract-plugin": "^0.5.0",
+    "node-sass": "^4.11.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.1",
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.2.5",
+    "@babel/runtime": "^7.3.4",
+    "jquery": "^3.3.1"
+  }
+}
+```
+
+之前我们大多都是写生产模式，也就是经常说的打包，但是我们日常开发项目，用的是开发模式。
+
+只有在项目做完后，要部署到 **nginx** 上的时候才使用生产模式，将代码打包后放到 **nginx** 中
+
+之所以要分两种模式是因为，开发模式下，需要加快编译的速度，可以热更新以及设置跨域地址，开启源码调试(devtool: 'source-map')
+
+而生成模式下，则需要压缩 js/css 代码，拆分公共代码段，拆分第三方 js 库等操作
+
+所以这里的配置我们分成三个文件来写，一个是生产配置，一个是开发配置，最后一个是基础配置
+
+即：**webpack.base.conf.js**(基础配置)、**webpack.dev.conf.js**(开发配置)、**webpack.prod.conf.js**(生产配置)
+
+新建 **build** 文件夹，创建上述三个文件，项目结构为：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315142706.png)
+
+这里需要使用到一个插件，**webpack-merge** 用来合并配置，比如开发环境就合并开发配置 + 基础配置，生产就合并生产配置 + 基础配置
+
+```bash
+npm i webpack-merge --save-dev
+```
+
+先简单写个 webpack.base.conf.js 的示例代码
+
+```js
+const merge = require("webpack-merge");
+
+const productionConfig = require("./webpack.prod.conf"); // 引入生产环境配置文件
+const developmentConfig = require("./webpack.dev.conf"); // 引入开发环境配置文件
+
+const baseConfig = {}; // ... 省略
+
+module.exports = env => {
+  let config = env === "production" ? productionConfig : developmentConfig;
+  return merge(baseConfig, config); // 合并 公共配置 和 环境配置
+};
+```
+
+- 引入 webpack-merge 插件来合并配置
+- 引入生产环境和开发环境
+- 编写基础配置
+- 导出合并后的配置文件
+
+在代码中区分不同环境：
+
+```js
+module.exports = env => {
+  let config = env === "production" ? productionConfig : developmentConfig;
+  return merge(baseConfig, config); // 合并 公共配置 和 环境配置
+};
+```
+
+这里的 env 在 package.json 中进行配置，修改 scripts，添加 "dev" 和 "build" 命令
+
+注意，这里有个 --env 字段，与 webpack.base.conf.js 中的 env 是联动的，告诉它当前是什么环境，然后合并成什么环境
+
+```json
+{
+  "scripts": {
+    "dev": "webpack-dev-server --env development --open --config build/webpack.base.conf.js",
+    "build": "webpack --env production --config build/webpack.base.conf.js"
+  }
+}
+```
+
+#### 编写基础配置
+
+```js
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
+
+const path = require('path')
+
+const productionConfig = require('./webpack.prod.conf.js') // 引入生产环境配置文件
+const developmentConfig = require('./webpack.dev.conf.js') // 引入开发环境配置文件
+
+/**
+ * 根据不同的环境，生成不同的配置
+ * @param {String} env "development" or "production"
+ */
+const generateConfig = env => {
+  // 将需要的 Loader 和 Plugin 单独声明
+
+  let scriptLoader = [
+    {
+      loader: 'babel-loader'
+    }
+  ]
+
+  let cssLoader = [
+    'style-loader',
+    'css-loader',
+    'sass-loader', // 使用 sass-loader 将 scss 转为 css
+    'postcss-loader' // 使用 postcss 为 css 加上浏览器前缀
+  ]
+
+  let cssExtractLoader = [
+    {
+      loader: MiniCssExtractPlugin.loader
+    },
+    'css-loader',
+    'sass-loader', // 使用 sass-loader 将 scss 转为 css
+    'postcss-loader' // 使用 postcss 为 css 加上浏览器前缀
+  ]
+
+  let fontLoader = [
+    {
+      loader: 'url-loader',
+      options: {
+        name: '[name]-[hash:5].min.[ext]',
+        limit: 5000, // fonts file size <= 5KB, use 'base64'; else, output svg file
+        publicPath: 'fonts/',
+        outputPath: 'fonts/'
+      }
+    }
+  ]
+
+  let imageLoader = [
+    {
+      loader: 'url-loader',
+      options: {
+        name: '[name]-[hash:5].min.[ext]',
+        limit: 10000, // size <= 10KB
+        outputPath: 'images/'
+      }
+    },
+    // 图片压缩
+    {
+      loader: 'image-webpack-loader',
+      options: {
+        // 压缩 jpg/jpeg 图片
+        mozjpeg: {
+          progressive: true,
+          quality: 50 // 压缩率
+        },
+        // 压缩 png 图片
+        pngquant: {
+          quality: '65-90',
+          speed: 4
+        }
+      }
+    }
+  ]
+
+  let styleLoader =
+    env === 'production'
+      ? cssExtractLoader // 生产环境下压缩 css 代码
+      : cssLoader // 开发环境：页内样式嵌入
+
+  return {
+    entry: { app: './src/app.js' },
+    output: {
+      publicPath: env === 'development' ? '/' : './',
+      path: path.resolve(__dirname, '..', 'dist'),
+      filename: '[name]-[hash:5].bundle.js',
+      chunkFilename: '[name]-[hash:5].chunk.js'
+    },
+    module: {
+      rules: [
+        { test: /\.js$/, exclude: /(node_modules)/, use: scriptLoader },
+        { test: /\.(sa|sc|c)ss$/, use: styleLoader },
+        { test: /\.(eot|woff2?|ttf|svg)$/, use: fontLoader },
+        { test: /\.(png|jpg|jpeg|gif)$/, use: imageLoader }
+      ]
+    },
+    plugins: [
+      // 开发环境和生产环境二者均需要的插件
+      new HtmlWebpackPlugin({
+        title: 'webpack4 实战',
+        filename: 'index.html',
+        template: path.resolve(__dirname, '..', 'index.html'),
+        // chunks: ['app'],
+        minify: {
+          collapseWhitespace: true
+        }
+      }),
+      new webpack.ProvidePlugin({ $: 'jquery' })
+    ]
+  }
+}
+
+module.exports = env => {
+  let config = env === 'production' ? productionConfig : developmentConfig
+  return merge(generateConfig(env), config) // 合并 公共配置 和 环境配置
+}
+```
+
+:::tip
+以上配置建议多看几遍熟悉熟悉，为什么要这样写
+:::
+
+#### 编写开发环境配置文件
+
+```js
+const webpack = require('webpack')
+
+const path = require('path')
+
+module.exports = {
+  mode: 'development',
+  devtool: 'source-map', // 调试源码
+  devServer: {
+    contentBase: path.join(__dirname, '../dist/'),
+    port: 8000,
+    hot: true,
+    overlay: true,
+    proxy: {
+      '/comments': {
+        target: 'https://m.weibo.cn',
+        changeOrigin: true,
+        logLevel: 'debug',
+        headers: {
+          Cookie: ''
+        }
+      }
+    },
+    historyApiFallback: true
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
+  ]
+}
+```
+
+:::tip
+开发配置主要是设置跨域、开启源码调试、热更新
+:::
+
+#### 编写生产环境配置文件
+
+```js
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 压缩 css
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+
+module.exports = {
+  mode: 'production',
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        jquery: {
+          name: 'chunk-jquery', // 单独将 jquery 拆包
+          priority: 15,
+          test: /[\\/]node_modules[\\/]jquery[\\/]/
+        }
+      }
+    }
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name].css',
+      chunkFilename: '[id].css'
+    }),
+    // 压缩 css
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g, //一个正则表达式，指示应优化/最小化的资产的名称。提供的正则表达式针对配置中ExtractTextPlugin实例导出的文件的文件名运行，而不是源CSS文件的文件名。默认为/\.css$/g
+      cssProcessor: require('cssnano'), //用于优化\最小化 CSS 的 CSS处理器，默认为 cssnano
+      cssProcessorOptions: { safe: true, discardComments: { removeAll: true } }, //传递给 cssProcessor 的选项，默认为{}
+      canPrint: true //一个布尔值，指示插件是否可以将消息打印到控制台，默认为 true
+    }),
+    new CleanWebpackPlugin()
+  ]
+}
+```
+
+:::tip
+生产配置主要是拆分代码，压缩 css
+:::
+
+#### 测试开发模式
+
+运行 `npm run dev`
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145851.png)
+
+并且自动打开浏览器，图片和字体都出来了，打开控制台也能看到跨域成功、源码定位，**因为将 devtool 设置为 'source-map'，所以就会生成 map 文件，体积较大**
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315144943.png)
+
+#### 测试生产模式
+
+运行 `npm run build`
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145135.png)
+
+打开 dist/index.html 文件
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145327.png)
+
+:::warning 注意！！
+生产模式下跨域失败是很正常的，而且如果是 vue 项目打包完之后是无法直接打开 index.html 文件查看效果的
+
+必须要放在服务器上，一般都是将打包后的文件放入 nginx 中，然后在 nginx 中配置跨域地址，详情可以查看我写的 nginx 的内容
+:::
+
+#### 完结 🎉🎉🎉
