@@ -6,6 +6,17 @@
 
 每一个章节对应一个 demo 👉[源码地址](https://github.com/ITxiaohao/webpack4-learn)
 
+如果有错误请发邮件给我(**281885961@qq.com**)
+
+与 [Webpack4 渐进式教程](https://godbmw.com/passages/2018-07-29-webpack-demos-introduction/)的差别是：
+
+- 使用 babel7
+- 配置 .browserslistrc 文件
+- 使用 mini-css-extract-plugin 替代 extract-text-webpack-plugin
+- 使用 optimize-css-assets-webpack-plugin 压缩 css
+- 使用 postcss 为 css 加上各个浏览器前缀
+- 使用 image-webpack-loader 处理图片
+
 ## 一、搭建项目并打包 JS 文件
 
 [demo1 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo01)
