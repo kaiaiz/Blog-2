@@ -8,6 +8,8 @@
 
 ## 一、搭建项目并打包 JS 文件
 
+[demo1 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo01)
+
 创建空文件夹，通过运行以下命令初始化  package.json
 
 ```bash
@@ -19,7 +21,7 @@ npm init  用来初始化生成一个新的  package.json  文件。它会向
 如果使用了 -y（代表 yes），则跳过提问阶段，直接生成一个新的  package.json  文件。
 :::
 
-引入 webpack 4：
+引入 webpack4：
 
 ```bash
 npm i webpack --save-dev
@@ -38,7 +40,7 @@ npm i webpack-cli --save-dev
 "webpack-cli": "^3.2.3"
 ```
 
-现在打开  package.json  并添加一个  build(构建) 脚本：
+现在打开 package.json 并添加一个 build(构建) 脚本：
 
 <a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190303164215.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190303164215.png)</a>
 
@@ -75,6 +77,8 @@ npm run build
 至此，打包 JS 结束
 
 ## 二、生产和开发模式
+
+[demo2 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo02)
 
 拥有 2 个配置文件在 webpack 中是的常见模式。
 
@@ -126,6 +130,8 @@ production mode(生产模式)  可以开箱即用地进行各种优化。 包�
 在 vue 中也可以使用 -mode 来做相应处理，具体的后续会讲
 
 ## 三、覆盖默认 entry/output
+
+[demo3 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo03)
 
 1. 检验 webpack 规范支持
 
@@ -230,6 +236,8 @@ module.exports = {
 [Webpack4 教程：从零配置到生产模式](https://www.valentinog.com/blog/webpack-tutorial/)
 
 ## 四、用 Babel 7 转译 ES6
+
+[demo4 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo04)
 
 #### (一) 了解 Babel 及生态
 
@@ -365,6 +373,8 @@ not ie <= 8 # 排除小于 ie8 以下的浏览器
 [browserslist](https://github.com/browserslist/browserslist)
 
 ## 五、多页面打包 —— 提取公共代码段
+
+[demo5 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo05)
 
 在 webpack4 之前是使用 commonsChunkPlugin 来拆分公共代码，v4 之后被废弃，并使用 **splitChunksPlugins**
 
@@ -565,6 +575,8 @@ module.exports = {
 
 ## 六、单页面应用 —— 代码懒加载
 
+[demo6 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo06)
+
 #### (一) 准备工作
 
 其中，page.js 是入口文件，subPageA.js 和 subPageB.js 共同引用 common.js。下面，我们按照代码引用的逻辑，从底向上展示代码：
@@ -717,6 +729,8 @@ export default "page";
 <a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307002940.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307002940.png)</a>
 
 ## 七、自动生成 HTML 文件
+
+[demo7 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo07)
 
 经过上面几个小节的操作，有没有觉得每次要去更改 index.html 中引入 js 文件很麻烦，一旦打包的名字变更后，也要对应的去修改 index.html 引入的 js 名称，这个时候就要使用一个插件来帮助我们，打包完之后自动生成 HTML 文件，并自动引入打包后的 js 文件
 
@@ -878,6 +892,8 @@ module.exports = {
 打开浏览器测试，也是没问题的
 
 ## 八、处理 CSS/SCSS 文件
+
+[demo8 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo08)
 
 #### (一) 准备工作
 
@@ -1374,9 +1390,9 @@ module: {
 `postcss-loader` 要放在最下面，也就是第一个执行的 loader
 :::
 
-
-
 ## 九、JS Tree Shaking
+
+[demo9 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo09)
 
 什么是 Tree Shaking？
 
@@ -1458,6 +1474,8 @@ console.log(chunk([1, 2, 3], 2))
 :::
 
 ## 十、CSS Tree Shaking
+
+[demo10 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo10)
 
 CSS Tree Shaking 并不像 JS Tree Shaking 那样方便理解，所以首先要先模拟一个真实的项目环境，来体现 CSS 的 Tree Shaking 的配置和效果。
 
@@ -1631,6 +1649,8 @@ module.exports = {
 :::
 
 ## 十一、图片处理汇总
+
+[demo11 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo11)
 
 目录结构:
 
@@ -2109,9 +2129,11 @@ module.exports = {
 
 ## 十二、字体文件处理
 
+[demo12 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo12)
+
 项目目录为：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310135802.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310135802.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310135802.png)</a>
 
 package.json 中使用的依赖如下：
 
@@ -2245,15 +2267,17 @@ module.exports = {
 
 打包后查看 index.html 文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310140801.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310140801.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310140801.png)</a>
 
 打包成功
 
 ## 十三、处理第三方 js 库
 
+[demo13 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo13)
+
 项目目录：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310142027.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310142027.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310142027.png)</a>
 
 1. 如何使用和管理第三方 JS 库？
 
@@ -2359,9 +2383,11 @@ module.exports = {
 
 打包并在 Chrome 中打开 index.html。如下图所示，`<div>` 标签已经被添加上了 **old** 和 **new** 两个样式类。证明在 app.js 中使用的 $ 和 jQuery 都成功指向了 jquery 库。
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310142606.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310142606.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190310142606.png)</a>
 
 ## 十四、开发模式与 webpack-dev-server
+
+[demo14 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo14)
 
 1. 为什么需要开发模式？
 
@@ -2375,7 +2401,7 @@ module.exports = {
 
 目录结构：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171439.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171439.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171439.png)</a>
 
 安装依赖
 
@@ -2405,7 +2431,7 @@ npm i webpack-dev-server --save-dev
 
 因为我们在 package.json 中配置了 script，所以开启开发模式直接 `npm run dev` 即可
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171510.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171510.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171510.png)</a>
 
 虽然控制台输出了打包信息（假设我们已经配置了热重载），但是磁盘上并没有创建 **/dist/** 文件夹和打包文件。控制台的打包文件的相关内容是存储在内存之中的。
 
@@ -2569,7 +2595,7 @@ if (module.hot) {
 
 浏览器控制台输出信息如下：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171605.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171605.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171605.png)</a>
 
 - 跨域代理
 
@@ -2595,7 +2621,7 @@ $.get(
 
 修改完 app.js 后保存，打开之前的 localhost:8000 网页，可以看到 Network 发送的请求
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171756.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171756.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171756.png)</a>
 
 - HTML5–History
 
@@ -2648,11 +2674,13 @@ if (module.hot) {
 
 打开控制台，可以看到代码都正常运行没有出错。除此之外，由于开启了 **source-map**，所以可以定位代码位置（下图红框内）：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171919.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171919.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171919.png)</a>
 
 参考文章： [webpack4 系列教程 (十五)：开发模式与 webpack-dev-server](https://godbmw.com/passages/2018-10-19-webpack-dev-server/)
 
 ## 十五、开发模式和生产模式・实战
+
+[demo15 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo15)
 
 首先，新建一个文件夹：demo15，执行 `npm init -y` 初始化 `package.json`，生成后的文件如下：
 
@@ -2824,7 +2852,7 @@ npm i jquery
 
 新建 **build** 文件夹，创建上述三个文件，项目结构为：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315142706.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315142706.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315142706.png)</a>
 
 这里需要使用到一个插件，**webpack-merge** 用来合并配置，比如开发环境就合并开发配置 + 基础配置，生产就合并生产配置 + 基础配置
 
@@ -3088,21 +3116,21 @@ module.exports = {
 
 运行 `npm run dev`
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145851.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145851.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145851.png)</a>
 
 并且自动打开浏览器，图片和字体都出来了，打开控制台也能看到跨域成功、源码定位，**因为将 devtool 设置为 'source-map'，所以就会生成 map 文件，体积较大**
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315144943.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315144943.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315144943.png)</a>
 
 #### 测试生产模式
 
 运行 `npm run build`
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145135.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145135.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145135.png)</a>
 
 打开 dist/index.html 文件
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145327.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145327.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315145327.png)</a>
 
 :::warning 注意！！
 生产模式下跨域失败是很正常的，而且如果是 vue 项目打包完之后是无法直接打开 index.html 文件查看效果的
