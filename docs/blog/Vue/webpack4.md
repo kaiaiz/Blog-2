@@ -38,7 +38,7 @@ npm init  用来初始化生成一个新的  package.json  文件。它会向
 npm i webpack --save-dev
 ```
 
-还需要 webpack-cli ，作为一个单独的包引入
+还需要 webpack-cli ，作为一个单独的包引入，如果不装 webpack-cli 是无法在命令行里使用 webpack 的
 
 ```bash
 npm i webpack-cli --save-dev
@@ -86,6 +86,8 @@ npm run build
 <a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190305093607.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190305093607.png)</a>
 
 至此，打包 JS 结束
+
+参考：[webpack 官网入门](https://webpack.js.org/guides/getting-started)
 
 ## 二、生产和开发模式
 
@@ -565,20 +567,20 @@ module.exports = {
 }
 ```
 
-着重来看 **optimization.splitChunks** 配置。我们将需要打包的代码放在 **cacheGroups** 属性中。
+着重来看 **optimization.splitChunks** 配置。我们将需要打包的代码放在 **cacheGroups(缓存组)** 属性中。比如我们要打包 jQuery 和 lodash，它会先生成 jQuery 和 lodash 两个文件，然后放入 cacheGroup 中缓存着，再根据你再 cacheGroup 中配置的**组**来决定是将两个文件整合到一个文件打包，还是单独分开打包
 
 叫做 cacheGroup 的原因是 webpack 会将规则放置在 cache 流中，为对应的块文件匹配对应的流，从而生成分离后的块
 
 
-| 配置项             | 说明                                                     | 示例                                                        |
-| ------------------ | -------------------------------------------------------- | ----------------------------------------------------------- |
-| chunks             | 匹配的块的类型                                           | initial（初始块），async（按需加载的异步块），all（所有块） |
-| name               | 用以控制分离后代码块的命名                               | chunk-libs                                                  |
-| test               | 用于规定缓存组匹配的文件位置                             | /[\\/]node_modules[\\/]/                                    |
-| priority           | 分离规则的优先级，优先级越高，则优先匹配                 | priority: 20                                                |
-| minSize            | 超过多少大小就进行压缩                                   | minSize: 30000 默认值是 30kb                                |
-| minChunks          | 分割前必须共享模块的最小块数                             | minChunks: 3                                                |
-| reuseExistingChunk | 如果当前块已从主模块拆分出来，则将重用它而不是生成新的块 | true                                                        |
+| 配置项             | 说明                                                         | 示例                                                        |
+| ------------------ | ------------------------------------------------------------ | ----------------------------------------------------------- |
+| chunks             | 匹配的块的类型                                               | initial（初始块），async（按需加载的异步块），all（所有块） |
+| name               | 用以控制分离后代码块的命名                                   | chunk-libs                                                  |
+| test               | 用于规定缓存组匹配的文件位置                                 | /[\\/]node_modules[\\/]/                                    |
+| priority           | 分离规则的优先级，优先级越高，则优先匹配                     | priority: 20                                                |
+| minSize            | 超过多少大小就进行压缩                                       | minSize: 30000 默认值是 30kb                                |
+| minChunks          | 分割前必须共享模块的最小块数                                 | minChunks: 3                                                |
+| reuseExistingChunk | 如果当前块已从主模块拆分出来，则将**重用**它而不是生成新的块 | true                                                        |
 
 其他配置具体详情见[官网](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunks-cachegroups-cachegroup-reuseexistingchunk)
 
@@ -623,6 +625,8 @@ module.exports = {
 `在 A 页面 :` 输出的 js 文件为 `pageA.bundle.js`
 
 `在 B 页面 :` 输出的 js 文件为 `pageB.bundle.js`
+
+**Code Splitting**(代码分割) 解决的问题：如果打包的文件很大，加载的时间就比较长，影响用户体验，而且我们使用 lodash 或者 jQuery 第三方库的时候，它们基本上是不改变的，变的只是我们的业务逻辑，如果代码没有分割，则每一次我们更改了业务逻辑都要重新打包，重新访问我们的页面又会加载打包后的文件， 将业务代码和第三方代码分割开，更改业务重新打包后，也不用每次都去加载第三方库，因为浏览器是有缓存的，会将不变更的第三方库缓存起来
 
 #### 参考文章
 
@@ -791,7 +795,7 @@ export default "page";
 
 [demo7 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo07)
 
-经过上面几个小节的操作，有没有觉得每次要去更改 index.html 中引入 js 文件很麻烦，一旦打包的名字变更后，也要对应的去修改 index.html 引入的 js 名称，这个时候就要使用一个插件来帮助我们，打包完之后**自动生成 HTML 文件**，并自动引入打包后的 js 文件
+经过上面几个小节的操作，有没有觉得每次要去更改 index.html 中引入 js 文件很麻烦，一旦打包的名字变更后，也要对应的去修改 index.html 引入的 js 名称，这个时候就要使用一个插件来帮助我们，打包完之后**自动生成 HTML 文件**，**并自动引入打包后的 js 文件**
 
 
 #### (一) 安装依赖
@@ -1096,7 +1100,11 @@ module.exports = {
 之前是使用 `extract-text-webpack-plugin` 插件，此插件与 webpack4 不太匹配，现在使用 `mini-css-extract-plugin`
 
 :::warning 注意!!!
-确保将 webpack 更新到 **4.2.0** 版。否则 **mini-css-extract-plugin** 将无效！
+确保将 webpack 更新到 **4.2.0** 版及以上。否则 **mini-css-extract-plugin** 将无效！
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320112208.png)
+
+目前还**不支持热更新**，也就是在开发环境下更改了 css，需要手动的刷新页面才会看到效果，目前这个插件一般在生产环境中使用，开发环境下还是使用 'style-loader'，具体见[官网配置](https://webpack.js.org/plugins/mini-css-extract-plugin/)
 :::
 
 ```bash
@@ -1453,6 +1461,37 @@ module: {
 
 `postcss-loader` 要放在最下面，也就是第一个执行的 loader
 :::
+
+#### 补充
+
+在 css-loader 中使用 importLoader 属性
+
+```js
+module: {
+  rules: [
+    {
+      test: /\.(sa|sc|c)ss$/, // 针对 .sass .scss 或者 .css 后缀的文件设置 loader
+      use: [
+        {
+          loader: MiniCssExtractPlugin.loader
+        },
+        {
+          loader: css-loader,
+          options: {
+            importLoader: 2
+          }
+        },
+        'sass-loader', // 使用 sass-loader 将 scss 转为 css
+        'postcss-loader' // 使用 postcss 为 css 加上浏览器前缀
+      ]
+    }
+  ]
+}
+```
+
+**importLoader: 2** 表示：在一个 css 中引入了另一个 css，也会执行之前两个 loader，即 postcss-loader 和 sass-loader
+
+参考：[webpack 官网指南](https://webpack.js.org/guides/asset-management#setup)
 
 ## 九、JS Tree Shaking
 
@@ -2354,7 +2393,7 @@ module.exports = {
 - npm 包管理：**目前最常用和最推荐的方法**
 - 本地 js 文件：一些库由于历史原因，没有提供 ES6 版本，需要手动下载，放入项目目录中，再手动引入。
 
-针对第三种方法，如果没有 webpack，则需要手动引入 import 或者 require 来加载文件；但是，webpack 提供了 alias 的配置，配合 webpack.ProvidePlugin 这款插件，可以跳过手动入，直接使用！
+针对第三种方法，如果没有 webpack，则需要手动引入 import 或者 require 来加载文件；但是，webpack 提供了 alias 的配置，配合 **webpack.ProvidePlugin** 这款插件，可以跳过手动入，直接使用！
 
 **2. 编写入口文件**
 
@@ -2378,7 +2417,7 @@ jQuery('div').addClass('old')
 // 浏览器打开 index.html, 查看 div 标签的 class
 ```
 
-3. 编写配置文件
+1. 编写配置文件
 
 **webpack.ProvidePlugin** 参数是键值对形式，键就是我们项目中使用的变量名，值就是键所指向的库。
 
@@ -2663,6 +2702,8 @@ if (module.hot) {
 浏览器控制台输出信息如下：
 
 <a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171605.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190312171605.png)</a>
+
+但是我们日常开发中使用 vue 脚手架根本没有写过这样的代码，也能热更新，是因为 **vue-loader** 中内置了这种方法，**css-loader** 中也有，所以我们改完 js 和 css 代码就能直接看到更新
 
 - 跨域代理
 
