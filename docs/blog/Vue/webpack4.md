@@ -108,7 +108,7 @@ webpack4 引入了 production(生产) 和 development(开发) 模式。
 
 :::warning
 'mode' 选项尚未设置，webpack 将回退到 'production'。 将 “mode” 选项设置为 'development' 或 'production' 以启用每个环境的默认值。
-您还可以将其设置为 'none' 以禁用任何默认行为。 了解更多：[https//webpack.js.org/concepts/mode/](https//webpack.js.org/concepts/mode/)
+您还可以将其设置为 'none' 以禁用任何默认行为。 [了解更多](https://webpack.js.org/concepts/mode/)
 :::
 
 <a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190305105906.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190305105906.png)</a>
@@ -431,54 +431,11 @@ not ie <= 8 # 排除小于 ie8 以下的浏览器
 
 [browserslist](https://github.com/browserslist/browserslist)
 
-## 五、多页面打包 —— 提取公共代码段
+## 五、Code Splitting
 
 [demo5 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo05)
 
-在 webpack4 之前是使用 **commonsChunkPlugin** 来拆分公共代码，v4 之后被**废弃**，并使用 **splitChunksPlugins**
-
-在使用 splitChunksPlugins 之前，首先要知道 splitChunksPlugins 是 webpack 主模块中的一个细分模块，**无需 npm 引入**
-
-#### (一) 准备工作
-
-我们在 src/ 文件夹下创建 `pageA.js` 和 `pageB.js` 分别作为两个入口文件。
-
-同时，这两个入口文件同时引用 `subPageA.js` 和 `subPageB.js`，而 `subPageA.js` 和 `subPageB.js` 又同时引用 `common.js` 文件。
-
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000808.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000808.png)</a>
-
-`common.js`:
-
-```js
-console.log('公共模块')
-export default 'common'
-```
-
-`subPageA.js`:
-
-```js
-import './common'
-console.log('subPageA')
-export default 'subPageA'
-```
-
-`subPageB.js`:
-
-```js
-import './common'
-console.log('subPageB')
-export default 'subPageB'
-```
-
-`subPageA.js` 和 `subPageB.js` 同时引用 `common.js`
-
-最后，我们封装入口文件。而为了让情况更真实，这两个入口文件又同时引用了 `lodash` 这个第三方库。
-
-```bash
-npm i lodash
-```
-
-`package.json` 文件中：
+`package.json` 文件所用依赖，npm install 安装：
 
 ```json
 {
@@ -497,33 +454,19 @@ npm i lodash
 }
 ```
 
-`pageA.js`:
+我们在 src/ 文件夹下创建 index.js 文件
 
 ```js
-import './subPageA'
-import './subPageB'
+import _ from 'lodash'
 
-import * as _ from 'lodash'
-console.log('在 A 页面 :', _)
-
-export default 'pageA'
+console.log(_.join(['a', 'b', 'c']))
 ```
 
-`pageB.js`:
+目录结构为：
 
-```js
-import './subPageA'
-import './subPageB'
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320185632.png)
 
-import * as _ from 'lodash'
-console.log('在 B 页面 :', _)
-
-export default 'pageB'
-```
-
-以上，需要编写的代码已经完成
-
-#### (二) 配置 webpack.config.js 文件
+**2. 配置 webpack.config.js 文件**
 
 ```js
 const path = require('path')
@@ -531,10 +474,8 @@ const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
-  // 多入口打包
   entry: {
-    pageA: './src/pageA.js',
-    pageB: './src/pageB.js'
+    main: './src/index.js'
   },
   output: {
     publicPath: __dirname + '/dist/', // js 引用的路径或者 CDN 地址
@@ -542,35 +483,380 @@ module.exports = {
     filename: '[name].bundle.js', // 代码打包后的文件名
     chunkFilename: '[name].js' // 代码拆分后的文件名
   },
-  plugins: [
-    new CleanWebpackPlugin() // 默认情况下，此插件将删除 webpack output.path 目录中的所有文件，以及每次成功重建后所有未使用的 webpack 资产。
-  ],
+  plugins: [new CleanWebpackPlugin()]
+}
+```
+
+运行 `npm run build` 打包
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320185603.png)
+
+在 index.html 中使用打包后的文件
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>代码分割</title>
+  </head>
+
+  <body>
+    <script src="./dist/main.bundle.js"></script>
+  </body>
+</html>
+```
+
+使用浏览器打开 `index.html` 文件，进入控制台，可以看到如下信息：`a,b,c`
+
+如果我们再改动业务代码，将 index.js 中的代码改为
+
+```js
+import _ from 'lodash'
+
+console.log(_.join(['a', 'b', 'c'], '***'))
+```
+
+再打包，刷新页面可以看到 `a***b*****c**`
+
+**我们引用的第三方框架和我们的业务代码一起被打包，这样会有一个什么问题?**
+
+假设 lodash 为 1M，业务代码也为 1M，打包后假设为 2M
+
+浏览器每次打开页面，都要先加载 2M 的文件，才能显示业务逻辑，这样会使得加载时间变长，
+
+业务代码更新会比较频繁，第三方代码基本不会更改，这样重新打包后，假设为 2M，用户重新打开网页后，又会再加载 2M 文件
+
+浏览器是有**缓存**的，如果文件没变动的话，就不用再去发送 http 请求，而是直接从缓存中取，这样在刷新页面或者第二次进入的时候可以加快网页加载的速度。
+
+怎么解决呢，可以利用 webpack 中的代码分割
+
+在 webpack4 之前是使用 **commonsChunkPlugin** 来拆分公共代码，v4 之后被**废弃**，并使用 **splitChunksPlugins**
+
+在使用 splitChunksPlugins 之前，首先要知道 splitChunksPlugins 是 webpack 主模块中的一个细分模块，**无需 npm 引入**
+
+现在我们来配置 **webpack.config.js** 文件
+
+```js {15,16,17,18}
+const path = require('path')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+
+module.exports = {
+  entry: {
+    main: './src/index.js'
+  },
+  output: {
+    publicPath: __dirname + '/dist/', // js 引用的路径或者 CDN 地址
+    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
+    filename: '[name].bundle.js', // 代码打包后的文件名
+    chunkFilename: '[name].js' // 代码拆分后的文件名
+  },
   optimization: {
     splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        lodash: {
-          name: 'chunk-lodash', // 单独将 lodash 拆包
-          priority: 10, // 优先级要大于 commons 不然会被打包进 commons
-          test: /[\\/]node_modules[\\/]lodash[\\/]/
-        },
-        commons: {
-          name: 'chunk-commons',
-          minSize: 1, //表示在压缩前的最小模块大小,默认值是 30kb
-          minChunks: 2, // 最小公用次数
-          priority: 5, // 优先级
-          reuseExistingChunk: true // 公共模块必开启
-        }
+      chunks: 'all'
+    }
+  },
+  plugins: [new CleanWebpackPlugin()]
+}
+```
+
+上面高亮的代码段就是告诉 webpack，要做代码分割了，这里的 `chunks: 'all'` 是分割所有代码，包括同步代码和异步代码，webpack 默认是 `chunks: 'async'` 分割异步代码
+
+我们使用 `npm run dev` 来打包开发环境下的代码，这样代码就**不会压缩**，方便我们来观察，可以看到代码被分割成两个文件了
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190013.png)
+
+打开 dist/main.bundle.js 文件，在最底部可以看到 src/index.js 文件，里面放的是业务逻辑的代码，但是并没有 lodash 的代码
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190124.png)
+
+打开 dist/vendors~main.js 文件，在最上面可以看到 lodash 模块
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190254.png)
+
+再次打开页面，控制台也输出了内容，这样就实现了 **Code Splitting**(代码分割)
+
+其实没有 webpack 的时候，也是有代码分割的，不过是需要我们自己手动的分割，而现在使用了 webpack，通过这种配置项的方式，它会自动帮我们去做代码分割
+
+仔细看分割完的代码名称，`vendors~main.js`，我们能不能更改分割完的名称呢
+
+还是在 `splitChunks` 的配置项中，添加 `cacheGroups` 对象
+
+```js
+optimization: {
+  splitChunks: {
+    chunks: 'all',
+    cacheGroups: {
+      vendors: {
+        name: 'vendors'
       }
     }
   }
 }
 ```
 
-着重来看 **optimization.splitChunks** 配置。我们将需要打包的代码放在 **cacheGroups(缓存组)** 属性中。比如我们要打包 jQuery 和 lodash，它会先生成 jQuery 和 lodash 两个文件，然后放入 cacheGroup 中缓存着，再根据你再 cacheGroup 中配置的**组**来决定是将两个文件整合到一个文件打包，还是单独分开打包
+再次打包就可以看到效果了，**cacheGroups** 的默认配置会定义 **vendors** 和 **default**
 
-叫做 cacheGroup 的原因是 webpack 会将规则放置在 cache 流中，为对应的块文件匹配对应的流，从而生成分离后的块
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320213839.png)
 
+`test: /[\\/]node_modules[\\/]/,` 使用正则过滤，只有 **node_modules** 引入的第三方库会被分割
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320213704.png)
+
+为了验证默认配置，我们将 splitChunks 属性设置为空对象，再次打包
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320214642.png)
+
+打包完发现只有一个文件，这是为什么?
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320220233.png)
+
+因为 `chunks` 默认为 `async`，只会分割**异步**的代码，而之前我们写的都是同步的代码，先 import lodash，再去写业务逻辑，现在使用异步的方式来做，将 index.js 中的代码改为以下：
+
+```js
+function getComponent() {
+  // 使用 jsonp 的形式导入 lodash，default: _ 表示用 _ 代指 lodash
+  return import('lodash').then(({ default: _ }) => {
+    var element = document.createElement('div')
+    element.innerHTML = _.join(['hello', 'world'], '-')
+    return element
+  })
+}
+
+getComponent().then(element => {
+  document.body.appendChild(element)
+})
+```
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320224930.png)
+
+这里分割出了 `0.js` 和 `main.bundle.js`，0 是以 id 为编号来命名
+
+所以一般我们设置 chunks 为 all，异步、同步代码都打包
+
+现在我们将 webpack 官网上的默认配置拷贝到我们的 webpack.config.js 中来分析一下
+
+```js
+optimization: {
+  splitChunks: {
+    chunks: 'async',
+    minSize: 30000,
+    maxSize: 0,
+    minChunks: 1,
+    maxAsyncRequests: 5,
+    maxInitialRequests: 3,
+    automaticNameDelimiter: '~',
+    name: true,
+    cacheGroups: {
+      vendors: {
+        test: /[\\/]node_modules[\\/]/,
+        priority: -10
+      },
+      default: {
+        minChunks: 2,
+        priority: -20,
+        reuseExistingChunk: true
+      }
+    }
+  }
+}
+```
+
+webpack 代码分割的配置是这样的，比如我们要分割 jQuery 和 lodash 这样的第三方库，它会先经过 `chunks、minSize、maxSize、minChunks` 等等，满足条件后生成 jQuery 和 lodash 两个文件，然后放入 **cacheGroup** 中缓存着，再根据你在 **cacheGroup** 中配置的**组**来决定是将两个文件整合到一个文件打包，还是单独分开打包，比如上面代码中的 **vendors**，就是将 `node_modules` 中所有的第三方库都打包到 **vendors.js** 文件中，如果你还想继续分割可以这么做
+
+```js {2,3,4,5,6}
+cacheGroups: {
+  lodash: {
+    name: 'loadsh',
+    test: /[\\/]node_modules[\\/]lodash[\\/]/,
+    priority: 5  // 优先级要大于 vendors 不然会被打包进 vendors
+  },
+  vendors: {
+    test: /[\\/]node_modules[\\/]/,
+    priority: -10
+  },
+  default: {
+    minChunks: 2,
+    priority: -20,
+    reuseExistingChunk: true
+  }
+}
+```
+
+再次打包，就可以看到 lodash 被分割出来了，以后使用第三方库都可以用这种配置来单独分割成一个 js 文件，比如 element-ui，**注意**设置 **priority** 的值很重要，优先级越高的会越先被打包
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320221643.png)
+
+如果 index.js 引入了 A.js 和 B.js，同时 A、B 又引入了 common，common 被引入了两次，可以被称为公共模块
+
+目录结构为：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320225754.png)
+
+代码如下：
+
+```js
+// a,js
+import './common'
+console.log('A')
+export default 'A'
+
+// b.js
+import './common'
+console.log('B')
+export default 'B'
+
+// common.js
+console.log('公共模块')
+export default 'common'
+
+// index.js
+import './a.js'
+import './b.js'
+
+// 异步代码
+function getComponent() {
+  // 使用 jsonp 的形式导入 lodash，default: _ 表示用 _ 代指 lodash
+  return import('lodash').then(({ default: _ }) => {
+    var element = document.createElement('div')
+    element.innerHTML = _.join(['hello', 'world'], '-')
+    return element
+  })
+}
+
+getComponent().then(element => {
+  document.body.appendChild(element)
+})
+```
+
+修改 **splitChunks** 中的配置，重点在配置 common 公共模块上，**将 minChunks 设置为 1**
+
+```js {3,17,18,19,20,21,22,23}
+optimization: {
+  splitChunks: {
+    chunks: 'all',
+    minSize: 30000,
+    maxSize: 0,
+    minChunks: 1,
+    maxAsyncRequests: 5,
+    maxInitialRequests: 3,
+    automaticNameDelimiter: '~',
+    name: true,
+    cacheGroups: {
+      lodash: {
+        name: 'loadsh',
+        test: /[\\/]node_modules[\\/]lodash[\\/]/,
+        priority: 10
+      },
+      commons: {
+        name: 'commons',
+        minSize: 0, //表示在压缩前的最小模块大小,默认值是 30kb
+        minChunks: 1, // 最小公用次数
+        priority: 5, // 优先级
+        reuseExistingChunk: true // 公共模块必开启
+      },
+      vendors: {
+        test: /[\\/]node_modules[\\/]/,
+        priority: -10
+      },
+      default: {
+        minChunks: 2,
+        priority: -20,
+        reuseExistingChunk: true
+      }
+    }
+  }
+},
+```
+
+再次打包，可以发现公共模块被分割了
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320225922.png)
+
+在 index.html 中引入打包后的文件，这里只要引入 main.bundle.js **入口文件**即可，并打开 index.html 文件，控制台也能正确输出
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>代码分割</title>
+  </head>
+
+  <body>
+    <script src="./dist/main.bundle.js"></script>
+  </body>
+</html>
+```
+
+上面那种**异步**的写法可能比较绕，现在精简一下，并且 webpack 对**异步代码**通过**注释**可以直接修改打包后的名称，以下代码全部以异步的形式引入
+
+```js
+// 异步代码
+import(/* webpackChunkName: 'a'*/ './a').then(function(a) {
+  console.log(a)
+})
+
+import(/* webpackChunkName: 'b'*/ './b').then(function(b) {
+  console.log(b)
+})
+
+import(/* webpackChunkName: 'use-lodash'*/ 'lodash').then(function(_) {
+  console.log(_.join(['1', '2']))
+})
+```
+
+**将 minChunks 设置为 2，最小公用 2 次才分割**
+
+```js {20}
+optimization: {
+  splitChunks: {
+    chunks: 'all',
+    minSize: 30000,
+    maxSize: 0,
+    minChunks: 1,
+    maxAsyncRequests: 5,
+    maxInitialRequests: 3,
+    automaticNameDelimiter: '~',
+    name: true,
+    cacheGroups: {
+      lodash: {
+        name: 'loadsh',
+        test: /[\\/]node_modules[\\/]lodash[\\/]/,
+        priority: 10
+      },
+      commons: {
+        name: 'commons',
+        minSize: 0, //表示在压缩前的最小模块大小,默认值是 30kb
+        minChunks: 2, // 最小公用次数
+        priority: 5, // 优先级
+        reuseExistingChunk: true // 公共模块必开启
+      },
+      vendors: {
+        test: /[\\/]node_modules[\\/]/,
+        priority: -10
+      },
+      default: {
+        minChunks: 2,
+        priority: -20,
+        reuseExistingChunk: true
+      }
+    }
+  }
+}
+```
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103007.png)
+
+这里分割出了 `lodash` 和 `use-lodash`，前者是第三库，后者是使用第三库写的业务代码，也能被分割出来
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103211.png)
+
+常用的配置项在下面的表格中，更多配置详情见[官网](https://webpack.js.org/plugins/split-chunks-plugin/)
 
 | 配置项             | 说明                                                         | 示例                                                        |
 | ------------------ | ------------------------------------------------------------ | ----------------------------------------------------------- |
@@ -579,54 +865,8 @@ module.exports = {
 | test               | 用于规定缓存组匹配的文件位置                                 | /[\\/]node_modules[\\/]/                                    |
 | priority           | 分离规则的优先级，优先级越高，则优先匹配                     | priority: 20                                                |
 | minSize            | 超过多少大小就进行压缩                                       | minSize: 30000 默认值是 30kb                                |
-| minChunks          | 分割前必须共享模块的最小块数                                 | minChunks: 3                                                |
+| minChunks          | 分割前必须共享模块的最小块数                                 | minChunks: 2                                                |
 | reuseExistingChunk | 如果当前块已从主模块拆分出来，则将**重用**它而不是生成新的块 | true                                                        |
-
-其他配置具体详情见[官网](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunks-cachegroups-cachegroup-reuseexistingchunk)
-
-:::warning 注意!!!
-针对第三方库（例如 lodash）通过设置 **priority** 来让其**先被打包提取**，最后再提取剩余代码。
-:::
-
-#### (三) 打包和引用
-
-运行 `npm run build` 打包，可以看到已经把代码拆分出来
-
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000849.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000849.png)</a>
-
-最后，打包的结果在 dist/ 文件夹下面，我们要在 index.html 中引用打包好的 js 文件，index.html 代码如下：
-
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-  </head>
-
-  <body>
-    <script src="./dist/chunk-lodash.js"></script>
-    <script src="./dist/chunk-commons.js"></script>
-    <script src="./dist/pageA.bundle.js"></script>
-    <script src="./dist/pageB.bundle.js"></script>
-  </body>
-</html>
-```
-
-使用浏览器打开 `index.html` 文件，进入控制台，可以看到如下信息：
-
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000916.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000916.png)</a>
-
-可以看到，`公共模块，subPageA，subPageB` 输出的 js 文件为 `chunk-common.js` 符合预期
-
-`在 A 页面 :` 输出的 js 文件为 `pageA.bundle.js`
-
-`在 B 页面 :` 输出的 js 文件为 `pageB.bundle.js`
-
-**Code Splitting**(代码分割) 解决的问题：如果打包的文件很大，加载的时间就比较长，影响用户体验，而且我们使用 lodash 或者 jQuery 第三方库的时候，它们基本上是不改变的，变的只是我们的业务逻辑，如果代码没有分割，则每一次我们更改了业务逻辑都要重新打包，重新访问我们的页面又会加载打包后的文件， 将业务代码和第三方代码分割开，更改业务重新打包后，也不用每次都去加载第三方库，因为浏览器是有缓存的，会将不变更的第三方库缓存起来
 
 #### 参考文章
 
@@ -634,162 +874,143 @@ module.exports = {
 
 [webpack 官网](https://webpack.js.org/plugins/split-chunks-plugin/#splitchunks-cachegroups-cachegroup-reuseexistingchunk)
 
-## 六、单页面应用 —— 代码懒加载
+## 六、Lazy Loading、Prefetching
 
 [demo6 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo06)
 
-#### (一) 准备工作
-
-其中，page.js 是入口文件，subPageA.js 和 subPageB.js 共同引用 common.js。下面，我们按照代码引用的逻辑，从底向上展示代码：
-
-`common.js`:
+在 demo5 的基础上修改 index.js 文件，并删除了多余的 js 文件
 
 ```js
-console.log('公共模块')
-export default 'common'
+document.addEventListener('click', function() {
+  import(/* webpackChunkName: 'use-lodash'*/ 'lodash').then(function(_) {
+    console.log(_.join(['3', '4']))
+  })
+})
 ```
 
-`subPageA.js`:
+这段代码表示的是，当点击页面的时候，异步加载 lodash 并输出内容，打包后打开 index.html 文件，演示如下：
 
-```js
-import './common'
-console.log('subPageA')
-export default 'subPageA'
-```
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/%E6%87%92%E5%8A%A0%E8%BD%BD.gif)
 
-`subPageB.js`:
+第一次进入页面的时候，并没有加载 lodash 和 use-lodash，当我点击网页的时候，浏览器再去加载，并且控制台输出内容，这就是代码**懒加载**，如果有用过 **vue-router** 的朋友应该会知道**路由懒加载**，并且官方也推荐使用懒加载的写法，就是为了结合 webpack，下图是 vue-cli3 生成的项目
 
-```js
-import './common'
-console.log('subPageB')
-export default 'subPageB'
-```
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321110641.png)
 
-:::warning 注意!!!
-subPageA.js 和 subPageB.js 两个文件中都执行了 console.log() 语句。之后将会看到 import() 和 require() 不同的表现形式：是否会自动执行 js 的代码？
-:::
+其实懒加载就是通过 **import** 去异步的加载一个模块，具体什么时候加载，这个要根据业务来写，比如弹窗组件，模态框组件等等，都是点击按钮后再出现。
 
-#### (二) 编写配置文件
-
-```js
-const path = require('path')
-
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-
-module.exports = {
-  entry: {
-    page: './src/page.js'
-  },
-  output: {
-    publicPath: __dirname + '/dist/', // js 引用的路径或者 CDN 地址
-    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
-    filename: '[name].bundle.js', // 代码打包后的文件名
-    chunkFilename: '[name].js' // 代码拆分后的文件名
-  },
-  plugins: [
-    new CleanWebpackPlugin() // 默认情况下，此插件将删除 webpack output.path 目录中的所有文件，以及每次成功重建后所有未使用的 webpack 资产。
-  ],
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        lodash: {
-          name: 'chunk-lodash', // 单独将 lodash 拆包
-          priority: 10, // 优先级要大于 commons 不然会被打包进 commons
-          test: /[\\/]node_modules[\\/]lodash[\\/]/
-        },
-        commons: {
-          name: 'chunk-commons',
-          minSize: 1, //表示在压缩前的最小模块大小,默认值是 30kb
-          minChunks: 2, // 最小公用次数
-          priority: 5, // 优先级
-          reuseExistingChunk: true // 公共模块必开启
-        }
-      }
-    }
-  }
-}
-```
-
-`package.json` 配置如下：
-
-```json
-{
-  "scripts": {
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production"
-  },
-  "devDependencies": {
-    "clean-webpack-plugin": "^2.0.0",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.2.3"
-  },
-  "dependencies": {
-    "lodash": "^4.17.11"
-  }
-}
-```
-
-#### (三) 使用 import() 编写 page.js
-
-**非常推荐 import() 写法**，因为和 ES6 语法看起来很像。除此之外，import() 可以通过注释的方法来指定打包后的 chunk 的名字。
-
-除此之外，相信对 vue-router 熟悉的朋友应该知道，其官方文档的路由懒加载的配置也是通过 import() 来书写的。
-
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190318162539.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190318162539.png)</a>
-
-`page.js`:这里使用 `/* webpackChunkName: 'subPageA'*/ ` 注释来为打包后的 js 命名
-
-```js
-import(/* webpackChunkName: 'subPageA'*/ "./subPageA").then(function(subPageA) {
-  console.log(subPageA);
-});
-
-import(/* webpackChunkName: 'subPageB'*/ "./subPageB").then(function(subPageB) {
-  console.log(subPageB);
-});
-
-import(/* webpackChunkName: 'lodash'*/ "lodash").then(function(_) {
-  console.log(_.join(["1", "2"]));
-});
-export default "page";
-```
-
-运行 `npm run build` ，可以发现在 Chunk Names 一栏中，有我们在 import 中定义的名称，也有在 splitChunks 中定义的名称，打包结果如下：
-
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000941.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307000941.png)</a>
-
-我们创建 index.html 文件，通过`<script>` 标签引入我们打包结果
+懒加载能加快网页的加载速度，如果你把详情页、弹窗等页面全部打包到一个 js 文件中，用户如果只是访问首页，只需要首页的代码，不需要其他页面的代码，这样就会使加载时间变长，所以我们可以对路由进行懒加载，只有当用户访问到对应路由的时候，再去加载对应模块
 
 :::tip
-因为是单页应用，所以**只要引用入口文件**即可（即是上图中的 **page.bundle.js**）。
+懒加载并不是 webpack 里的概念，而是 ES6 中的 **import** 语法，webpack 只是能够识别 import 语法，能进行代码分割而已。
+
+import 后面返回的是一个 then，说明这是一个 **promise** 类型，一些低端的浏览器**不支持** promise，比如 **IE** ，如果要使用这种异步的代码，就要使用 **babel** 以及 **babel-polyfill** 来做转换，因为我使用的是 73 版本的 **chrome** 浏览器，对 ES6 语法是支持的，所以我并没有安装 babel 也能使用
 :::
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
-  </head>
+更改 index.js 文件
 
-  <body>
-    <script src="./dist/page.bundle.js"></script>
-  </body>
-</html>
+```js
+document.addEventListener('click', function() {
+  const element = document.createElement('div')
+  element.innerHTML = 'Hello World'
+  document.body.appendChild(element)
+})
 ```
 
-打开浏览器控制台，刷新界面，结果如下图所示：
+重新打包，并打开 index.html ，打开浏览器控制台，按 `ctrl + shift + p` ，输入 `coverage`
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307003040.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307003040.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321121513.png)
 
-图中圈出的部分，就是说明 import() 会自动运行 subPageA.js 和 subPageB.js 的代码。
+就能看到当前页面加载的 js 代码使用率，红色区域表示未被使用的代码段
 
-在 NetWork 选项中，我们可以看到，懒加载也成功了：
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321141020.png)
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307002940.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307002940.png)</a>
+演示：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/coverage1.gif)
+
+打开 `coverage` 如果没出现分析的文件，记得刷新一下
+
+这里一开始红色区域的代码未被使用，当我点击了页面后，变成绿色，页面出现了 `Hello World`，说明代码被使用了
+
+页面刚加载的时候，异步的代码根本就不会执行，但是我们却把它下载下来，实际上就会浪费页面执行性能，webpack 就希望像这样交互的功能，应该把它放到一个异步加载的模块去写
+
+新建一个 click.js 文件
+
+```js
+function handleClick() {
+  const element = document.createElement('div')
+  element.innerHTML = 'Dell Lee'
+  document.body.appendChild(element)
+}
+
+export default handleClick
+```
+
+并且将 index.js 文件改为异步的加载模块：
+
+```js
+document.addEventListener('click', () => {
+  import('./click.js').then(({ default: func }) => {
+    func()
+  })
+})
+```
+
+重新打包，使用 **coverage** 分析
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321142418.png)
+
+演示：
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/coverage2.gif)
+
+当加载页面的时候，没有加载业务逻辑，当点击网页的时候，才会加载 1.js 模块，也就是我们在 index.js 中异步引入的 click.js
+
+这么去写代码，才是使页面加载最快的一种方式，写高性能前端代码的时候，**不关是考虑缓存，还要考虑代码使用率**
+
+所以 webpack 在打包过程中，是希望我们多写这种异步的代码，才能提升网站的性能，这也是为什么 webpack 的 splitChunks 中的 chunks 默认是 async，异步的
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321143146.png)
+
+异步能提高你网页打开的性能，而同步代码是增加一个缓存，对性能的提升是非常有限的，因为缓存一般是**第二次打开网页或者刷新页面**的时候，缓存很有用，但是网页的性能一般是用户**第一次打开网页**的时候，看首屏的时候。
+
+当然，这也会出现一个问题，就是当用户点击的时候，才去加载业务模块，如果业务模块比较大的时候，用户点击后并没有立马看到效果，而是要等待几秒，这样体验上也不好，怎么去解决这种问题
+
+一：如果访问首页的时候，不需要加载详情页的逻辑，等用户首页加载完了以后，页面展示出来了，页面的带宽被释放出来了，网络空闲了，再偷偷的去加载详情页的内容，而不是等用户去点击的时候再去加载
+
+这个解决方案就是依赖 webpack 的 [Prefetching/Preloading](https://webpack.js.org/guides/code-splitting#prefetchingpreloading-modules) 特性
+
+修改 index.js
+
+```js
+document.addEventListener('click', () => {
+  import(/* webpackPrefetch: true */ './click.js').then(({ default: func }) => {
+    func()
+  })
+})
+```
+
+`webpackPrefetch: true` 会等你主要的 JS 都加载完了之后，网络带宽空闲的时候，它就会预先帮你加载好
+
+重新打包后刷新页面，注意看 **Network**
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/prefetch.gif)
+
+当网页打开的时候，main.bundle.js 被加载完了，网络空闲了，就会预先加载 1.js 耗时 14ms，等我去点击页面的时候，Network 又多了一个 1.js，耗时 2ms，这是因为第一次加载完了 1.js，被浏览器给缓存起来了，等我点击的时候，浏览器直接从缓存中取，响应速度非常快
+
+这里我们使用的是 `webpackPrefetch`，还有一种是 `webpackPreload`
+
+:::tip 区别：
+与 prefetch 相比，Preload 指令有很多**不同之处**：
+
+**Prefetch** 会等待核心代码加载完之后，有空闲之后再去加载。Preload 会和核心的代码并行加载，还是不推荐
+:::
+
+:::tip 总结：
+
+以后针对优化，不仅仅是局限于缓存，缓存能带来的代码性能提升是非常有限的，而是如何让代码的使用率最高，有一些交互后才用的代码，可以写到异步组件里面去，通过懒加载的形式，去把代码逻辑加载进来，这样会使得页面访问速度变的更快，如果你觉得懒加载会影响用户体验，可以使用 Prefetch 这种方式来预加载，不过在某些游览器**不兼容**，会有兼容性的问题，重点不是在 Prefetch 怎么去用，而是在做前端代码性能优化的时候，**缓存不是最重要的点，最重要的是代码使用的覆盖率上(coverage)**
+
+:::
 
 ## 七、自动生成 HTML 文件
 
@@ -803,8 +1024,6 @@ export default "page";
 ```bash
 npm i html-webpack-plugin html-loader --save-dev
 ```
-
-这一节在**第六节项目**的基础上做改动
 
 package.json 如下：
 
