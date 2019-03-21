@@ -75,7 +75,11 @@ module.exports = {
       {
         title: 'Vue 全家桶', // 侧边栏名称
         collapsable: true, // 可折叠
-        children: ['/blog/Vue/Vue-Cli3', '/blog/Vue/webpack4']
+        children: [
+          '/blog/Vue/Vue-Cli3',
+          '/blog/Vue/webpack4',
+          '/blog/Vue/webpack4进阶'
+        ]
       },
       {
         title: 'VSCode扩展', // 侧边栏名称
