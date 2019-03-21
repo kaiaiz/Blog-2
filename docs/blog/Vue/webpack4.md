@@ -464,7 +464,7 @@ console.log(_.join(['a', 'b', 'c']))
 
 目录结构为：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320185632.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320185632.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320185632.png)</a>
 
 **2. 配置 webpack.config.js 文件**
 
@@ -489,7 +489,7 @@ module.exports = {
 
 运行 `npm run build` 打包
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320185603.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320185603.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320185603.png)</a>
 
 在 index.html 中使用打包后的文件
 
@@ -567,15 +567,15 @@ module.exports = {
 
 我们使用 `npm run dev` 来打包开发环境下的代码，这样代码就**不会压缩**，方便我们来观察，可以看到代码被分割成两个文件了
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190013.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190013.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190013.png)</a>
 
 打开 dist/main.bundle.js 文件，在最底部可以看到 src/index.js 文件，里面放的是业务逻辑的代码，但是并没有 lodash 的代码
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190124.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190124.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190124.png)</a>
 
 打开 dist/vendors~main.js 文件，在最上面可以看到 lodash 模块
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190254.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190254.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190254.png)</a>
 
 再次打开页面，控制台也输出了内容，这样就实现了 **Code Splitting**(代码分割)
 
@@ -600,19 +600,19 @@ optimization: {
 
 再次打包就可以看到效果了，**cacheGroups** 的默认配置会定义 **vendors** 和 **default**
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320213839.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320213839.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320213839.png)</a>
 
 `test: /[\\/]node_modules[\\/]/,` 使用正则过滤，只有 **node_modules** 引入的第三方库会被分割
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320213704.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320213704.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320213704.png)</a>
 
 为了验证默认配置，我们将 splitChunks 属性设置为空对象，再次打包
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320214642.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320214642.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320214642.png)</a>
 
 打包完发现只有一个文件，这是为什么?
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320220233.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320220233.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320220233.png)</a>
 
 因为 `chunks` 默认为 `async`，只会分割**异步**的代码，而之前我们写的都是同步的代码，先 import lodash，再去写业务逻辑，现在使用异步的方式来做，将 index.js 中的代码改为以下：
 
@@ -631,7 +631,7 @@ getComponent().then(element => {
 })
 ```
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320224930.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320224930.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320224930.png)</a>
 
 这里分割出了 `0.js` 和 `main.bundle.js`，0 是以 id 为编号来命名
 
@@ -688,13 +688,13 @@ cacheGroups: {
 
 再次打包，就可以看到 lodash 被分割出来了，以后使用第三方库都可以用这种配置来单独分割成一个 js 文件，比如 element-ui，**注意**设置 **priority** 的值很重要，优先级越高的会越先被打包
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320221643.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320221643.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320221643.png)</a>
 
 如果 index.js 引入了 A.js 和 B.js，同时 A、B 又引入了 common，common 被引入了两次，可以被称为公共模块
 
 目录结构为：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320225754.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320225754.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320225754.png)</a>
 
 代码如下：
 
@@ -774,7 +774,7 @@ optimization: {
 
 再次打包，可以发现公共模块被分割了
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320225922.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320225922.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320225922.png)</a>
 
 在 index.html 中引入打包后的文件，这里只要引入 main.bundle.js **入口文件**即可，并打开 index.html 文件，控制台也能正确输出
 
@@ -850,11 +850,11 @@ optimization: {
   }
 }
 ```
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103007.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103007.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103007.png)</a>
 
 这里分割出了 `lodash` 和 `use-lodash`，前者是第三库，后者是使用第三库写的业务代码，也能被分割出来
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103211.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103211.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103211.png)</a>
 
 常用的配置项在下面的表格中，更多配置详情见[官网](https://webpack.js.org/plugins/split-chunks-plugin/)
 
@@ -890,11 +890,11 @@ document.addEventListener('click', function() {
 
 这段代码表示的是，当点击页面的时候，异步加载 lodash 并输出内容，打包后打开 index.html 文件，演示如下：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/%E6%87%92%E5%8A%A0%E8%BD%BD.gif)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/%E6%87%92%E5%8A%A0%E8%BD%BD.gif">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/%E6%87%92%E5%8A%A0%E8%BD%BD.gif)</a>
 
 第一次进入页面的时候，并没有加载 lodash 和 use-lodash，当我点击网页的时候，浏览器再去加载，并且控制台输出内容，这就是代码**懒加载**，如果有用过 **vue-router** 的朋友应该会知道**路由懒加载**，并且官方也推荐使用懒加载的写法，就是为了结合 webpack，下图是 vue-cli3 生成的项目
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321110641.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321110641.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321110641.png)</a>
 
 其实懒加载就是通过 **import** 去异步的加载一个模块，具体什么时候加载，这个要根据业务来写，比如弹窗组件，模态框组件等等，都是点击按钮后再出现。
 
@@ -918,15 +918,15 @@ document.addEventListener('click', function() {
 
 重新打包，并打开 index.html ，打开浏览器控制台，按 `ctrl + shift + p` ，输入 `coverage`
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321121513.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321121513.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321121513.png)</a>
 
 就能看到当前页面加载的 js 代码使用率，红色区域表示未被使用的代码段
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321141020.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321141020.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321141020.png)</a>
 
 演示：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/coverage1.gif)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/coverage1.gif">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/coverage1.gif)</a>
 
 打开 `coverage` 如果没出现分析的文件，记得刷新一下
 
@@ -958,11 +958,11 @@ document.addEventListener('click', () => {
 
 重新打包，使用 **coverage** 分析
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321142418.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321142418.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321142418.png)</a>
 
 演示：
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/coverage2.gif)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/coverage2.gif">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/coverage2.gif)</a>
 
 当加载页面的时候，没有加载业务逻辑，当点击网页的时候，才会加载 1.js 模块，也就是我们在 index.js 中异步引入的 click.js
 
@@ -970,7 +970,7 @@ document.addEventListener('click', () => {
 
 所以 webpack 在打包过程中，是希望我们多写这种异步的代码，才能提升网站的性能，这也是为什么 webpack 的 splitChunks 中的 chunks 默认是 async，异步的
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321143146.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321143146.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321143146.png)</a>
 
 异步能提高你网页打开的性能，而同步代码是增加一个缓存，对性能的提升是非常有限的，因为缓存一般是**第二次打开网页或者刷新页面**的时候，缓存很有用，但是网页的性能一般是用户**第一次打开网页**的时候，看首屏的时候。
 
@@ -994,7 +994,7 @@ document.addEventListener('click', () => {
 
 重新打包后刷新页面，注意看 **Network**
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/prefetch.gif)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/prefetch.gif">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/prefetch.gif)</a>
 
 当网页打开的时候，main.bundle.js 被加载完了，网络空闲了，就会预先加载 1.js 耗时 14ms，等我去点击页面的时候，Network 又多了一个 1.js，耗时 2ms，这是因为第一次加载完了 1.js，被浏览器给缓存起来了，等我点击的时候，浏览器直接从缓存中取，响应速度非常快
 
@@ -1321,7 +1321,7 @@ module.exports = {
 :::warning 注意!!!
 确保将 webpack 更新到 **4.2.0** 版及以上。否则 **mini-css-extract-plugin** 将无效！
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320112208.png)
+<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320112208.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320112208.png)</a>
 
 目前还**不支持热更新**，也就是在开发环境下更改了 css，需要手动的刷新页面才会看到效果，目前这个插件一般在生产环境中使用，开发环境下还是使用 'style-loader'，具体见[官网配置](https://webpack.js.org/plugins/mini-css-extract-plugin/)
 :::
@@ -3464,5 +3464,238 @@ module.exports = {
 
 必须要放在服务器上，一般都是将打包后的文件放入 nginx 中，然后在 nginx 中配置跨域地址，详情可以查看我写的 nginx 的内容
 :::
+
+还有一种配置 webpack 开发和生产环境的方式，会比较常用：
+
+修改 webpack.base.conf.js
+
+```js
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+module.exports = {
+  entry: {
+    app: './src/app.js'
+  },
+  output: {
+    path: path.resolve(__dirname, '..', 'dist')
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader'
+          }
+        ]
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              name: '[name]-[hash:5].min.[ext]',
+              limit: 1000, // size <= 1KB
+              outputPath: 'images/'
+            }
+          },
+          // img-loader for zip img
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              // 压缩 jpg/jpeg 图片
+              mozjpeg: {
+                progressive: true,
+                quality: 65 // 压缩率
+              },
+              // 压缩 png 图片
+              pngquant: {
+                quality: '65-90',
+                speed: 4
+              }
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(eot|ttf|svg)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            name: '[name]-[hash:5].min.[ext]',
+            limit: 5000, // fonts file size <= 5KB, use 'base64'; else, output svg file
+            publicPath: 'fonts/',
+            outputPath: 'fonts/'
+          }
+        }
+      }
+    ]
+  },
+  plugins: [
+    // 开发环境和生产环境二者均需要的插件
+    new HtmlWebpackPlugin({
+      title: 'webpack4 实战',
+      filename: 'index.html',
+      template: path.resolve(__dirname, '..', 'index.html'),
+      minify: {
+        collapseWhitespace: true
+      }
+    }),
+    new webpack.ProvidePlugin({ $: 'jquery' })
+  ],
+  performance: false
+}
+```
+
+修改 webpack.dev.conf.js
+
+```js
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const commonConfig = require('./webpack.base.conf.js')
+
+const path = require('path')
+
+const devConfig = {
+  mode: 'development',
+  output: {
+    filename: '[name].js',
+    chunkFilename: '[name].js'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2 // 在一个 css 中引入了另一个 css，也会执行之前两个 loader，即 postcss-loader 和 sass-loader
+            }
+          },
+          'sass-loader', // 使用 sass-loader 将 scss 转为 css
+          'postcss-loader' // 使用 postcss 为 css 加上浏览器前缀
+        ]
+      }
+    ]
+  },
+  devtool: 'cheap-module-eval-soure-map',
+  devServer: {
+    contentBase: path.join(__dirname, '../dist/'),
+    port: 8000,
+    hot: true,
+    overlay: true,
+    proxy: {
+      '/comments': {
+        target: 'https://m.weibo.cn',
+        changeOrigin: true,
+        logLevel: 'debug',
+        headers: {
+          Cookie: ''
+        }
+      }
+    },
+    historyApiFallback: true
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin()
+  ]
+}
+
+module.exports = merge(commonConfig, devConfig)
+```
+
+修改 webpack.prod.conf.js
+
+```js
+const merge = require('webpack-merge')
+const commonConfig = require('./webpack.base.conf.js')
+
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 压缩 css
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+
+const prodConfig = {
+  mode: 'production',
+  output: {
+    filename: '[name].[contenthash].js',
+    chunkFilename: '[name].[contenthash].js'
+  },
+  devtool: 'cheap-module-source-map',
+  module: {
+    rules: [
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2 // 在一个 css 中引入了另一个 css，也会执行之前两个 loader，即 postcss-loader 和 sass-loader
+            }
+          },
+          'sass-loader', // 使用 sass-loader 将 scss 转为 css
+          'postcss-loader' // 使用 postcss 为 css 加上浏览器前缀
+        ]
+      }
+    ]
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        jquery: {
+          name: 'jquery', // 单独将 jquery 拆包
+          priority: 15,
+          test: /[\\/]node_modules[\\/]jquery[\\/]/
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors'
+        }
+      }
+    }
+  },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: '[name]-[contenthash].css',
+      chunkFilename: '[id]-[contenthash].css'
+    }),
+    // 压缩 css
+    new OptimizeCssAssetsPlugin({
+      assetNameRegExp: /\.css$/g, //一个正则表达式，指示应优化/最小化的资产的名称。提供的正则表达式针对配置中ExtractTextPlugin实例导出的文件的文件名运行，而不是源CSS文件的文件名。默认为/\.css$/g
+      cssProcessor: require('cssnano'), //用于优化\最小化 CSS 的 CSS处理器，默认为 cssnano
+      cssProcessorOptions: { safe: true, discardComments: { removeAll: true } }, //传递给 cssProcessor 的选项，默认为{}
+      canPrint: true //一个布尔值，指示插件是否可以将消息打印到控制台，默认为 true
+    }),
+    new CleanWebpackPlugin()
+  ]
+}
+
+module.exports = merge(commonConfig, prodConfig)
+```
+
+
+修改 package.json 的 script 命令
+
+```json
+{
+  "scripts": {
+    "dev": "webpack-dev-server --open --config ./build/webpack.dev.conf.js",
+    "build": "webpack --config ./build/webpack.prod.conf.js"
+  }
+}
+```
+
+在之前的基础又修改了一下配置，重新打包即可
 
 ## To Be Continued
