@@ -2928,6 +2928,8 @@ if (module.hot) {
 
 随着前后端分离开发的普及，跨域请求变得越来越常见。为了快速开发，可以利用 devServer.proxy 做一个代理转发，来绕过浏览器的跨域限制。
 
+devServer 模块的底层是使用了 [http-proxy-middleware](https://github.com/chimurai/http-proxy-middleware)，能配置的东西非常多
+
 按照前面的配置文件，如果想调用微博的一个接口：https://m.weibo.cn/comments/hotflow。只需要在代码中对 /comments/hotflow 进行请求即可，在 app.js 中添加如下代码：
 
 ```js
@@ -3237,6 +3239,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const path = require('path')
 
@@ -3343,7 +3346,8 @@ const generateConfig = env => {
           collapseWhitespace: true
         }
       }),
-      new webpack.ProvidePlugin({ $: 'jquery' })
+      new webpack.ProvidePlugin({ $: 'jquery' }),
+      new CleanWebpackPlugin()
     ]
   }
 }
@@ -3402,8 +3406,6 @@ module.exports = {
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 压缩 css
 
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-
 module.exports = {
   mode: 'production',
   optimization: {
@@ -3430,7 +3432,6 @@ module.exports = {
       cssProcessorOptions: { safe: true, discardComments: { removeAll: true } }, //传递给 cssProcessor 的选项，默认为{}
       canPrint: true //一个布尔值，指示插件是否可以将消息打印到控制台，默认为 true
     }),
-    new CleanWebpackPlugin()
   ]
 }
 ```
@@ -3473,6 +3474,7 @@ module.exports = {
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -3545,7 +3547,8 @@ module.exports = {
         collapseWhitespace: true
       }
     }),
-    new webpack.ProvidePlugin({ $: 'jquery' })
+    new webpack.ProvidePlugin({ $: 'jquery' }),
+    new CleanWebpackPlugin()
   ],
   performance: false
 }
@@ -3620,8 +3623,6 @@ const commonConfig = require('./webpack.base.conf.js')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin') // 压缩 css
 
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-
 const prodConfig = {
   mode: 'production',
   output: {
@@ -3677,7 +3678,6 @@ const prodConfig = {
       cssProcessorOptions: { safe: true, discardComments: { removeAll: true } }, //传递给 cssProcessor 的选项，默认为{}
       canPrint: true //一个布尔值，指示插件是否可以将消息打印到控制台，默认为 true
     }),
-    new CleanWebpackPlugin()
   ]
 }
 
