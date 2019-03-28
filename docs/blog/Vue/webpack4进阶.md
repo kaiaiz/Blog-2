@@ -4,7 +4,7 @@
 
 [demo16 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo16)
 
-新建 index.js、math.js、string.js
+新建 **index.js**、**math.js**、**string.js**
 
 ```js
 // index.js
@@ -40,7 +40,6 @@ export function join(a, b) {
 
 ```bash
 npm i webpack webpack-cli -D
-
 ```
 
 修改 package.json
@@ -85,9 +84,7 @@ module.exports = {
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321153115.png)
 
-这个文件就可以在项目中用了，但是我们现在是要做一个库，是给别人用的，别人会怎么使用这个库呢
-
-别人可能会这么用
+这个文件就可以在项目中用了，但是我们现在是要做一个开源库，是给别人用的，别人可能会这么用
 
 ```js
 // ES module
@@ -120,7 +117,7 @@ module.exports = {
 
 `<script src="library.js"></script>`
 
-可以通过 library 全局变量来使用我的库，比如 library.math 要怎么办
+用户希望可以通过 library 全局变量来使用，比如 library.math 要怎么办
 
 可以再配置一个参数，叫 **library**
 
@@ -139,7 +136,7 @@ module.exports = {
 }
 ```
 
-umd 是支持前面三种语法，但是不支持全局变量这种用法，如果配置了 library，打包之后就会将代码挂载到 root 这个全局变量上，通过 script 来引入 library，现在来打包一下，打包完之后来测试用 script 标签来引入我的库
+umd 是支持前面三种语法，但是不支持全局变量这种用法，如果配置了 library，打包之后就会将代码挂载到 **root** 这个全局变量上，通过 **script** 来引入 library，现在来打包一下，打包完之后来测试用 script 标签来引入我们写的库
 
 在 dist 目录下新建个 index.html 文件，并打开页面
 
@@ -161,17 +158,17 @@ umd 是支持前面三种语法，但是不支持全局变量这种用法，如�
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321154920.png)
 
-`libraryTarget: 'umd'` 如果将 umd 改为 this
+`libraryTarget: 'umd'` 如果将 **umd** 改为 **this**
 
-再去打包，在控制台输入 this.root 也能看到效果
+再去打包，在控制台输入 **this.root** 也能看到效果
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321155409.png)
 
-`libraryTarget` 也可以填 window，如果在 node 环境下也可以使用 global
+`libraryTarget` 也可以填 **window**，如果在 node 环境下也可以使用 **global**
 
-不过一般我们都是使用 umd
+**不过一般我们都是使用 umd**
 
-还有一种情况要注意，我们现在写的 string.js 我觉得写的不好，lodash 写的更好，我要引入这个第三方库
+还有一种情况要注意，我们现在写的 string.js 我觉得写的不好，lodash 写的更好，我要引入这个第三方库，来代替我写的一些功能
 
 `npm install lodash`
 
@@ -195,9 +192,9 @@ import _ from 'lodash'
 import library from 'library'
 ```
 
-最终用户的代码中就会存在两份 lodash 的代码，这种情况就要再去更改一下我们的 webpack 配置
+最终用户的代码中就会存在**两份** lodash 的代码，这种情况就要再去更改一下我们的 webpack 配置
 
-```js {5}
+```js {6}
 const path = require('path')
 
 module.exports = {
@@ -213,17 +210,17 @@ module.exports = {
 }
 ```
 
-[externals](https://webpack.js.org/configuration/externals) 会在打包的过程中，如果遇到了 lodash 这个库，就不要打包进去，可以写成数组形式也可以是字符串，更改完后再次打包
+[externals](https://webpack.js.org/configuration/externals) 会在打包的过程中，如果遇到了 lodash 这个库，就不会打包进去，可以写成**数组**形式也可以是**字符串**，更改完后再次打包
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321160507.png)
 
 可以发现我们库里使用的 lodash 并没有被打包进去，体积只有 1kb
 
-这个时候别人再次使用我们的 library 这个库，如果不引入 lodash，则会失败，别人在使用 library 之前要先引入 lodash
+这个时候别人再次使用我们的 library 这个库，**如果不引入 lodash，则会失败**，别人在使用 library 之前要先引入 lodash
 
-如果改为 `externals: 'lodash'`，则使用的时候，`import lodash from lodash`，而不能用 _ 下划线来代替， `import _ from lodash`
+如果改为 `externals: 'lodash'`，则使用的时候为，`import lodash from lodash`，而不能用 _ 下划线来代替 lodash， `import _ from lodash`
 
-如果要让别人使用你的库，其实就是使用你打包后的文件，需要先在 package.json，将 main: index.js 改为 main: ./dist/library.js，通过 npm 发布之前，你要确保你的库的 name 不会和别人上线的 name 冲突，改一个有特点的 name，来确保能发布成功，如 `library-xh-2019`，感兴趣的可以自己去研究一下如何通过 npm 发布
+如果要让别人使用你的库，其实就是使用你打包后的文件，需要先在 package.json，将 main: index.js 改为 main: ./dist/library.js，通过 **npm** **发布**之前，你要确保你的库的 name 不会和别人上线的 name 冲突，改一个有特点的 name，来确保能发布成功，如 `library-xh-2019`，感兴趣的可以自己去研究一下如何通过 npm 发布
 
 ```json {2,5}
 {
@@ -255,7 +252,7 @@ module.exports = {
 
 我们来模拟平时开发中，将打包完的代码防止到服务器上的操作，首先打包代码 `npm run build`
 
-然后安装一个插件 `http-server`
+然后安装一个插件 `npm i http-server -D`
 
 在 package.json 中配置一个 script 命令
 
@@ -291,10 +288,9 @@ module.exports = {
 
 ```bash
 npm i workbox-webpack-plugin -D
-
 ```
 
-只有要上线的代码，才需要做 PWA 的处理，打开 webpack.prod.conf.js
+只有要上线的代码，才需要做 PWA 的处理，打开 **webpack.prod.conf.js**
 
 ```js
 const WorkboxPlugin = require('workbox-webpack-plugin') // 引入 PWA 插件
@@ -346,7 +342,7 @@ if ('serviceWorker' in navigator) {
 
 [TypeScript](https://www.tslang.cn/) 是 JavaScript 类型的超集，它可以编译成纯 JavaScript
 
-创建 index.ts 文件，这段代码在浏览器上是运行不了的，需要我们打包编译，转成 js
+新建文件夹，`npm init -y`，`npm i webpack webpack-cli -D`，新建 src 目录，创建 **index.ts** 文件，这段代码在浏览器上是运行不了的，需要我们打包编译，转成 js
 
 ```ts
 class Greeter {
@@ -366,10 +362,11 @@ alert(greeter.greet())
 
 ```bash
 npm i ts-loader typescript -D
-
 ```
 
-```js
+新建 webpack.config.js 并配置
+
+```js {9}
 const path = require('path')
 
 module.exports = {
@@ -405,7 +402,7 @@ module.exports = {
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322095022.png)
 
-:::tip 记住
+:::tip
 
 当打包 typescript 文件的时候，需要在项目的根目录下创建一个 tsconfig.json 文件
 
@@ -424,7 +421,7 @@ module.exports = {
 }
 ```
 
-再次打包，打开 bundle.js 文件，将代码全部拷贝到浏览器控制台上，使用这段代码，可以看到弹窗出现 Hello,world，说明 ts 编译打包成功
+再次打包，打开 bundle.js 文件，**将代码全部拷贝到浏览器控制台上**，使用这段代码，可以看到弹窗出现 Hello,world，说明 ts 编译打包成功
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322100409.png)
 
@@ -432,7 +429,6 @@ module.exports = {
 
 ```bash
 npm i lodash
-
 ```
 
 ```js {9}
@@ -459,14 +455,13 @@ lodash 的 join 方法需要我们传递参数，但是现在我们什么都没�
 
 ```bash
 npm i @types/lodash -D
-
 ```
 
 安装完以后可以发现下划线 \_ 报错了
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322101450.png)
 
-需要改成 `import * as _ from 'lodash'`，还可以发现 join 方法的报错，这就体现了 typescript 的优势，同理，引入 jQuery 也要引入一个 jQuery 对应的类型插件
+需要改成 `import * as _ from 'lodash'`，将 join 方法传递的参数删除，还可以发现 join 方法的报错，这就体现了 typescript 的优势，同理，引入 jQuery 也要引入一个 jQuery 对应的类型插件
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322101701.png)
 
@@ -484,14 +479,15 @@ npm i @types/lodash -D
 
 ```bash
 npm i eslint -D
-
 ```
+
+使用 npx 运行此项目中的 eslint 来初始化配置，`npx eslint --init`
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322112303.png)
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322141216.png)
 
-这里会有选择是 React/Vue/JavaScript，我们统一都先选择 JavaScript。选完后会在项目的根目录下新建一个 `.eslintrc.js` 文件
+这里会有选择是 React/Vue/JavaScript，我们统一都先选择 JavaScript。选完后会在项目的根目录下新建一个 `.eslintrc.js` 配置文件
 
 ```js
 module.exports = {
@@ -520,26 +516,25 @@ module.exports = {
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322141304.png)
 
-eslint 报错提示，变量定义后却没有使用，如果在编辑器里没出现报错提示，可能需要在 vscode 里安装一个 eslint 扩展，它会根据你当前目录的下的 `.eslintrc.js` 文件来做作为校验的规则
+eslint 报错提示，变量定义后却没有使用，如果在编辑器里没出现报错提示，需要在 vscode 里先安装一个 eslint 扩展，它会根据你当前目录的下的 `.eslintrc.js` 文件来做作为校验的规则
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322141853.png)
 
-也可以通过命令行的形式，让 eslint 校验整个目录下的文件
+也可以通过命令行的形式，让 eslint 校验整个 src 目录下的文件
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322141416.png)
 
-如果你觉得某个规则很麻烦，想屏蔽掉某个规则的时候，可以这样，根据 eslint 的报错提示，比如上面的 `no-unused-vars`，将这条规则复制一下，在 `.eslintrc.js` 中的 rules 里配置一下，`"no-unused-vars": 0`，0 表示禁用，保存后，就不会报错了，但是这种方式是适用于全局的配置，如果你只想在某一行代码上屏蔽掉 eslint 校验，可以这样做
+如果你觉得某个规则很麻烦，想屏蔽掉某个规则的时候，可以这样，根据 eslint 的报错提示，比如上面的 `no-unused-vars`，将这条规则复制一下，在 `.eslintrc.js` 中的 rules 里配置一下，`"no-unused-vars": 0`，0 表示禁用，保存后，就不会报错了，但是这种方式是适用于**全局的配置**，如果你只想在某一行代码上屏蔽掉 eslint 校验，可以这样做
 
 ```js
 /* eslint-disable no-unused-vars */
 let a = '1'
 ```
 
-这个 eslint 扩展和 webpack 是没有什么关联的，我们现在要讲的是如何在 webpack 里使用 eslint，首先安装一个插件
+这个 eslint 的 vscode 扩展和 webpack 是没有什么关联的，我们现在要讲的是如何在 webpack 里使用 eslint，首先安装一个插件
 
 ```bash
 npm i eslint-loader -D
-
 ```
 
 在 webpack.config.js 中进行配置
@@ -587,7 +582,7 @@ rules 的执行顺序是从右往左，从下往上的，先经过 eslint 校验
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322144101.png)
 
-就会在打包的时候，提示代码不合格，不仅仅是生产环境，开发环境也可以配置，可以将 eslint-loader 配置到 webpack 的公共模块中，这样更有利于我们检查代码规范
+会在打包的时候，提示代码不合格，不仅仅是生产环境，开发环境也可以配置，可以将 eslint-loader 配置到 webpack 的公共模块中，这样更有利于我们检查代码规范
 
 如：设置 fix 为 true，它会帮你自动修复一些错误，不能自动修复的，还是需要你自己手动修复
 
@@ -598,7 +593,6 @@ rules 的执行顺序是从右往左，从下往上的，先经过 eslint 校验
     fix: true
   }
 }
-
 ```
 
 关于 eslint-loader，webpack 的官网也给出了[配置](https://webpack.js.org/loaders/eslint-loader)，感兴趣的朋友自己去看一看
@@ -634,7 +628,7 @@ module.exports = {
 }
 ```
 
-这里使用 library，忘记的朋友可以回顾一下第十六节，自定义函数库里的内容，定义了 library 就相当于挂载了这个全局变量，只要在控制台输入全局变量的名称就可以显示里面的内容，比如这里我们是 `library: '[name]'` 对应的 name 就是我们在 entry 里定义的 **vendors**
+这里使用 **library**，忘记的朋友可以回顾一下第十六节，自定义函数库里的内容，定义了 library 就相当于挂载了这个全局变量，只要在控制台输入全局变量的名称就可以显示里面的内容，比如这里我们是 `library: '[name]'` 对应的 name 就是我们在 entry 里定义的 **vendors**
 
 在 package.json 中的 script 再新增一个命令
 
@@ -658,7 +652,7 @@ module.exports = {
 
 那我们要如何使用这个 vendors.dll.js 文件呢
 
-需要再安装一个依赖 `npm i add-asset-html-webpack-plugin`
+需要再安装一个依赖 `npm i add-asset-html-webpack-plugin`，它会将我们打包后的 dll.js 文件注入到我们生成的 index.html 中
 
 在 webpack.base.conf.js 文件中引入
 
@@ -680,7 +674,7 @@ module.exports = {
 
 现在我们已经把第三方模块单独打包成了 dll 文件，并使用
 
-但是现在使用第三方模块的时候，要用 dll 文件，而不是使用 /node_modules/ 中的库，继续来修改 webpack.dll.js 配置
+但是现在使用第三方模块的时候，要用 **dll** 文件，而不是使用 **/node_modules/** 中的库，继续来修改 **webpack.dll.js** 配置
 
 ```js
 const path = require('path')
@@ -699,7 +693,8 @@ module.exports = {
   plugins: [
     new webpack.DllPlugin({
       name: '[name]',
-      path: path.resolve(__dirname, '../dll/[name].manifest.json') // 用这个插件来分析打包后的这个库，把库里的第三方映射关系放在了这个 json 的文件下，这个文件在 dll 目录下
+      // 用这个插件来分析打包后的这个库，把库里的第三方映射关系放在了这个 json 的文件下，这个文件在 dll 目录下
+      path: path.resolve(__dirname, '../dll/[name].manifest.json')
     })
   ]
 }
@@ -921,15 +916,15 @@ module.exports = {
 }
 ```
 
-使用 `npm run dev` 打开网页也没有问题了，这样自动注入 dll 文件也搞定了，之后还要再打包第三方库只要添加到 webpack.dll.js 里面的 `entry` 属性中就可以了
+使用 `npm run dev` 打开网页也没有问题了，这样自动注入 dll 文件也搞定了，之后还要再打包第三方库只要添加到 **webpack.dll.js** 里面的 `entry` 属性中就可以了
 
 ## 二十一、多页面打包配置
 
-此小节基于第二十节的基础上进行配置
-
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190323132604.png)
+本节使用 [demo20](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo20) 的代码为基础
 
 在 src 目录下新建 list.js 文件，里面写 `console.log('这里是 list 页面')`
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190323132604.png)
 
 在 webpack.base.conf.js 中配置 entry，配置两个入口
 
@@ -942,12 +937,11 @@ module.exports = {
 }
 ```
 
-如果现在我们直接 `npm run build` 打包，在打包自动生成的 index.html 文件中会发现 list.js 也被引入了，说明多入口打包成功，但并没有实现**多个页面**的打包，我想打包出 index.html 和 list.html 两个页面，并且在 index.html 中引入 app.js，在 list.html 中引入 list.js，该怎么做?
+如果现在我们直接 `npm run build` 打包，在打包自动生成的 index.html 文件中会发现 list.js 也被引入了，说明多入口打包成功，但并没有实现**多个页面**的打包，我想打包出 **index.html** 和 **list.html** 两个页面，并且在 index.html 中引入 **app.js**，在 list.html 中引入 **list.js**，该怎么做?
 
 为了方便演示，先将 `webpack.prod.conf.js` 中 `cacheGroups` 新增一个 `default` 属性，自定义 name
 
 ```js
-
 optimization: {
   splitChunks: {
     chunks: 'all',
@@ -967,12 +961,11 @@ optimization: {
     }
   }
 }
-
 ```
 
 打开 `webpack.base.conf.js` 文件，将 `HtmlWebpackPlugin` 拷贝一份，使用 `chunks` 属性，将需要打包的模块对应写入
 
-```js {6,12}
+```js {7,13}
 // 存放公共插件
 const plugins = [
   new HtmlWebpackPlugin({
@@ -996,7 +989,7 @@ const plugins = [
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190325144542.png)
 
-index.html 引入的是 app.js，list.html 引入的是 list.js，这就是 `HtmlWebpackPlugin` 插件的 `chunks` 属性，自定义引入的 js
+打开 index.html 可以看到引入的是 app.js，而 list.html 引入的是 list.js，这就是 `HtmlWebpackPlugin` 插件的 `chunks` 属性，自定义引入的 js
 
 如果要打包三个页面，再去 copy `HtmlWebpackPlugin`，通过在 entry 中配置，如果有四个，五个，这样手动的复制就比较麻烦了，可以写个方法自动生成 `HtmlWebpackPlugin` 配置
 
@@ -1133,7 +1126,9 @@ module.exports = configs
 
 ## 二十二、编写 loader
 
-新建文件夹，`npm init -y`，`npm i webpack webpack-cli -D`，新建 src/index.js，写入 `console.log('hello world')`，新建 `loaders/replaceLoader.js` 文件
+新建文件夹，`npm init -y`，`npm i webpack webpack-cli -D`，新建 src/index.js，写入 `console.log('hello world')`
+
+新建 `loaders/replaceLoader.js` 文件
 
 ```js
 module.exports = function(source) {
@@ -1247,8 +1242,7 @@ this.callback(
   content: string | Buffer,
   sourceMap?: SourceMap,
   meta?: any
-);
-
+)
 ```
 
 修改 replaceLoader.js
@@ -1264,7 +1258,7 @@ module.exports = function(source) {
 }
 ```
 
-目前没有用到这两个可选参数 sourceMap(必须是此模块可解析的源映射)、meta(可以是任何内容（例如一些元数据)，只将 result 返回回去，保存重新打包后，效果和 return 是一样的
+目前没有用到 sourceMap(必须是此模块可解析的源映射)、meta(可以是任何内容(例如一些元数据)) 这两个可选参数，只将 result 返回回去，保存重新打包后，效果和 return 是一样的
 
 如果在 loader 中写异步代码，会怎么样
 
@@ -1285,7 +1279,7 @@ module.exports = function(source) {
 
 报错 loader 没有返回，这里使用 [this.async](https://webpack.js.org/api/loaders/#thisasync) 来写异步代码
 
-```js
+```js {6}
 const loaderUtils = require('loader-utils')
 
 module.exports = function(source) {
@@ -1352,7 +1346,7 @@ module: {
 
 使用 `resolveLoader`，定义 modules，当你使用 loader 的时候，会先去 `node_modules` 中去找，如果没找到就会去 `./loaders` 中找
 
-```js
+```js {8,9,10}
 const path = require('path')
 
 module.exports = {
@@ -1392,7 +1386,7 @@ module.exports = {
 
 首先新建一个文件夹，npm 起手式操作一番，具体的在前几节已经说了，不再赘述
 
-在根目录下新建 plugins 文件夹，新建 `copyright-webpack-plugin.js`，一般我们用的都是 `xxx-webpack-plugin`，所以我们命名也按这样来，plugin 是一个类
+在根目录下新建 plugins 文件夹，新建 `copyright-webpack-plugin.js`，一般我们用的都是 `xxx-webpack-plugin`，所以我们命名也按这样来，plugin 的定义是一个类
 
 ```js
 class CopyrightWebpackPlugin {
@@ -1452,15 +1446,15 @@ module.exports = CopyrightWebpackPlugin
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190326110525.png)
 
-我们先把 **constructor** 注释掉，在即将要把打包的结果，放入 dist 目录之前的这个时刻，我们来做一些操作
+我们先把 **constructor** 注释掉，在即将要把打包的结果，**放入 dist 目录之前**的这个时刻，我们来做一些操作
 
-compiler 可以看作是 webpack 的实例，具体见官网 [compiler-hooks](https://webpack.js.org/api/compiler-hooks)
+`apply(compiler) {}` compiler 可以看作是 webpack 的实例，具体见官网 [compiler-hooks](https://webpack.js.org/api/compiler-hooks)
 
 hooks 是钩子，像 vue、react 的生命周期一样，找到 `emit` 这个时刻，将打包结果放入 dist 目录前执行，这里是个 `AsyncSeriesHook` 异步方法
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190326111345.png)
 
-```js
+```js {7}
 class CopyrightWebpackPlugin {
   apply(compiler) {
     compiler.hooks.emit.tapAsync(
@@ -1476,13 +1470,13 @@ class CopyrightWebpackPlugin {
 module.exports = CopyrightWebpackPlugin
 ```
 
-因为 emit 是异步的，可以通过 tapAsync 来写，当要把代码放入到 dist 目录之前，就会触发这个钩子，走到我们定义的函数里，如果你用 **tapAsync** 函数，记得最后要用 cb() ，tapAsync 要传递两个参数，第一个参数传递我们定义的插件名称
+因为 **emit** 是**异步**的，可以通过 **tapAsync** 来写，当要把代码放入到 dist 目录之前，就会触发这个钩子，走到我们定义的函数里，如果你用 **tapAsync** 函数，记得最后要用 **cb()** ，tapAsync 要传递两个参数，第一个参数传递我们定义的插件名称
 
 保存后再次打包，我们写的内容也输出了
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190326112156.png)
 
-compilation 这个参数里存放了这次打包的所有内容，可以输出一下 `compilation.assets` 看一下
+**compilation** 这个参数里存放了这次打包的所有内容，可以输出一下 `compilation.assets` 看一下
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190326112425.png)
 
@@ -1515,7 +1509,9 @@ module.exports = CopyrightWebpackPlugin
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190326112915.png)
 
-使用同步钩子
+在 dist 目录下生成了 `copyright.txt` 文件
+
+之前介绍的是异步钩子，现在使用同步钩子
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190326135159.png)
 
@@ -1733,17 +1729,11 @@ moduleAnalyser('./src/index.js')
 
 ```js
 ImportDeclaration({ node }) {
-
   const dirname = path.dirname(filename)
-
   const newFile = path.join(dirname, node.source.value)
-
   console.log(newFile)
-
   dependencise.push(node.source.value)
-
 }
-
 ```
 
 输出为 `src\message.js`
@@ -1761,7 +1751,6 @@ windows 和 类 Unix(linux/mac)，路径是有区别的。windows 是用反斜�
 ```bash
 newFile .\src\message.js
 [ '.\\src\\message.js' ]
-
 ```
 
 既存一个相对路径，又存一个绝对路径
@@ -1798,9 +1787,7 @@ moduleAnalyser('./src/index.js')
 
 ```js
 newFile .\src\message.js
-
 { './message.js': '.\\src\\message.js' }
-
 ```
 
 因为我们写的代码是 es6，浏览器无法识别，还是需要 babel 来做转换
@@ -1853,15 +1840,11 @@ const moduleInfo = moduleAnalyser('./src/index.js')
 console.log(moduleInfo)
 ```
 
-```js
+```bash
 { filename: './src/index.js',
-
   dependencise: { './message.js': '.\\src\\message.js' },
-
   code:
-
    '"use strict";\n\nvar _message = _interopRequireDefault(require("./message.js"));\n\nfunction _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }\n\nconsole.log(_message.default);' }
-
 ```
 
 分析入口文件
