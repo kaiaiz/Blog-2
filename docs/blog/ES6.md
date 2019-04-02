@@ -1,3 +1,7 @@
+---
+comments: true
+---
+
 # ES6
 
 ## var、let 和 const 的区别
@@ -189,15 +193,15 @@ Promise.all([
 
 在小程序中使用 promise.all 的具体实例：
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214173313.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214173313.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214173313.png)
 
 接口返回的结果：
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214173345.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214173345.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214173345.png)
 
 将之前 `this.setData` 绑定操作全部整合在一起
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214174043.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214174043.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214174043.png)
 
 promise 还有 `.race` 的竞争方法，当某个 promise 率先完成后就触发，放在实际请求中就是当某个请求率先完成后就触发回调函数
 
@@ -667,47 +671,47 @@ console.log(obj.count)
 //  2
 ```
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110725.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110725.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110725.png)
 
 往下走
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110743.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110743.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110743.png)
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110754.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110754.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110754.png)
 
 **key** 表示的是要进行设置的属性
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110805.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110805.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110805.png)
 
 **value** 表示要设置的值
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110816.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110816.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110816.png)
 
 **receiver** 将 **count: 1** 设置到 **Proxy** 对象中
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110831.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110831.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110831.png)
 
 之后运行 `++obj.count`
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110854.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110854.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110854.png)
 
 要运行 **++** 之前，先要**读取**到 **obj.count** 属性的值，所以这里触发了 **get** 方法
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110934.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110934.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110934.png)
 
 这时的 **target** 目标对象中，**count** 的属性值为 **1**
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110956.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110956.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123110956.png)
 
 get 方法**读取**到 count 的值之后，就执行 **++** 操作，就触发了 set 方法，同时可以发现，在 set 方法里的 value 参数从 1 变为了 2
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111023.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111023.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111023.png)
 
 往后走，到了 console.log ，输出 obj.count 的值，这时就触发了 get 方法，**只要读取值就会被 get 方法代理拦截**
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111048.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111048.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111048.png)
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111058.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111058.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111058.png)
 
 这就是一个简单的 Proxy 代理器，上面的代码对一个空对象架设了一层拦截，重定义了属性的读取（get）和设置（set）行为，ES6 原生提供 Proxy 构造函数，用来生成 Proxy 实例。
 
@@ -719,11 +723,11 @@ Proxy 对象的所有用法，都是上面这种形式，不同的只是 handler
 
 下面是一个拦截读取属性的例子
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111111.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111111.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111111.png)
 
 这里我们在 get 方法中全部返回 35
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111124.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111124.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111124.png)
 
 > 只要是访问 proxy 对象下的属性，都会触发 get 方法拦截
 
@@ -735,7 +739,7 @@ Proxy 对象的所有用法，都是上面这种形式，不同的只是 handler
 如果 handler 没有设置任何拦截，那就等同于直接通向原对象。
 :::
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111138.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111138.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123111138.png)
 
 上面代码中，**handler 是一个空对象，没有任何拦截效果**，访问 proxy 就等同于访问 target
 

@@ -8,7 +8,7 @@
 - 转换为数字
 - 转换为字符串
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123155338.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123155338.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/designMode/20190123155338.png)
 
 ### 转 Boolean 类型
 
@@ -64,7 +64,7 @@ console.log(4 * [1, 2]) // NaN
 
 ### == 操作符
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214140108.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214140108.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214140108.png)
 
 上图中的 toPrimitive 就是对象转基本类型。
 
@@ -174,7 +174,7 @@ baz() // <-- baz 的调用位置
 
 另一个查看调用栈的方法是使用浏览器的**调试工具**
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214142135.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214142135.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214142135.png)
 
 ### 四种绑定规则
 
@@ -497,7 +497,7 @@ ES6 中的箭头函数并不会使用四条标准的绑定规则，而是根据�
 3. 由上下文对象调用？绑定到那个上下文对象。
 4. 默认：在严格模式下绑定到 undefined，否则绑定到全局对象
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214155213.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214155213.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190214155213.png)
 
 ## 深浅拷贝
 
@@ -547,7 +547,7 @@ console.log(brr) // [ 1, 2, 3, 4 ]
 
 因为 a 和 b 都指向同一个引用，所以将 a 更改后，b 也跟着更改
 
-<a data-fancybox title="" href="./image/js/copy1.png">![](./image/js/copy1.png)</a>
+![](./image/js/copy1.png)
 
 在开发中会遇到既要保留原始数据，又要更改新数据，如果只是单纯的改变值，我们可以使用浅拷贝
 

@@ -5,45 +5,15 @@ module.exports = {
   description: 'Learn Web development together',
   // 要部署的仓库名字
   base: '/',
-  dest: './docs/.vuepress/dist',
-  head: [
-    [
-      'script',
-      {
-        src:
-          'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js'
-      }
-    ],
-    [
-      'script',
-      {
-        src:
-          'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.js'
-      }
-    ],
-    [
-      'link',
-      {
-        rel: 'stylesheet',
-        type: 'text/css',
-        href:
-          'https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.2/jquery.fancybox.min.css'
-      }
-    ],
-    ['link', { rel: 'icon', href: '/avatar.jpg' }]
-  ],
+  // dest: './docs/.vuepress/dist',
+  head: [['link', { rel: 'icon', href: '/avatar.jpg' }]],
   // 主题配置
   themeConfig: {
     // 导航配置
     nav: [
       {
         text: '博客',
-        // link: '/blog/',
-        items: [
-          { text: '笔记', link: '/blog/JavaScript' }
-          // { text: 'CSS', link: '/language/japanese' },
-          // { text: '框架', link: '/sdf' }
-        ]
+        items: [{ text: '笔记', link: '/blog/JavaScript' }]
       }
     ],
     sidebar: [
@@ -55,49 +25,61 @@ module.exports = {
           '/blog/ES6'
         ]
       },
-      // {
-      //   title: '浏览器', // 侧边栏名称
-      //   collapsable: true, // 可折叠
-      //   children: ['/blog/浏览器']
-      // },
-      // {
-      //   title: '设计模式', // 侧边栏名称
-      //   collapsable: true, // 可折叠
-      //   children: [
-      //     '/blog/设计模式' // md 文件地址
-      //   ]
-      // },
       {
         title: '小程序及公众号', // 侧边栏名称
         collapsable: true, // 可折叠
-        children: ['/blog/小程序']
+        children: ['/blog/miniprogram']
       },
       {
         title: 'Vue 全家桶', // 侧边栏名称
         collapsable: true, // 可折叠
-        children: [
-          '/blog/Vue/Vue-Cli3',
-          '/blog/Vue/webpack4',
-          '/blog/Vue/webpack4进阶'
-        ]
+        children: ['/blog/Vue/Vue-Cli3']
       },
       {
-        title: 'VSCode扩展', // 侧边栏名称
-        collapsable: true, // 可折叠
-        children: ['/blog/vscode/VSCode扩展', '/blog/vscode/使用技巧']
+        title: 'Webpack',
+        collapsable: true,
+        children: [
+          '/blog/webpack/webpack4',
+          '/blog/webpack/webpack4中',
+          '/blog/webpack/webpack4进阶'
+        ]
       },
+      // {
+      //   title: 'VSCode扩展', // 侧边栏名称
+      //   collapsable: true, // 可折叠
+      //   children: ['/blog/vscode/VSCode扩展', '/blog/vscode/使用技巧']
+      // },
       {
         title: '服务器部署',
         collapsable: true, // 可折叠
         children: [
-          '/blog/服务器部署/Jenkins'
+          '/blog/server/Jenkins'
           // '/blog/服务器部署/nginx'
         ]
       }
     ],
-    plugins: ['@vuepress/active-header-links', '@vuepress/back-to-top'],
+
     editLinkText: '编辑此页',
     lastUpdated: '上次更新',
     sidebarDepth: 2
-  }
+  },
+  plugins: [
+    '@vuepress/active-header-links',
+    ['@vuepress/plugin-back-to-top', true],
+    // 'vuepress-plugin-smooth-scroll',
+    'vuepress-plugin-medium-zoom',
+    [
+      'copyright',
+      {
+        noCopy: false, // 选中的文字将无法被复制
+        minLength: 10 // 如果长度超过 100 个字符
+      }
+    ],
+    [
+      '@vuepress/register-components',
+      {
+        componentsDir: './components'
+      }
+    ]
+  ]
 }

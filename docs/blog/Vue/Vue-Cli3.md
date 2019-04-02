@@ -26,41 +26,41 @@ vue create vue-cli3-learn
 
 选择配置
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191142.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191142.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191142.png)
 
 **是否使用 history 路由模式（No）**：这里看具体情况，因为 history 路由模式是要**和后端配合**
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191228.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191228.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191228.png)
 
 **选择 css 预处理器（Sass/SCSS）**：
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191246.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191246.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191246.png)
 
 **选择 eslint 配置（ESLint + Prettier config）**：
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191301.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191301.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191301.png)
 
 **选择什么时候执行 eslint 校验（Lint on save）**：保存时就校验
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191313.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191313.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191313.png)
 
 **是否将之前的设置保存为一个预设模板（n）**：这里先不设置为预设，有需要的可以设置
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191336.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191336.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191336.png)
 
 如果选择 y 会让输入名称，以便下次**直接使用**，否则直接开始初始化项目。
 
 出现以下内容表示初始化脚手架成功
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191353.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191353.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191353.png)
 
 文件结构如下：
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191410.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191410.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191410.png)
 
 配置在 `.eslintrc.js` 配置文件中设置 `Prettier` 格式化风格
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191431.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191431.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191431.png)
 
 ```js
 'prettier/prettier': [
@@ -75,13 +75,13 @@ vue create vue-cli3-learn
 
 配置完以后**肯定**和现有的代码冲突，因为规则不同
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191457.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191457.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191457.png)
 
 如果文件有很多，一个个手动去更改很累，这时就要使用官方为我们提供好的功能了
 
 在 README.md 文件中有这么一句话：**整理和修复文件**
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191521.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191521.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191521.png)
 
 怎么看这个 `npm run lint` 是执行了什么命令呢，为什么就能整理和修复文件
 
@@ -91,15 +91,15 @@ vue create vue-cli3-learn
  "lint": "vue-cli-service lint"
 ```
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191538.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191538.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191538.png)
 
 我们试着运行 `npm run lint` 看看会发生什么
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191555.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191555.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118191555.png)
 
 它就去执行了 `vue-cli-service lint`
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192156.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192156.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192156.png)
 
 可以看到所有的错误都被自动修复了
 
@@ -107,7 +107,7 @@ vue create vue-cli3-learn
 
 首先在 **/src/components** 创建 **SvgIcon.vue** 文件
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192226.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192226.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192226.png)
 
 ```vue
 <template>
@@ -153,7 +153,7 @@ export default {
 
 在 **src/** 下创建 **icons/svg** 文件夹，放入 **svg** 文件，并创建 **index.js** 作为入口文件
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192417.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192417.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192417.png)
 
 **index.js** 代码为
 
@@ -209,7 +209,7 @@ module.exports = {
 
 使用示例：
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192732.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192732.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118192732.png)
 
 ### axios 封装 api
 
@@ -391,11 +391,11 @@ module.exports = {
 
 运行 `npm run build:dev` 就会打包 **dev** 环境下的 **BASE_API**
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200735.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200735.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200735.png)
 
 运行 `npm run build:test` 就会打包 **test** 环境下的 **BASE_API**
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200752.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200752.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118200752.png)
 
 同理 `npm run dev` 也只会运行 **dev** 模式下的 **BASE_API** ，这样就能结合 **axios** ，来配置不同环境下的后端地址
 
@@ -405,11 +405,11 @@ module.exports = {
 
 引入前的大小
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201119.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201119.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201119.png)
 
 引入后
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201138.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201138.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118201138.png)
 
 由于代码没有拆分，可以看到 **chunk-vendors** 这个 js 文件相当的大
 
@@ -515,7 +515,7 @@ module.exports = {
 
 现在再看看打包后的体积大小
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118202740.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118202740.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118202740.png)
 
 可以看到 **element** 的 **js** 和 **css** 被拆分了出来，还拆分了**公共库**，如 **vue/vuex/axios** 这类第三方依赖包
 
@@ -536,7 +536,7 @@ export default new Vuex.Store({
 
 先划分出 **app** 和 **user** 两个模块，在 **src** 下新建 **store** 文件夹，把 **src** 下的 **store.js** 的代码复制到 **store** 文件夹下的 **index.js** 中，并把 **store.js** 删除，按照下图来创建
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118203143.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118203143.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118203143.png)
 
 在 index.js 中将模块引入，并导出，这样做就是将模块拆分，每个模块负责各自的功能，再统一引入、导出
 
@@ -685,7 +685,7 @@ router.afterEach(() => {
 
 解压完如下：
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222259.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222259.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222259.png)
 
 新建一个文件夹 **vue-cli3**，名字随便取，但是要**记住，后面要用到**
 
@@ -697,23 +697,23 @@ npm run build
 
 将工程里的 **dist** 目录下的所有文件复制到 **nginx** 里的 **vue-cli3** 中
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222340.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222340.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222340.png)
 
 接着就是去配置 **config** 文件
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222635.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222635.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222635.png)
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222617.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222617.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222617.png)
 
 这里监听的是 **80** 端口，把 **server** 这一大段拷贝出来，**listen** 设置 **8080** 端口，项目路径设置成 **vue-cli3** ，就是之前存放 **vue** 打包项目的地方，删除多余无用的信息
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222507.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222507.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222507.png)
 
 之后运行 **nginx.exe** 文件，访问 **http://localhost:8080**
 
 如果出现了以下界面，则表示部署成功
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222840.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222840.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118222840.png)
 
 ## CDN、Gzip 优化
 
@@ -942,15 +942,15 @@ module.exports = {
 
 再打包一次
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224309.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224309.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224309.png)
 
 使用 cdn 之前的体积是 967kb
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224328.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224328.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224328.png)
 
 使用 cdn 以后
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224341.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224341.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224341.png)
 
 体积减小了 **3.5** 倍
 
@@ -1172,11 +1172,11 @@ module.exports = {
 
 在 **dist** 中可以看到，**.gz** 就是我们需要的 **gzip** 压缩文件
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224803.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224803.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224803.png)
 
 本地压缩好了 Gzip 还**不够**，要将 **nginx** 中的**配置开启**才行
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224822.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224822.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224822.png)
 
 ```xml
 gzip on; // 开启 gzip
@@ -1192,11 +1192,11 @@ gzip_vary off; gzip_disable "MSIE [1-6]\.";
 
 **windows** 下通过命令行，进入到 nginx 目录下，使用 `nginx.exe -s reload` 就重启完成了
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224853.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224853.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224853.png)
 
 开启成功
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224901.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224901.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118224901.png)
 
 :::tip
 其实不使用 **CompressionWebpackPlugin** 插件，直接在 **nginx** 中开启 **gzip** 也是可以的，但是会消耗服务器的 CPU 资源
@@ -1410,7 +1410,7 @@ module.exports = {
 
 打包后可以看到 gzip 体积的变化
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118225344.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118225344.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190118225344.png)
 
 ## 代码提交规范
 
@@ -1447,11 +1447,11 @@ npm install husky --save-dev
 
 - 使用
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130184001.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130184001.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130184001.png)
 
 - 演示
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/husky.gif">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/husky.gif)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/husky.gif)
 
 
 ### commit 提交规范检查
@@ -1554,7 +1554,7 @@ npm i commitizen cz-conventional-changelog conventional-changelog-cli --save-de
 
 - 演示
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/commit%20%E6%BC%94%E7%A4%BA%E7%BB%88%E6%9E%81%E7%89%88.gif">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/commit%20%E6%BC%94%E7%A4%BA%E7%BB%88%E6%9E%81%E7%89%88.gif)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/commit%20%E6%BC%94%E7%A4%BA%E7%BB%88%E6%9E%81%E7%89%88.gif)
 
 
 - 使用
@@ -1565,7 +1565,7 @@ npm i commitizen cz-conventional-changelog conventional-changelog-cli --save-de
 npm run commit
 ```
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194119.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194119.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194119.png)
 
 这里有几种类型可以选择
 
@@ -1583,7 +1583,7 @@ revert: 回滚到上一个版本
 ci：自动化流程配置修改
 ```
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194723.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194723.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130194723.png)
 
 ```md
 ? Select the type of change that you're committing: 选择提交更改的类型
@@ -1604,11 +1604,11 @@ ci：自动化流程配置修改
 ```bash
 npm run changelog
 ```
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130210836.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130210836.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130210836.png)
 
 生成 changelog 文件
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130195243.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130195243.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130195243.png)
 
 在 **CHANGELOG.md** 的头部加上自从上次**发布版本**以来的变动。显示 feat、bug、doc 等类型
 
@@ -1638,7 +1638,7 @@ git tag <tag name>
 git tag -l
 ```
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212216.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212216.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212216.png)
 
 - 删除本地 tag
 
@@ -1648,21 +1648,21 @@ git tag -d <tag name>
 
 - 实战
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130211907.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130211907.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130211907.png)
 
 推送完后可以去 **github** 上看看效果
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212451.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212451.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212451.png)
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212520.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212520.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212520.png)
 
 - 点击对应的 **tag** 进行更详细的编辑
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212646.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212646.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212646.png)
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213009.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213009.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213009.png)
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213137.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213137.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130213137.png)
 
 - 查看远程 tag
 
@@ -1670,7 +1670,7 @@ git tag -d <tag name>
 git ls-remote --tags origin
 ```
 
-<a data-fancybox title="" href="https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212005.png">![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212005.png)</a>
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/Vue/20190130212005.png)
 
 - 删除远程 tag
 
