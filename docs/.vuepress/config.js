@@ -39,16 +39,11 @@ module.exports = {
         title: 'Webpack',
         collapsable: true,
         children: [
-          '/blog/webpack/webpack4',
-          '/blog/webpack/webpack4中',
-          '/blog/webpack/webpack4进阶'
+          '/blog/webpack/webpack4-first',
+          '/blog/webpack/webpack4-second',
+          '/blog/webpack/webpack4-third'
         ]
       },
-      // {
-      //   title: 'VSCode扩展', // 侧边栏名称
-      //   collapsable: true, // 可折叠
-      //   children: ['/blog/vscode/VSCode扩展', '/blog/vscode/使用技巧']
-      // },
       {
         title: '服务器部署',
         collapsable: true, // 可折叠
