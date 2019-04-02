@@ -75,38 +75,77 @@ export default {
 </template>
 
 <script>
+// export default {
+//   name: 'Valine',
+//   mounted: function () {
+//     // require window
+//     const Valine = require('valine');
+//     if (typeof window !== 'undefined') {
+//       document.getElementsByClassName('leancloud-visitors')[0].id
+//         = window.location.pathname
+//       this.window = window
+//       window.AV = require('leancloud-storage')
+//     }
+
+//     new Valine({
+//       el: '#vcomments',
+//       appId: 'qCXPV2y7LGjegj05Q7Teavl3-gzGzoHsz',
+//       appKey: 'VFGMH7rHBbBl2lkLedKnhNfi',
+//       notify: false,
+//       verify: false,
+//       path: window.location.pathname,
+//       visitor: true,
+//       avatar: 'monsterid',
+//       placeholder: '等一个评论...'
+//     });
+//   },
+// }
+
 export default {
   name: 'Valine',
   mounted: function () {
     // require window
     const Valine = require('valine');
     if (typeof window !== 'undefined') {
-      document.getElementsByClassName('leancloud-visitors')[0].id
-        = window.location.pathname
       this.window = window
       window.AV = require('leancloud-storage')
     }
-
-    new Valine({
-      el: '#vcomments',
-      appId: 'qCXPV2y7LGjegj05Q7Teavl3-gzGzoHsz',
-      appKey: 'VFGMH7rHBbBl2lkLedKnhNfi',
-      notify: false,
-      verify: false,
-      path: window.location.pathname,
-      visitor: true,
-      avatar: 'monsterid',
-      placeholder: '等评论等很久了...'
-    });
+    this.valine = new Valine()
+    this.initValine()
   },
+  watch: {
+    $route(to, from) {
+      if (from.path != to.path) {
+        this.initValine()
+      }
+    }
+  },
+  methods: {
+    initValine() {
+      let path = location.origin + location.pathname
+      // vuepress打包后变成的 HTML 不知为什么吞掉此处的绑定`:id="countId"`
+      document.getElementsByClassName('leancloud-visitors')[0].id = path
+      this.valine.init({
+        el: '#vcomments',
+        appId: 'qCXPV2y7LGjegj05Q7Teavl3-gzGzoHsz',
+        appKey: 'VFGMH7rHBbBl2lkLedKnhNfi',
+        notify: false,
+        verify: false,
+        path: path,
+        visitor: true,
+        avatar: 'monsterid',
+        placeholder: 'write here'
+      });
+    }
+  }
 }
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
 #vcomments {
-  max-width 740px
-  padding 10px
-  display block;
-  margin-left auto;
-  margin-right auto;
+  max-width: 840px;
+  padding: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>
