@@ -12,47 +12,50 @@ module.exports = {
     // 导航配置
     nav: [
       {
-        text: '博客',
-        items: [{ text: '笔记', link: '/blog/JavaScript' }]
+        text: 'Blog',
+        link: '/blog/JavaScript'
+      },
+      {
+        text: 'About',
+        link: '/about/'
       }
     ],
-    sidebar: [
-      {
-        title: 'JavaScript', // 侧边栏名称
-        collapsable: true, // 可折叠
-        children: [
-          '/blog/JavaScript', // md 文件地址
-          '/blog/ES6'
-        ]
-      },
-      {
-        title: '小程序及公众号', // 侧边栏名称
-        collapsable: true, // 可折叠
-        children: ['/blog/miniprogram']
-      },
-      {
-        title: 'Vue 全家桶', // 侧边栏名称
-        collapsable: true, // 可折叠
-        children: ['/blog/Vue/Vue-Cli3']
-      },
-      {
-        title: 'Webpack',
-        collapsable: true,
-        children: [
-          '/blog/webpack/webpack4-first',
-          '/blog/webpack/webpack4-second',
-          '/blog/webpack/webpack4-third'
-        ]
-      },
-      {
-        title: '服务器部署',
-        collapsable: true, // 可折叠
-        children: [
-          '/blog/server/Jenkins'
-          // '/blog/服务器部署/nginx'
-        ]
-      }
-    ],
+    sidebar: {
+      '/blog/': [
+        {
+          title: 'JavaScript', // 侧边栏名称
+          collapsable: true, // 可折叠
+          children: [
+            'JavaScript', // md 文件地址
+            'ES6'
+          ]
+        },
+        {
+          title: '小程序及公众号', // 侧边栏名称
+          collapsable: true, // 可折叠
+          children: ['miniprogram']
+        },
+        {
+          title: 'Vue 全家桶', // 侧边栏名称
+          collapsable: true, // 可折叠
+          children: ['Vue/Vue-Cli3']
+        },
+        {
+          title: 'Webpack',
+          collapsable: true,
+          children: [
+            'webpack/webpack4-first',
+            'webpack/webpack4-second',
+            'webpack/webpack4-third'
+          ]
+        },
+        {
+          title: '服务器部署',
+          collapsable: true, // 可折叠
+          children: ['server/Jenkins']
+        }
+      ]
+    },
 
     editLinkText: '编辑此页',
     lastUpdated: '上次更新',
