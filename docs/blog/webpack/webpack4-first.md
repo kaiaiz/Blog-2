@@ -1,21 +1,37 @@
-# webpack4 系列(上)
+# webpack4 (一)
 
-此项目基于 👉 [Webpack4 渐进式教程](https://godbmw.com/passages/2019-03-04-please-mark/) ，以此为基础加上自己的理解和实践得出，感谢原作者😊，博客地址为：[godbmw](https://godbmw.com/)
+## 前言
 
-**该项目使用的 node 版本为 10.5.0，npm 版本为 6.1.0**
+此项目前 15 节基于 [Webpack4 渐进式教程](https://godbmw.com/passages/2019-03-04-please-mark/) 为基础，加上自己的实践和理解得出，感谢 **[godbmw](https://godbmw.com/)** 😄
 
-每一个章节对应一个 demo 👉[源码地址](https://github.com/ITxiaohao/webpack4-learn)
-
-如果有错误请发邮件给我(**281885961@qq.com**)
-
-与 [Webpack4 渐进式教程](https://godbmw.com/passages/2018-07-29-webpack-demos-introduction/)的差别是：
+前 15 节在 [Webpack4 渐进式教程](https://godbmw.com/passages/2018-07-29-webpack-demos-introduction/) 的基础上升级：
 
 - 使用 **babel7**
 - 配置 **.browserslistrc** 文件
 - 使用 **mini-css-extract-plugin** 替代 **extract-text-webpack-plugin**
-- 使用 **optimize-css-assets-webpack-plugin** 压缩 css
+- 使用 **optimize-css-assets-webpack-plugin** 压缩 **css**
 - 使用 **postcss** 为 **css** 加上各个浏览器前缀
 - 使用 **image-webpack-loader** 处理图片
+
+随后的章节以 **mooc** 网 [手把手带你掌握新版 Webpack4.0](https://coding.imooc.com/class/316.html) 整理的学习笔记，感谢 **DellLee** 老师 😄
+
+:::tip 环境
+
+OS: 「win10」
+
+node: 「10.5.0」
+
+npm: 「6.1.0」
+
+webpack: 「4.29.6」
+
+webpack-cli: 「3.2.3」
+
+:::
+
+每一个章节对应一个 demo 👉 [源码地址](https://github.com/ITxiaohao/webpack4-learn), clone 源码后注意运行 `npm install` 安装依赖
+
+有错误请在**最底部留言**或者**发邮件**给我(**281885961@qq.com**)
 
 ## 一、搭建项目并打包 JS 文件
 
@@ -38,7 +54,7 @@ npm init  用来初始化生成一个新的  package.json  文件。它会向
 npm i webpack --save-dev
 ```
 
-还需要 webpack-cli ，作为一个单独的包引入，如果不装 webpack-cli 是无法在命令行里使用 webpack 的
+还需要  webpack-cli ，作为一个单独的包引入，如果不装 webpack-cli 是无法在命令行里使用 webpack 的
 
 ```bash
 npm i webpack-cli --save-dev
@@ -51,7 +67,7 @@ npm i webpack-cli --save-dev
 "webpack-cli": "^3.2.3"
 ```
 
-现在打开 package.json 并添加一个 build(构建) 脚本：
+现在打开  package.json  并添加一个  build(构建) 脚本：
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190303164215.png)
 
@@ -63,7 +79,7 @@ npm run build
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190303164344.png)
 
-在 webpack4 以前的版本中，必须在名为 webpack.config.js 的配置文件中 通过  entry 属性定义 entry point(入口点)，就像这样：
+在 webpack4 以前的版本中，必须在名为 webpack.config.js 的配置文件中 通过  entry  属性定义 entry point(入口点)，就像这样：
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190303164413.png)
 
@@ -102,7 +118,7 @@ npm run build
 
 虽然较大的项目可能仍然需要 2 个配置文件，但在 webpack4 中，你可以在没有一行配置的情况下完成
 
-webpack4 引入了 production(生产) 和 development(开发) 模式。
+webpack4 引入了  production(生产)  和  development(开发)  模式。
 
 细心的朋友会发现在 `npm run build` 打包后会有一段报警提示
 
@@ -113,7 +129,7 @@ webpack4 引入了 production(生产) 和 development(开发) 模式。
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190305105906.png)
 
-1. 打开 package.json 并填充 script 部分，如下所示：
+1. 打开 package.json 并填充 script  部分，如下所示：
 
 ```json
 "dev": "webpack --mode development",
@@ -381,13 +397,48 @@ const array = [1, 2, 3]
 const isES6 = () => console.log(...array)
 
 isES6()
+
+const arr = [new Promise(() => {}), new Promise(() => {})]
+
+arr.map(item => {
+  console.log(item)
+})
 ```
 
-全局引入 `@babel/polyfill` 的这种方式可能会导入代码中不需要的 polyfill，从而使打包体积更大，但是更多的情况是我们并不确切的知道项目中引发兼容问题的具体原因，所以**还是全局引入比较好**
+<!-- ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190306134849.png) -->
 
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190306134849.png)
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190402161557.png)
 
-⑤ 打包完之后打开 index.html 文件，看控制台是否有输出
+⑤ 打包完之后**使用 IE 浏览器**打开 index.html 文件，看控制台是否有输出，如果是新版的 chrome，是可以使用 es6 语法的，所以要用 **IE** 这个**万恶之源**试试
+
+全局引入 `@babel/polyfill` 的这种方式可能会导入代码中不需要的 polyfill，从而使打包体积更大
+
+更改 `.babelrc`，只转译我们使用到的
+
+```js {6}
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage"
+      }
+    ]
+  ],
+  "plugins": ["@babel/plugin-transform-runtime"]
+}
+```
+
+同时，将全局引入这段代码注释掉，再次打包
+
+```js
+// 全局引入
+// import '@babel/polyfill'
+```
+
+![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190402162042.png)
+
+体积就减小了很多，但是更多的情况是我们并不确切的知道项目中引发兼容问题的具体原因，所以**还是全局引入比较好**
 
 #### (三) 了解 .browserslistrc 配置文件
 
@@ -527,7 +578,7 @@ console.log(_.join(['a', 'b', 'c'], '***'))
 
 浏览器每次打开页面，都要先加载 2M 的文件，才能显示业务逻辑，这样会使得加载时间变长，
 
-业务代码更新会比较频繁，第三方代码基本不会更改，这样重新打包后，假设为 2M，用户重新打开网页后，又会再加载 2M 文件
+业务代码更新会比较**频繁**，第三方代码基本不会更改，这样重新打包后，假设为 2M，用户重新打开网页后，又会再加载 2M 文件
 
 浏览器是有**缓存**的，如果文件没变动的话，就不用再去发送 http 请求，而是直接从缓存中取，这样在刷新页面或者第二次进入的时候可以加快网页加载的速度。
 
@@ -563,17 +614,17 @@ module.exports = {
 }
 ```
 
-上面高亮的代码段就是告诉 webpack，要做代码分割了，这里的 `chunks: 'all'` 是分割所有代码，包括同步代码和异步代码，webpack 默认是 `chunks: 'async'` 分割异步代码
+上面高亮的代码段就是告诉 webpack，要做代码分割了，这里的 `chunks: 'all'` 是分割所有代码，包括同步代码和异步代码，webpack 默认是 `chunks: 'async'` 分割**异步**代码
 
 我们使用 `npm run dev` 来打包开发环境下的代码，这样代码就**不会压缩**，方便我们来观察，可以看到代码被分割成两个文件了
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190013.png)
 
-打开 dist/main.bundle.js 文件，在最底部可以看到 src/index.js 文件，里面放的是业务逻辑的代码，但是并没有 lodash 的代码
+打开 **dist/main.bundle.js** 文件，在最底部可以看到 src/index.js 文件，里面放的是业务逻辑的代码，但是并没有 lodash 的代码
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190124.png)
 
-打开 dist/vendors~main.js 文件，在最上面可以看到 lodash 模块
+打开 **dist/vendors~main.js** 文件，在最上面可以看到 lodash 模块
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320190254.png)
 
@@ -581,7 +632,7 @@ module.exports = {
 
 其实没有 webpack 的时候，也是有代码分割的，不过是需要我们自己手动的分割，而现在使用了 webpack，通过这种配置项的方式，它会自动帮我们去做代码分割
 
-仔细看分割完的代码名称，`vendors~main.js`，我们能不能更改分割完的名称呢
+仔细看分割完的代码名称，`vendors~main.js`，我们对分割完的名称进行更改
 
 还是在 `splitChunks` 的配置项中，添加 `cacheGroups` 对象
 
@@ -618,7 +669,7 @@ optimization: {
 
 ```js
 function getComponent() {
-  // 使用 jsonp 的形式导入 lodash，default: _ 表示用 _ 代指 lodash
+  // 使用 异步的形式导入 lodash，default: _ 表示用 _ 代指 lodash
   return import('lodash').then(({ default: _ }) => {
     var element = document.createElement('div')
     element.innerHTML = _.join(['hello', 'world'], '-')
@@ -686,7 +737,7 @@ cacheGroups: {
 }
 ```
 
-再次打包，就可以看到 lodash 被分割出来了，以后使用第三方库都可以用这种配置来单独分割成一个 js 文件，比如 element-ui，**注意**设置 **priority** 的值很重要，优先级越高的会越先被打包
+再次打包，就可以看到 lodash 被分割出来了，以后使用第三方库都可以用这种配置来单独分割成一个 js 文件，比如 **element-ui**，**注意**设置 **priority** 的值很重要，优先级越高的会越先被打包
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190320221643.png)
 
@@ -719,7 +770,7 @@ import './b.js'
 
 // 异步代码
 function getComponent() {
-  // 使用 jsonp 的形式导入 lodash，default: _ 表示用 _ 代指 lodash
+  // 使用异步的形式导入 lodash，default: _ 表示用 _ 代指 lodash
   return import('lodash').then(({ default: _ }) => {
     var element = document.createElement('div')
     element.innerHTML = _.join(['hello', 'world'], '-')
@@ -850,9 +901,10 @@ optimization: {
   }
 }
 ```
+
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103007.png)
 
-这里分割出了 `lodash` 和 `use-lodash`，前者是第三库，后者是使用第三库写的业务代码，也能被分割出来
+这里分割出了 `lodash` 和我们在注释中定义的 `use-lodash`，前者是第三库，后者是使用第三库写的业务代码，也能被分割出来
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321103211.png)
 
@@ -898,7 +950,7 @@ document.addEventListener('click', function() {
 
 其实懒加载就是通过 **import** 去异步的加载一个模块，具体什么时候加载，这个要根据业务来写，比如弹窗组件，模态框组件等等，都是点击按钮后再出现。
 
-懒加载能加快网页的加载速度，如果你把详情页、弹窗等页面全部打包到一个 js 文件中，用户如果只是访问首页，只需要首页的代码，不需要其他页面的代码，这样就会使加载时间变长，所以我们可以对路由进行懒加载，只有当用户访问到对应路由的时候，再去加载对应模块
+懒加载能加快网页的加载速度，如果你把详情页、弹窗等页面全部打包到一个 js 文件中，用户如果只是访问首页，只需要首页的代码，不需要其他页面的代码，加入多余的代码只会使加载时间变长，所以我们可以对路由进行懒加载，只有当用户访问到对应路由的时候，再去加载对应模块
 
 :::tip
 懒加载并不是 webpack 里的概念，而是 ES6 中的 **import** 语法，webpack 只是能够识别 import 语法，能进行代码分割而已。
@@ -972,11 +1024,11 @@ document.addEventListener('click', () => {
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190321143146.png)
 
-异步能提高你网页打开的性能，而同步代码是增加一个缓存，对性能的提升是非常有限的，因为缓存一般是**第二次打开网页或者刷新页面**的时候，缓存很有用，但是网页的性能一般是用户**第一次打开网页**的时候，看首屏的时候。
+异步能提高你网页打开的性能，而同步代码是增加一个缓存，对性能的提升是非常有限的，因为缓存一般是**第二次打开网页或者刷新页面**的时候，缓存很有用，但是网页的性能一般是用户**第一次打开网页**，看首屏的时候。
 
-当然，这也会出现一个问题，就是当用户点击的时候，才去加载业务模块，如果业务模块比较大的时候，用户点击后并没有立马看到效果，而是要等待几秒，这样体验上也不好，怎么去解决这种问题
+当然，这也会出现另一个问题，就是当用户点击的时候，才去加载业务模块，如果业务模块比较大的时候，用户点击后并没有立马看到效果，而是要等待几秒，这样体验上也不好，怎么去解决这种问题
 
-一：如果访问首页的时候，不需要加载详情页的逻辑，等用户首页加载完了以后，页面展示出来了，页面的带宽被释放出来了，网络空闲了，再偷偷的去加载详情页的内容，而不是等用户去点击的时候再去加载
+一：如果访问首页的时候，不需要加载详情页的逻辑，等用户首页加载完了以后，页面展示出来了，页面的带宽被释放出来了，网络空闲了，再「偷偷」的去加载详情页的内容，而不是等用户去点击的时候再去加载
 
 这个解决方案就是依赖 webpack 的 [Prefetching/Preloading](https://webpack.js.org/guides/code-splitting#prefetchingpreloading-modules) 特性
 
@@ -1008,7 +1060,7 @@ document.addEventListener('click', () => {
 
 :::tip 总结：
 
-以后针对优化，不仅仅是局限于缓存，缓存能带来的代码性能提升是非常有限的，而是如何让代码的使用率最高，有一些交互后才用的代码，可以写到异步组件里面去，通过懒加载的形式，去把代码逻辑加载进来，这样会使得页面访问速度变的更快，如果你觉得懒加载会影响用户体验，可以使用 Prefetch 这种方式来预加载，不过在某些游览器**不兼容**，会有兼容性的问题，重点不是在 Prefetch 怎么去用，而是在做前端代码性能优化的时候，**缓存不是最重要的点，最重要的是代码使用的覆盖率上(coverage)**
+针对优化，不仅仅是局限于缓存，缓存能带来的代码性能提升是非常有限的，而是如何让代码的**使用率**最高，有一些交互后才用的代码，可以写到异步组件里面去，通过懒加载的形式，去把代码逻辑加载进来，这样会使得页面访问速度变的更快，如果你觉得懒加载会影响用户体验，可以使用 Prefetch 这种方式来预加载，不过在某些游览器**不兼容**，会有兼容性的问题，重点不是在 Prefetch 怎么去用，而是在做前端代码性能优化的时候，**缓存不是最重要的点，最重要的是代码使用的覆盖率上(coverage)**
 
 :::
 
@@ -1017,7 +1069,6 @@ document.addEventListener('click', () => {
 [demo7 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo07)
 
 经过上面几个小节的操作，有没有觉得每次要去更改 index.html 中引入 js 文件很麻烦，一旦打包的名字变更后，也要对应的去修改 index.html 引入的 js 名称，这个时候就要使用一个插件来帮助我们，打包完之后**自动生成 HTML 文件**，**并自动引入打包后的 js 文件**
-
 
 #### (一) 安装依赖
 
@@ -1063,7 +1114,7 @@ module.exports = {
       filename: 'index.html', // 生成后的文件名
       template: 'index.html' // 根据此模版生成 HTML 文件
     })
-  ],
+  ]
 }
 ```
 
@@ -1171,7 +1222,6 @@ module.exports = {
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307103244.png)
 
-
 ## 八、处理 CSS/SCSS 文件
 
 [demo8 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo08)
@@ -1248,7 +1298,6 @@ body {
 html {
   background: red;
 }
-
 ```
 
 **并在 app.js 中引入 base.css**
@@ -1474,10 +1523,10 @@ module.exports = {
       chunkFilename: '[id].css'
     }),
     new OptimizeCssAssetsPlugin({
-      assetNameRegExp: /\.css$/g, //一个正则表达式，指示应优化/最小化的资产的名称。提供的正则表达式针对配置中ExtractTextPlugin实例导出的文件的文件名运行，而不是源CSS文件的文件名。默认为/\.css$/g
-      cssProcessor: require('cssnano'), //用于优化\最小化 CSS 的 CSS处理器，默认为 cssnano
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano'), //用于优化\最小化 CSS 的 CSS 处理器，默认为 cssnano
       cssProcessorOptions: { safe: true, discardComments: { removeAll: true } }, //传递给 cssProcessor 的选项，默认为{}
-      canPrint: true //一个布尔值，指示插件是否可以将消息打印到控制台，默认为 true
+      canPrint: true //布尔值，指示插件是否可以将消息打印到控制台，默认为 true
     })
   ]
 }
@@ -1571,10 +1620,10 @@ module.exports = {
       chunkFilename: '[id].css'
     }),
     new OptimizeCssAssetsPlugin({
-      assetNameRegExp: /\.css$/g, //一个正则表达式，指示应优化/最小化的资产的名称。提供的正则表达式针对配置中ExtractTextPlugin实例导出的文件的文件名运行，而不是源CSS文件的文件名。默认为/\.css$/g
-      cssProcessor: require('cssnano'), //用于优化\最小化 CSS 的 CSS处理器，默认为 cssnano
+      assetNameRegExp: /\.css$/g,
+      cssProcessor: require('cssnano'), //用于优化\最小化 CSS 的 CSS 处理器，默认为 cssnano
       cssProcessorOptions: { safe: true, discardComments: { removeAll: true } }, //传递给 cssProcessor 的选项，默认为{}
-      canPrint: true //一个布尔值，指示插件是否可以将消息打印到控制台，默认为 true
+      canPrint: true //布尔值，指示插件是否可以将消息打印到控制台，默认为 true
     })
   ]
 }
@@ -1583,12 +1632,8 @@ module.exports = {
 :::warning 注意!!!
 module.rules.use 数组中，loader 的位置。根据 webpack 规则：**放在最后的 loader 首先被执行，从上往下写的话是下面先执行，从左往右写的话是右边先执行**。
 
-```js
-[
-  'style-loader',
-  'css-loader',
-  'sass-loader'
-]
+```md
+['style-loader', 'css-loader', 'sass-loader']
 ```
 
 执行顺序为 **sass-loader --> css-loader --> style-loader**
@@ -1695,7 +1740,7 @@ module: {
           loader: MiniCssExtractPlugin.loader
         },
         {
-          loader: css-loader,
+          loader: css - loader,
           options: {
             importLoader: 2
           }
@@ -1711,263 +1756,3 @@ module: {
 **importLoader: 2** 表示：在一个 css 中引入了另一个 css，也会执行之前两个 loader，即 postcss-loader 和 sass-loader
 
 参考：[webpack 官网指南](https://webpack.js.org/guides/asset-management#setup)
-
-## 九、JS Tree Shaking
-
-[demo9 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo09)
-
-什么是 Tree Shaking？
-
-字面意思是摇树，一句话：项目中没有使用的代码会在打包的时候丢掉。**JS 的 Tree Shaking 依赖的是 ES6 的模块系统（比如：import 和 export）**
-
-项目目录如下：
-
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307185838.png)
-
-
-在 util.js 文件中写入测试代码
-
-```js
-// util.js
-export function a() {
-  return 'this is function "a"'
-}
-
-export function b() {
-  return 'this is function "b"'
-}
-
-export function c() {
-  return 'this is function "c"'
-}
-```
-
-然后在 app.js 中引用 util.js 的 function a() 函数，**按需引入**：
-
-```js
-// app.js
-import { a } from './vendor/util'
-console.log(a())
-```
-
-命令行运行 webpack 打包后，打开打包后生成的 **/dist/app.bundle.js** 文件。然后，查找我们 `a()` 函数输出的字符串，如下图所示：
-
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307191853.png)
-
-如果将查找内容换成 `this is function "c"` 或者 `this is function "b"`, 并没有相关查找结果。说明 Js Tree Shaking 成功。
-
-**1. 如何处理第三方 JS 库?**
-
-对于经常使用的第三方库（例如 jQuery、lodash 等等），如何实现 Tree Shaking ?
-
-下面以 lodash.js 为例，进行介绍。
-
-安装 lodash.js : `npm install lodash --save`
-
-在 app.js 中引用 lodash.js 的一个函数：
-
-```js
-// app.js
-import { chunk } from 'lodash'
-console.log(chunk([1, 2, 3], 2))
-```
-
-命令行打包。如下图所示，打包后大小是 70kb。显然，只引用了一个函数，不应该这么大。并没有进行 Tree Shaking。
-
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307193414.png)
-
-
-开头讲过，js tree shaking 利用的是 ES 的模块系统。而 lodash.js 没有使用 **CommonJS** 或者 **ES6** 的写法。所以，安装对应的模块系统即可。
-
-安装 lodash.js 的 ES 写法的版本：`npm install lodash-es --save`
-
-修改一下 app.js:
-
-```js
-// app.js
-import { chunk } from 'lodash-es'
-console.log(chunk([1, 2, 3], 2))
-```
-
-再次打包，打包结果只有 3.5KB（如下图所示）。显然，tree shaking 成功。
-
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307194006.png)
-
-
-:::tip 友情提示：
-在一些对加载速度敏感的项目中使用第三方库，请注意库的写法是否符合 ES 模板系统规范，以方便 webpack 进行 tree shaking。
-:::
-
-## 十、CSS Tree Shaking
-
-[demo10 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo10)
-
-CSS Tree Shaking 并不像 JS Tree Shaking 那样方便理解，所以首先要先模拟一个真实的项目环境，来体现 CSS 的 Tree Shaking 的配置和效果。
-
-**此章节源码基于第八节处理 CSS 项目上做修改**
-
-我们首先编写 /src/css/base.css 样式文件，在文件中，我们编写了 3 个样式类。但在代码中，我们只会使用 .box 和 .box--big 这两个类。代码如下所示：
-
-```css
-/* base.css */
-html {
-  background: red;
-}
-
-.box {
-  height: 200px;
-  width: 200px;
-  border-radius: 3px;
-  background: green;
-}
-
-.box--big {
-  height: 300px;
-  width: 300px;
-  border-radius: 5px;
-  background: red;
-}
-
-.box-small {
-  height: 100px;
-  width: 100px;
-  border-radius: 2px;
-  background: yellow;
-}
-```
-
-按照正常使用习惯，DOM 操作来实现样式的添加和卸载，是一贯技术手段。所以，入口文件 `/src/app.js` 中创建了一个 `<div>` 标签，并且将它的类设为 `.box`
-
-```js
-// app.js
-import base from './css/base.css'
-
-// 给 app 标签再加一个 div 并且类名为 box
-var app = document.getElementById('app')
-var div = document.createElement('div')
-div.className = 'box'
-app.appendChild(div)
-```
-
-最后，为了让环境更接近实际环境，我们在 `index.html` 的一个标签，也引用了定义好的 box-big 样式类。
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>CSS Tree Shaking</title>
-  </head>
-
-  <body>
-    <div id="app">
-      <div class="box-big"></div>
-    </div>
-  </body>
-</html>
-```
-
-[PurifyCSS](https://github.com/purifycss/purifycss)将帮助我们进行 **CSS Tree Shaking** 操作。为了能准确指明要进行 Tree Shaking 的 CSS 文件，还有 **glob-all** （另一个第三方库）。
-
-**glob-all** 的作用就是帮助 PurifyCSS 进行**路径处理**，定位要做 Tree Shaking 的路径文件。
-
-安装依赖：
-
-```bash
-npm i glob-all purify-css purifycss-webpack --save-dev
-```
-
-更改配置文件：
-
-```js
-const path = require('path')
-
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-
-const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
-
-const PurifyCSS = require('purifycss-webpack')
-const glob = require('glob-all')
-
-module.exports = {
-  entry: {
-    app: './src/app.js'
-  },
-  output: {
-    publicPath: './', // js 引用的路径或者 CDN 地址
-    path: path.resolve(__dirname, 'dist'), // 打包文件的输出目录
-    filename: '[name].bundle.js', // 代码打包后的文件名
-    chunkFilename: '[name].js' // 代码拆分后的文件名
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/, // 针对 .scss 或者 .css 后缀的文件设置 loader
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader
-          },
-          'css-loader'
-        ]
-      }
-    ]
-  },
-  plugins: [
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      // 打包输出HTML
-      title: '自动生成 HTML',
-      minify: {
-        // 压缩 HTML 文件
-        removeComments: true, // 移除 HTML 中的注释
-        collapseWhitespace: true, // 删除空白符与换行符
-        minifyCSS: true // 压缩内联 css
-      },
-      filename: 'index.html', // 生成后的文件名
-      template: 'index.html', // 根据此模版生成 HTML 文件
-      chunks: ['app'] // entry中的 app 入口才会被打包
-    }),
-    new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
-    }),
-    // 清除无用 css
-    new PurifyCSS({
-      paths: glob.sync([
-        // 要做 CSS Tree Shaking 的路径文件
-        path.resolve(__dirname, './*.html'), // 请注意，我们同样需要对 html 文件进行 tree shaking
-        path.resolve(__dirname, './src/*.js')
-      ])
-    })
-  ]
-}
-```
-
-打包完查看 dist/app.css 文件
-
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308111209.png)
-
-在 index.html 和 src/app.js 中引用的样式都被打包了，而没有被使用的样式类–box-small，没有被打包进去
-
-:::warning 注意！
-
-平时用 vue 开发，比较常用的是 elementUI，如果这时你用 purifyCss 来过滤无用的 css，当你使用的 element 不多的情况如下图，在 vue-cli3 打包
-
-:::
-
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135219.png)
-
-![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190308135241.png)
-
-清除前 194kb，清除后，6.68kb，震惊!!!
-
-将打包后的文件放到 nginx 部署后，打开网页也相当震惊!!!
-
-样式全无，泪目。。。
-
-:::danger 警告!!!
-如果项目中有引入第三方 css 库的话，谨慎使用!!!
-:::
