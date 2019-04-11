@@ -1,6 +1,6 @@
 module.exports = {
   //网站标题
-  title: `ZengSh's Blog `,
+  title: `Zsh's Blog`,
   // 主页描述
   description: 'Learn Web development together',
   // 要部署的仓库名字
