@@ -214,7 +214,7 @@ module.exports = {
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190322100409.png)
 
-#### 引入第三方库
+**引入第三方库**
 
 ```bash
 npm i lodash
@@ -1340,7 +1340,7 @@ class CopyrightWebpackPlugin {
 module.exports = CopyrightWebpackPlugin
 ```
 
-`chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:9229/d3928cd4-4060-4f99-9bb8-91e6928b6e1a`
+<!-- `chrome-devtools://devtools/bundled/inspector.html?experiments=true&v8only=true&ws=127.0.0.1:9229/d3928cd4-4060-4f99-9bb8-91e6928b6e1a` -->
 
 ## 二十四、编写 Bundle
 
@@ -1493,11 +1493,11 @@ moduleAnalyser('./src/index.js')
 
 保存完重新运行，输出结果：
 
-```js
-;['./message.js', './message1.js']
+```md
+['./message.js', './message1.js']
 ```
 
-这样就对入口文件的依赖分析就分析出来了，现在把 index.js 中引入的 `message1.js` 的依赖给删除，这里有个注意点，打印出来的文件路径是相对路径，相对于 `src/index.js` 文件，但是我们打包的时候不能是入口文件(index.js)的相对路径，而应该是根目录的相对路径，借助 node 的 api，引入一个 path
+这样就对入口文件的依赖分析就分析出来了，现在把 index.js 中引入的 `message1.js` 的依赖给删除，这里有个注意点，打印出来的文件路径是**相对路径**，相对于 `src/index.js` 文件，但是我们打包的时候不能是入口文件(index.js)的相对路径，而应该是**根目录的相对路径**(或者说是**绝对路径**)，借助 node 的 api，引入一个 path
 
 ```js
 const fs = require('fs')

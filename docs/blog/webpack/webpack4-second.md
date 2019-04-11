@@ -39,7 +39,7 @@ webpack-cli: 「3.2.3」
 
 什么是 Tree Shaking？
 
-字面意思是摇树，一句话：项目中没有使用的代码会在打包的时候丢掉。**JS 的 Tree Shaking 依赖的是 ES6 的模块系统（比如：import 和 export）**
+字面意思是摇树，项目中没有使用的代码会在打包的时候丢掉。**JS 的 Tree Shaking 依赖的是 ES6 的模块系统（比如：import 和 export）**
 
 项目目录如下：
 
@@ -62,7 +62,7 @@ export function c() {
 }
 ```
 
-然后在 app.js 中引用 util.js 的 function a() 函数，**按需引入**：
+在 app.js 中引用 util.js 的 function a() 函数，**按需引入**：
 
 ```js
 // app.js
@@ -70,11 +70,11 @@ import { a } from './vendor/util'
 console.log(a())
 ```
 
-命令行运行 webpack 打包后，打开打包后生成的 **/dist/app.bundle.js** 文件。然后，查找我们 `a()` 函数输出的字符串，如下图所示：
+命令行运行 webpack 打包后，打开打包后生成的 **/dist/app.bundle.js** 文件。查找我们 `a()` 函数输出的字符串，如下图所示：
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190307191853.png)
 
-如果将查找内容换成 `this is function "c"` 或者 `this is function "b"`, 并没有相关查找结果。说明 Js Tree Shaking 成功。
+如果将查找内容换成 `this is function "c"` 或者 `this is function "b"`, 并没有相关查找结果。说明 JS Tree Shaking 成功。
 
 **1. 如何处理第三方 JS 库?**
 
@@ -120,7 +120,7 @@ console.log(chunk([1, 2, 3], 2))
 
 [demo10 源码地址](https://github.com/ITxiaohao/webpack4-learn/tree/master/demo10)
 
-CSS Tree Shaking 并不像 JS Tree Shaking 那样方便理解，所以首先要先模拟一个真实的项目环境，来体现 CSS 的 Tree Shaking 的配置和效果。
+CSS Tree Shaking 并不像 JS Tree Shaking 那样方便理解，首先要模拟一个真实的项目环境，来体现 CSS 的 Tree Shaking 的配置和效果。
 
 **此章节源码基于第八节处理 CSS 项目上做修改**
 
@@ -304,7 +304,7 @@ webpack4 中的图片常用的基础操作：
 - 图片压缩
 - 合成雪碧图
 
-#### (一)、准备工作
+#### (一) 准备工作
 
 如项目代码目录展示的那样，除了常见的 `app.js` 作为入口文件，我们将用到的 **3** 张图片放在 `/src/assets/imgs/` 目录下，并在样式文件 `base.css` 中引用这些图片。
 
@@ -351,7 +351,7 @@ import './css/base.css'
 npm install url-loader file-loader --save-dev
 ```
 
-#### (一)、图片处理和 base64 编码
+#### (二) 图片处理和 base64 编码
 
 在 `webpack.config.js` 中的 **module.rules** 选项中进行配置，以实现让 **loader** 识别图片后缀名，并且进行指定的处理操作。
 
@@ -470,7 +470,7 @@ module.exports = {
 **url-loader 依赖 file-loader，url-loader 可以看作是增强版的 file-loader**
 :::
 
-#### (三)、图片压缩
+#### (三) 图片压缩
 
 图片压缩需要使用 **img-loader** 插件，除此之外，**针对不同的图片类型，还要引用不同的插件**。比如，我们项目中使用的是 **png** 图片，因此，需要引入 `imagemin-pngquant`，并且指定压缩率。压缩 **jpg/jpeg** 图片为 `imagemin-mozjpeg` 插件
 
@@ -651,7 +651,7 @@ npm i img-loader imagemin imagemin-pngquant imagemin-mozjpeg --save-dev
 
 :::
 
-#### (四)、生成雪碧图
+#### (四) 生成雪碧图
 
 安装依赖：
 
@@ -1097,7 +1097,7 @@ npm i webpack-dev-server --save-dev
 </html>
 ```
 
-然后，按照项目目录，简单封装下 /vendor/ 下的三个 js 文件，以方便 app.js 调用：
+按照项目目录，简单封装下 /vendor/ 下的三个 js 文件，以方便 app.js 调用：
 
 ```js
 // minus.js
@@ -1553,7 +1553,7 @@ module.exports = env => {
 }
 ```
 
-#### 编写基础配置
+#### (一) 编写基础配置
 
 ```js
 const webpack = require('webpack')
@@ -1683,7 +1683,7 @@ module.exports = env => {
 以上配置建议多看几遍熟悉熟悉，为什么要这样写
 :::
 
-#### 编写开发环境配置文件
+#### (二) 编写开发环境配置文件
 
 ```js
 const webpack = require('webpack')
@@ -1721,7 +1721,7 @@ module.exports = {
 开发配置主要是设置跨域、开启源码调试、热更新
 :::
 
-#### 编写生产环境配置文件
+#### (三) 编写生产环境配置文件
 
 ```js
 const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 将 css 单独打包成文件
@@ -1761,7 +1761,7 @@ module.exports = {
 生产配置主要是拆分代码，压缩 css
 :::
 
-#### 测试开发模式
+#### (四) 测试开发模式
 
 运行 `npm run dev`
 
@@ -1771,7 +1771,7 @@ module.exports = {
 
 ![](https://raw.githubusercontent.com/ITxiaohao/blog-img/master/img/webpack/20190315144943.png)
 
-#### 测试生产模式
+#### (五) 测试生产模式
 
 运行 `npm run build`
 
@@ -1784,7 +1784,7 @@ module.exports = {
 :::warning 注意！！
 生产模式下跨域失败是很正常的，而且如果是 vue 项目打包完之后是无法直接打开 index.html 文件查看效果的
 
-必须要放在服务器上，一般都是将打包后的文件放入 nginx 中，然后在 nginx 中配置跨域地址，详情可以查看我写的 nginx 的内容
+必须要放在服务器上，一般都是将打包后的文件放入 nginx 中，在 nginx 中配置跨域地址
 :::
 
 还有一种配置 webpack 开发和生产环境的方式，会比较常用：
